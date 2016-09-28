@@ -7,6 +7,7 @@ package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.VisitanteFacade;
 import com.sv.udb.modelo.Visitante;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,20 +18,22 @@ import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author Kevin
+ * @author REGISTRO
  */
 @Named(value = "visitantesBean")
 @ViewScoped
-public class VisitantesBean {
-
+public class VisitantesBean implements Serializable{
+   
+    
+    public VisitantesBean() {
+    }
+     
     @EJB
     private VisitanteFacade FCDEVisi;    
     private Visitante objeVisi;
     private List<Visitante> listVisi;
     private boolean guardar;
-    public VisitantesBean() {
-    }
-
+    
     public Visitante getObjeVisi() {
         return objeVisi;
     }
@@ -156,5 +159,4 @@ public class VisitantesBean {
             
         }
     }
-    
 }

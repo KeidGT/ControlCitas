@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal {
 
-    @PersistenceContext(unitName = "POOPU")
+    @PersistenceContext(unitName = "PoolCitas")
     private EntityManager em;
 
     @Override

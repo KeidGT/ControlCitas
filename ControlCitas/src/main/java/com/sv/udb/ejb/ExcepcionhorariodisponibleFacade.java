@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class ExcepcionhorariodisponibleFacade extends AbstractFacade<Excepcionhorariodisponible> implements ExcepcionhorariodisponibleFacadeLocal {
 
-    @PersistenceContext(unitName = "POOPU")
+    @PersistenceContext(unitName = "PoolCitas")
     private EntityManager em;
 
     @Override

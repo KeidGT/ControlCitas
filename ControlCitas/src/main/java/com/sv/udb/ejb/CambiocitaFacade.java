@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class CambiocitaFacade extends AbstractFacade<Cambiocita> implements CambiocitaFacadeLocal {
 
-    @PersistenceContext(unitName = "POOPU")
+    @PersistenceContext(unitName = "PoolCitas")
     private EntityManager em;
 
     @Override
