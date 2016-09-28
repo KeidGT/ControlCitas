@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Kevin
  */
 @Stateless
-public class ExcepcionhorariodisponibleFacade extends AbstractFacade<Excepcionhorariodisponible> {
+public class ExcepcionhorariodisponibleFacade extends AbstractFacade<Excepcionhorariodisponible> implements ExcepcionhorariodisponibleFacadeLocal {
 
     @PersistenceContext(unitName = "POOPU")
     private EntityManager em;

@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Kevin
  */
 @Stateless
-public class CambiocitaFacade extends AbstractFacade<Cambiocita> {
+public class CambiocitaFacade extends AbstractFacade<Cambiocita> implements CambiocitaFacadeLocal {
 
     @PersistenceContext(unitName = "POOPU")
     private EntityManager em;

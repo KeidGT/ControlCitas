@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Kevin
  */
 @Stateless
-public class EventoFacade extends AbstractFacade<Evento> {
+public class EventoFacade extends AbstractFacade<Evento> implements EventoFacadeLocal {
 
     @PersistenceContext(unitName = "POOPU")
     private EntityManager em;

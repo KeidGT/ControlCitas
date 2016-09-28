@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Kevin
  */
 @Stateless
-public class HorariodisponibleFacade extends AbstractFacade<Horariodisponible> {
+public class HorariodisponibleFacade extends AbstractFacade<Horariodisponible> implements HorariodisponibleFacadeLocal {
 
     @PersistenceContext(unitName = "POOPU")
     private EntityManager em;
