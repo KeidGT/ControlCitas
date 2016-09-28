@@ -21,14 +21,15 @@ and open the template in the editor.
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
             <h:outputScript library="js" name="custom/mantenimientos.js"/>
+            <h:outputStylesheet library="css" name="custom/style.css" />
         </ui:define>
         <!-- Elementos propios del boby -->
         <ui:define name="body">
             <div class="row col-md-12">
-            <div class="col-md-4 col-xs-4">
+                <div class="col-md-4 col-xs-4" id="divFrm">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Formulario</div>
-                    <div class="panel-body">
+                    <div class="box-header">Formulario</div>
+                    <div class="box-body">
                         <h:form>
                             <!--Form exclusivo para los remotos-->
                             <p:remoteCommand name="consObje" actionListener="#{visitantesBean.cons()}" update=":FormRegi" 
@@ -38,55 +39,57 @@ and open the template in the editor.
                         </h:form>
                         <h:form id="FormRegi">
                             <h:inputHidden id="codi" value="#{visitantesBean.objeVisi.codiVisi}" />
-                            <div class="input-group input-group-xs">
+                            <div class="input-group col-xs-12">
                                 <h:outputLabel  for="nomb" value="Nombre: "/>
                                 <h:inputText id="nomb" value="#{visitantesBean.objeVisi.nombVisi}" class="form-control" />
                                 <h:message for="nomb" errorClass="field-error" />
                             </div>
-                            <div class="input-group input-group-xs">
+                            <div class="input-group col-xs-12">
                                 <h:outputLabel  for="apel" value="Apellido: "/>
                                 <h:inputText id="apel" value="#{visitantesBean.objeVisi.apelVisi}" class="form-control" />
                                 <h:message for="apel" errorClass="field-error" />
                             </div>
-                            <div class="input-group input-group-xs">
+                            <div class="input-group col-xs-12">
                                 <h:outputLabel  for="usua" value="Usuario: "/>
                                 <h:inputText id="usua" value="#{visitantesBean.objeVisi.usuaVisi}" class="form-control" />
                                 <h:message for="usua" errorClass="field-error" />
                             </div>
-                            <div class="input-group input-group-xs">
+                            <div class="input-group col-xs-12">
                                 <h:outputLabel  for="cont" value="Contraseña: "/>
                                 <h:inputText id="cont" value="#{visitantesBean.objeVisi.passVisi}" class="form-control" />
                                 <h:message for="cont" errorClass="field-error" />
                             </div>
-                            <div class="input-group input-group-xs">
+                            <div class="input-group col-xs-12">
                                 <h:outputLabel  for="mail" value="E-mail: "/>
                                 <h:inputText id="mail" value="#{visitantesBean.objeVisi.corrVisi}" class="form-control" />
                                 <h:message for="mail" errorClass="field-error" />
                             </div>
-                            <div class="input-group input-group-xs">
+                            <div class="input-group col-xs-12">
                                 <h:outputLabel  for="tipo" value="Tipo Visitante: "/>
                                 <h:selectOneMenu id="tipo" value="#{visitantesBean.objeVisi.tipoVisi}" class="form-control">
                                     <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                    <f:selectItem itemValue="1" itemLabel="Masculino"/>
-                                    <f:selectItem itemValue="2" itemLabel="Femenino"/>
+                                    <f:selectItem itemValue="1" itemLabel="Encargado Alumno"/>
+                                    <f:selectItem itemValue="2" itemLabel="Particular"/>
+                                    <f:selectItem itemValue="3" itemLabel="Grupo"/>
                                 </h:selectOneMenu>
                                 <h:message for="tipo" errorClass="field-error" />
                             </div>
-                            <div class="input-group-btn right" style="padding-top: 5px;">
+                            <br/>
+                            <div class="input-group-btn right">
                                 <div class="btn-group">
-                                    <h:commandLink id="btonCanc" class="btn btn-default btn-xs">
+                                    <h:commandLink id="btonCanc" class="btn cancel-button">
                                         <p:ajax listener="#{visitantesBean.limpForm()}" process="@form" update="@form" global="true"/>
                                         <i class="fa fa-mail-forward"/> Cancelar
                                     </h:commandLink>
-                                    <h:commandLink id="btonGuar" class="btn btn-success btn-xs" rendered="#{visitantesBean.guardar}">
+                                    <h:commandLink id="btonGuar" class="btn confirm-button" rendered="#{visitantesBean.guardar}">
                                         <p:ajax listener="#{visitantesBean.guar()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
                                         <i class="fa fa-plus"/> Guardar
                                     </h:commandLink>
-                                    <h:commandLink id="btonModi" class="btn btn-primary btn-xs" rendered="#{!visitantesBean.guardar}">
+                                    <h:commandLink id="btonModi" class="btn update-button" rendered="#{!visitantesBean.guardar}">
                                         <p:ajax listener="#{visitantesBean.modi()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
                                         <i class="fa fa-edit"/> Modificar
                                     </h:commandLink>
-                                    <h:outputLink id="btonElim" class="btn btn-danger btn-xs" rendered="#{!visitantesBean.guardar}" 
+                                    <h:outputLink id="btonElim" class="btn delete-button" rendered="#{!visitantesBean.guardar}" 
                                         pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
                                         pt:data-btn-ok-class="btn-danger btn-xs" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
                                         pt:data-btn-cancel-class="btn-default btn-xs" pt:data-title="¿Esta seguro que desea eliminar?">
@@ -98,10 +101,10 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 col-xs-8">
+                <div class="col-md-8 col-xs-8" id="divTbl">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Tabla de Datos</div>
-                    <div class="panel-body">
+                    <div class="box-header">Tabla de Datos</div>
+                    <div class="box-body">
                         <h:panelGroup id="ContRegi">
                             <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{visitantesBean.listVisi}"
                                         var="fila" class="boottable" pt:data-toolbar="#toolbar"
@@ -112,7 +115,7 @@ and open the template in the editor.
                                         pt:data-single-select="true">                                
                                <h:column pt:data-field="state" pt:data-checkbox="true">
                                </h:column>
-                               <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                               <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
                                    <f:facet name="header">Código</f:facet>
                                    <h:outputText value="#{fila.codiVisi}"/>
                                </h:column>
