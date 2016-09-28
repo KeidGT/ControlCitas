@@ -10,9 +10,9 @@ import com.sv.udb.modelo.Visitante;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -20,7 +20,7 @@ import org.primefaces.context.RequestContext;
  * @author Kevin
  */
 @Named(value = "visitantesBean")
-@Dependent
+@ViewScoped
 public class VisitantesBean {
 
     @EJB
@@ -156,4 +156,5 @@ public class VisitantesBean {
             
         }
     }
+    
 }
