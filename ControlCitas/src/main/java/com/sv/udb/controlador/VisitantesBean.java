@@ -5,7 +5,7 @@
  */
 package com.sv.udb.controlador;
 
-import com.sv.udb.ejb.VisitanteFacade;
+import com.sv.udb.ejb.VisitanteFacadeLocal;
 import com.sv.udb.modelo.Visitante;
 import java.io.Serializable;
 import java.util.List;
@@ -26,10 +26,11 @@ public class VisitantesBean implements Serializable{
    
     
     public VisitantesBean() {
+        
     }
      
     @EJB
-    private VisitanteFacade FCDEVisi;    
+    private VisitanteFacadeLocal FCDEVisi;    
     private Visitante objeVisi;
     private List<Visitante> listVisi;
     private boolean guardar;
@@ -72,10 +73,6 @@ public class VisitantesBean implements Serializable{
         catch(Exception ex)
         {
             ex.printStackTrace();
-        }
-        finally
-        {
-            
         }
     }
     
