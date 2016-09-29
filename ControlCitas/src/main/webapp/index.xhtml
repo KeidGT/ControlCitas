@@ -75,26 +75,36 @@ and open the template in the editor.
                                 <h:message for="tipo" errorClass="field-error" />
                             </div>
                             <br/>
-                            <div class="input-group-btn right">
-                                <div class="btn-group">
-                                    <h:commandLink id="btonCanc" class="btn cancel-button">
-                                        <p:ajax listener="#{visitantesBean.limpForm()}" process="@form" update="@form" global="true"/>
-                                        <i class="fa fa-mail-forward"/> Cancelar
-                                    </h:commandLink>
-                                    <h:commandLink id="btonGuar" class="btn confirm-button" rendered="#{visitantesBean.guardar}">
-                                        <p:ajax listener="#{visitantesBean.guar()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
-                                        <i class="fa fa-plus"/> Guardar
-                                    </h:commandLink>
-                                    <h:commandLink id="btonModi" class="btn update-button" rendered="#{!visitantesBean.guardar}">
+                            <div class="">
+                                <div class="r-row">
+                                    <div class="r-col6">
+                                        <h:commandLink id="btonCanc" class="btn cancel-button">
+                                            <p:ajax listener="#{visitantesBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                            <i class="fa fa-mail-forward"/> Cancelar
+                                        </h:commandLink>
+                                    </div>
+                                    <div class="r-col6">
+                                        <h:commandLink id="btonGuar" class="btn confirm-button" rendered="#{visitantesBean.guardar}">
+                                            <p:ajax listener="#{visitantesBean.guar()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
+                                            <i class="fa fa-plus"/> Guardar
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                                <div class="r-row">
+                                    <div class="r-col6">
+                                      <h:commandLink id="btonModi" class="btn update-button" rendered="#{!visitantesBean.guardar}">
                                         <p:ajax listener="#{visitantesBean.modi()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
                                         <i class="fa fa-edit"/> Modificar
-                                    </h:commandLink>
-                                    <h:outputLink id="btonElim" class="btn delete-button" rendered="#{!visitantesBean.guardar}" 
+                                    </h:commandLink>  
+                                    </div>
+                                    <div class="r-col6">
+                                        <h:outputLink id="btonElim" class="btn delete-button" rendered="#{!visitantesBean.guardar}" 
                                         pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
                                         pt:data-btn-ok-class="btn delete-button btn-xs" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
                                         pt:data-btn-cancel-class="btn cancel-button btn-xs" pt:data-title="¿Esta seguro que desea eliminar?">
                                         <i class="fa fa-times"/> Eliminar
                                     </h:outputLink>
+                                    </div>
                                 </div>
                             </div>
                         </h:form>
