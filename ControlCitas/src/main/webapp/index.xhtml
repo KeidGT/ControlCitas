@@ -50,6 +50,11 @@ and open the template in the editor.
                                 <h:message for="apel" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
+                                <h:outputLabel  for="dui" value="DUI: "/>
+                                <h:inputText id="dui" value="#{visitantesBean.objeVisi.duiVisi}" class="form-control" />
+                                <h:message for="dui" errorClass="field-error" />
+                            </div>
+                            <div class="input-group col-xs-12">
                                 <h:outputLabel  for="usua" value="Usuario: "/>
                                 <h:inputText id="usua" value="#{visitantesBean.objeVisi.usuaVisi}" class="form-control" />
                                 <h:message for="usua" errorClass="field-error" />
