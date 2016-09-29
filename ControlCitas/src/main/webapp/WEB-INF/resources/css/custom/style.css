@@ -43,6 +43,10 @@
     border: 0px;
     width: 100%;
 }
+.medium-button{
+    width: 48%;
+    margin: 1%;
+}
 .confirm-button:hover{
     background: #fff;
     box-shadow: inset 1px 1px 0px 0px #009688,
