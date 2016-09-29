@@ -71,7 +71,7 @@
                 inset -1px -1px 0px 0px #0086b6;
     color: #0086b6;
 }
-.delete-button:hover {
+.delete-button:hover, .delete-button:active{
     background: #fff;
     box-shadow: inset 1px 1px 0px 0px #b71c1c,
                 inset -1px -1px 0px 0px #b71c1c;
