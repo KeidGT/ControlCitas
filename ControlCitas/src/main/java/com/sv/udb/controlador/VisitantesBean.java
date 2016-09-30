@@ -104,16 +104,12 @@ public class VisitantesBean implements Serializable{
         {
             FCDEVisi.create(this.objeVisi);
             this.listVisi.add(this.objeVisi);
-            this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
+            this.limpForm();
         }
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar')");
-        }
-        finally
-        {
-            
         }
     }
     
@@ -126,14 +122,11 @@ public class VisitantesBean implements Serializable{
             FCDEVisi.edit(this.objeVisi);
             this.listVisi.add(this.objeVisi); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+            this.limpForm();
         }
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
-        }
-        finally
-        {
-            
         }
     }
     
@@ -144,16 +137,12 @@ public class VisitantesBean implements Serializable{
         {
             FCDEVisi.remove(this.objeVisi);
             this.listVisi.remove(this.objeVisi);
-            this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
+            this.limpForm();
         }
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
-        }
-        finally
-        {
-            
         }
     }
 }
