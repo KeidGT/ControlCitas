@@ -20,8 +20,6 @@ and open the template in the editor.
         <ui:param name="actiIndex" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
-            <h:outputScript library="js" name="custom/mantenimientos.js"/>
-            <h:outputStylesheet library="css" name="custom/style.css" />
         </ui:define>
         <!-- Elementos propios del boby -->
         <ui:define name="body">
@@ -33,9 +31,9 @@ and open the template in the editor.
                         <h:form>
                             <!--Form exclusivo para los remotos-->
                             <p:remoteCommand name="consObje" actionListener="#{visitantesBean.cons()}" update=":FormRegi" 
-                                             oncomplete="INIT_OBJE();" global="true"/>
+                                             oncomplete="INIT_OBJE();" global="true"/><!--Estandar consObje para usar un solo javascript-->
                             <p:remoteCommand name="elimObje" actionListener="#{visitantesBean.elim()}" update=":FormRegi :ContRegi" 
-                                             oncomplete="INIT_OBJE();"  global="true"/>
+                                             oncomplete="INIT_OBJE();"  global="true"/><!--Estandar elimObje para usar un solo javascript-->
                         </h:form>
                         <h:form id="FormRegi">
                             <h:inputHidden id="codi" value="#{visitantesBean.objeVisi.codiVisi}" />
@@ -61,7 +59,7 @@ and open the template in the editor.
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="cont" value="Contraseña: "/>
-                                <h:inputText id="cont" value="#{visitantesBean.objeVisi.passVisi}" class="form-control" />
+                                <h:inputSecret id="cont" value="#{visitantesBean.objeVisi.passVisi}" class="form-control" />
                                 <h:message for="cont" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
@@ -103,12 +101,13 @@ and open the template in the editor.
                                     </h:commandLink>  
                                     </div>
                                     <div class="r-col6">
-                                        <h:outputLink id="btonElim" class="btn delete-button" rendered="#{!visitantesBean.guardar}" 
-                                        pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
-                                        pt:data-btn-ok-class="btn delete-button btn-xs medium-button" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
-                                        pt:data-btn-cancel-class="btn cancel-button btn-xs medium-button" pt:data-title="¿Esta seguro que desea eliminar?">
-                                        <i class="fa fa-times"/> Eliminar
-                                    </h:outputLink>
+                                        <h:outputLink id="btonElim" class="btn delete-button" rendered="#{!visitantesBean.guardar}" value="#" pt:data-placement="top"
+                                                    pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
+                                                    pt:data-btn-ok-class="btn delete-button btn-xs medium-button" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
+                                                    pt:data-btn-cancel-class="btn cancel-button btn-xs medium-button" pt:data-title="¿Esta seguro que desea eliminar?"
+                                                    pt:data-on-confirm="elimObje"><!--Estandar elimObje para usar un solo javascript-->
+                                          <i class="fa fa-times"/> Eliminar
+                                      </h:outputLink>
                                     </div>
                                 </div>
                             </div>
