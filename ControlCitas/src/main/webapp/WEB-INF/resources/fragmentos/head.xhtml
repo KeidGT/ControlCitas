@@ -12,31 +12,32 @@ and open the template in the editor.
         <title>#{pageTitl}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <!--Plugins Frameworks-->
-        <!--Se le asigno ese target a jquery-3.1.0.min.js, para evitar conflictos con PrimeFaces-->
-        <h:outputScript library="js" name="jquery-3.1.0.min.js" target="html"/>
+        <!--Se le asigno ese target a todos los ficheros javascript, para evitar conflictos con PrimeFaces-->
+        <h:outputScript library="primefaces"  target="body" />
+        <h:outputScript library="js" name="jquery-3.1.0.min.js" target="body" />
         <h:outputStylesheet library="css" name="bootstrap.min.css"/>
-        <h:outputScript library="js" name="bootstrap.min.js"/>
+        <h:outputScript library="js" name="bootstrap.min.js" target="body" />
         <h:outputStylesheet library="css" name="font-awesome.min.css"/>
         <!--Elementos de Plantilla-->
         <h:outputStylesheet library="plantilla" name="css/AdminLTE.min.css"/>
         <h:outputStylesheet library="plantilla" name="css/skins/_all-skins.min.css"/>
-        <h:outputScript library="plantilla" name="js/app.min.js"/>
-        <h:outputScript library="plantilla" name="js/fastclick/fastclick.min.js"/>
-        <h:outputScript library="plantilla" name="js/slimScroll/jquery.slimscroll.min.js"/>
+        <h:outputScript library="plantilla" name="js/app.min.js" target="body" />
+        <h:outputScript library="plantilla" name="js/fastclick/fastclick.min.js" target="body" />
+        <h:outputScript library="plantilla" name="js/slimScroll/jquery.slimscroll.min.js" target="body" />
         <!--Plugins Alerta-->
         <h:outputStylesheet library="css" name="toastr.min.css"/>
-        <h:outputScript library="js" name="toastr.min.js"/>
-        <h:outputScript library="js" name="custom/mens.js"/>
+        <h:outputScript library="js" name="toastr.min.js" target="body" />
+        <h:outputScript library="js" name="custom/mens.js" target="body" />
         <!--Plugins Tablas-->
         <h:outputStylesheet library="css" name="bootstrap-table.css" />
         <h:outputStylesheet library="css" name="custom/table.mini.css" />
-        <h:outputScript library="js" name="bootstrap-table.js" />
-        <h:outputScript library="js" name="bootstrap-table-es-AR.min.js" />
+        <h:outputScript library="js" name="bootstrap-table.js" target="body" />
+        <h:outputScript library="js" name="bootstrap-table-es-AR.min.js" target="body" />
         <!--Plugins Confirmation [Eliminar]-->
-        <h:outputScript library="js" name="bootstrap-tooltip.js"/>
-        <h:outputScript library="js" name="bootstrap-confirmation.min.js"/>
+        <h:outputScript library="js" name="bootstrap-tooltip.js" target="body" />
+        <h:outputScript library="js" name="bootstrap-confirmation.min.js" target="body" />
         <!--Custom Scripts para el diseño-->
-        <h:outputScript library="js" name="custom/mantenimientos.js"/>
+        <h:outputScript library="js" name="custom/mantenimientos.js" target="body" />
         <h:outputStylesheet library="css" name="custom/style.css" />
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/ITR.png']}"/>
         <style>

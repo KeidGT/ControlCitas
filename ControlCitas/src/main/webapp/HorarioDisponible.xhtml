@@ -31,21 +31,16 @@ and open the template in the editor.
                     <div class="box-body">
                         <h:form>
                             <!--Form exclusivo para los remotos-->
-                            <p:remoteCommand name="consObje" actionListener="#{visitantesBean.cons()}" update=":FormRegi" 
+                            <p:remoteCommand name="consObje" actionListener="#{horarioDisponibleBean.cons()}" update=":FormRegi" 
                                              oncomplete="INIT_OBJE();" global="true"/><!--Estandar consObje para usar un solo javascript-->
-                            <p:remoteCommand name="elimObje" actionListener="#{visitantesBean.elim()}" update=":FormRegi :ContRegi" 
+                            <p:remoteCommand name="elimObje" actionListener="#{horarioDisponibleBean.elim()}" update=":FormRegi :ContRegi" 
                                              oncomplete="INIT_OBJE();"  global="true"/><!--Estandar elimObje para usar un solo javascript-->
                         </h:form>
                         <h:form id="FormRegi">
-                            <h:inputHidden id="codi" value="#{visitantesBean.objeVisi.codiVisi}" />
-                            <div class="input-group col-xs-12">
-                                <h:outputLabel  for="nomb" value="Nombre: "/>
-                                <h:inputText id="nomb" value="#{visitantesBean.objeVisi.nombVisi}" class="form-control" />
-                                <h:message for="nomb" errorClass="field-error" />
-                            </div>
+                            <h:inputHidden id="codi" value="#{horarioDisponibleBean.objeHoraDisp.codiHoraDisp}" />
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="dia" value="Dia: "/>
-                                <h:selectOneMenu id="dia" value="#{alumnosBean.objeAlum.geneAlum}" class="form-control">
+                                <h:selectOneMenu id="dia" value="#{horarioDisponibleBean.objeHoraDisp.diaHoraDisp}" class="form-control">
                                     <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
                                     <f:selectItem itemValue="Lunes" itemLabel="Lunes"/>
                                     <f:selectItem itemValue="Martes" itemLabel="Martes"/>
@@ -56,60 +51,45 @@ and open the template in the editor.
                                 <h:message for="dia" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
-                                <h:outputLabel  for="horaInic" value="Hora Inicio: "/>
-                                <p:inputMask id="horaInic" value="#{horarioDisponible.objHoraDisp.HoraInicHoraDisp}" mask="a*-999-a999" class="form-control"/>
-                                <h:message for="horaInic" errorClass="field-error" />
+                                <h:outputLabel  for="horaInicHoraDisp" value="Hora Inicio: "/>
+                                <p:inputMask  id="horaInicHoraDisp" value="#{horarioDisponibleBean.objeHoraDisp.horaInicHoraDisp}" mask="99:99 aa" class="form-control"/>
+                                <h:message for="horaInicHoraDisp" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
-                                <h:outputLabel  for="usua" value="Usuario: "/>
-                                <h:inputText id="usua" value="#{visitantesBean.objeVisi.usuaVisi}" class="form-control" />
-                                <h:message for="usua" errorClass="field-error" />
+                                <h:outputLabel  for="horaFinaHoraDisp" value="Hora Fin: "/>
+                                <p:inputMask id="horaFinaHoraDisp" value="#{horarioDisponibleBean.objeHoraDisp.horaFinaHoraDisp}" mask="99:99 aa" class="form-control"/>
+                                <h:message for="horaFinaHoraDisp" errorClass="field-error" />	
                             </div>
                             <div class="input-group col-xs-12">
-                                <h:outputLabel  for="cont" value="Contraseña: "/>
-                                <h:inputSecret id="cont" value="#{visitantesBean.objeVisi.passVisi}" class="form-control" />
-                                <h:message for="cont" errorClass="field-error" />
-                            </div>
-                            <div class="input-group col-xs-12">
-                                <h:outputLabel  for="mail" value="E-mail: "/>
-                                <h:inputText id="mail" value="#{visitantesBean.objeVisi.corrVisi}" class="form-control" />
-                                <h:message for="mail" errorClass="field-error" />
-                            </div>
-                            <div class="input-group col-xs-12">
-                                <h:outputLabel  for="tipo" value="Tipo Visitante: "/>
-                                <h:selectOneMenu id="tipo" value="#{visitantesBean.objeVisi.tipoVisi}" class="form-control">
-                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                    <f:selectItem itemValue="1" itemLabel="Encargado Alumno"/>
-                                    <f:selectItem itemValue="2" itemLabel="Particular"/>
-                                    <f:selectItem itemValue="3" itemLabel="Grupo"/>
-                                </h:selectOneMenu>
-                                <h:message for="tipo" errorClass="field-error" />
+                                <h:outputLabel  for="anioDisp" value="Año disponible: "/>
+                                <p:inputMask id="anioDisp" value="#{horarioDisponibleBean.objeHoraDisp.anioHoraDisp}" mask="9999" class="form-control"/>
+                                <h:message for="anioDisp" errorClass="field-error" />
                             </div>
                             <br/>
                             <div class="">
                                 <div class="r-row">
                                     <div class="r-col6">
                                         <h:commandLink id="btonCanc" class="btn cancel-button">
-                                            <p:ajax listener="#{visitantesBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                            <p:ajax listener="#{horarioDisponibleBean.limpForm()}" process="@form" update="@form" global="true"/>
                                             <i class="fa fa-mail-forward"/> Cancelar
                                         </h:commandLink>
                                     </div>
                                     <div class="r-col6">
-                                        <h:commandLink id="btonGuar" class="btn confirm-button" rendered="#{visitantesBean.guardar}">
-                                            <p:ajax listener="#{visitantesBean.guar()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
+                                        <h:commandLink id="btonGuar" class="btn confirm-button" rendered="#{horarioDisponibleBean.guardar}">
+                                            <p:ajax listener="#{horarioDisponibleBean.guar()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
                                             <i class="fa fa-plus"/> Guardar
                                         </h:commandLink>
                                     </div>
                                 </div>
                                 <div class="r-row">
                                     <div class="r-col6">
-                                      <h:commandLink id="btonModi" class="btn update-button" rendered="#{!visitantesBean.guardar}">
-                                        <p:ajax listener="#{visitantesBean.modi()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
+                                      <h:commandLink id="btonModi" class="btn update-button" rendered="#{!horarioDisponibleBean.guardar}">
+                                        <p:ajax listener="#{horarioDisponibleBean.modi()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
                                         <i class="fa fa-edit"/> Modificar
                                     </h:commandLink>  
                                     </div>
                                     <div class="r-col6">
-                                        <h:outputLink id="btonElim" class="btn delete-button" rendered="#{!visitantesBean.guardar}" value="#" pt:data-placement="top"
+                                        <h:outputLink id="btonElim" class="btn delete-button" rendered="#{!horarioDisponibleBean.guardar}" value="#" pt:data-placement="top"
                                                     pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
                                                     pt:data-btn-ok-class="btn delete-button btn-xs medium-button" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
                                                     pt:data-btn-cancel-class="btn cancel-button btn-xs medium-button" pt:data-title="¿Esta seguro que desea eliminar?"
@@ -128,7 +108,7 @@ and open the template in the editor.
                     <div class="box-header">Tabla de Datos</div>
                     <div class="box-body">
                         <h:panelGroup id="ContRegi">
-                            <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{visitantesBean.listVisi}"
+                            <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{horarioDisponibleBean.listHoraDisp}"
                                         var="fila" class="boottable" pt:data-toolbar="#toolbar"
                                         styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
                                         pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
@@ -139,19 +119,23 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
                                    <f:facet name="header">Código</f:facet>
-                                   <h:outputText value="#{fila.codiVisi}"/>
+                                   <h:outputText value="#{fila.codiHoraDisp}"/>
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="nomb">
-                                   <f:facet name="header">Nombre</f:facet>
-                                   <h:outputText value="#{fila.nombVisi.concat(' ').concat(fila.apelVisi)}"/>   
+                                   <f:facet name="header">Año Disponible</f:facet>
+                                   <h:outputText value="#{fila.anioHoraDisp}"/>   
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="dui">
-                                   <f:facet name="header">DUI</f:facet>
-                                   <h:outputText value="#{fila.duiVisi}"/>   
+                                   <f:facet name="header">Dia</f:facet>
+                                   <h:outputText value="#{fila.diaHoraDisp}"/>   
                                </h:column>
                                <h:column pt:data-sortable="true">
-                                   <f:facet name="header">Email</f:facet>
-                                   <h:outputText value="#{fila.corrVisi}"/>
+                                   <f:facet name="header">Hora Inic.</f:facet>
+                                   <h:outputText value="#{fila.horaInicHoraDisp}"/>
+                               </h:column>
+                                <h:column pt:data-sortable="true">
+                                   <f:facet name="header">Hora Fin</f:facet>
+                                   <h:outputText value="#{fila.horaFinaHoraDisp}"/>
                                </h:column>
                             </h:dataTable>
                         </h:panelGroup>
