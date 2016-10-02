@@ -29,9 +29,21 @@ and open the template in the editor.
                             <i class="fa fa-home"></i> <span>Principal</span>
                         </h:link>
                     </li>
-                    <li class="treeview #{actiMenu1}">
+                    <li class="treeview #{actiMenuVisi}">
                         <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>Menú 1</span>
+                            <i class="fa fa-calendar"></i> <span>Gestión de Citas y Visitas</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="#{actiVisi}"><h:link outcome="Visitantes"><i class="fa fa-users"></i> Visitantes</h:link></li>
+                            <li class="#{actiVisi}"><h:link outcome="Visitantes"><i class="fa fa-calendar-plus-o"></i> Visitantes</h:link></li>
+                        </ul>
+                    </li>
+                    <li class="treeview #{actiOpci}">
+                        <a href="#">
+                            <i class="fa fa-tachometer"></i> <span>Opciones</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>

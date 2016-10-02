@@ -34,7 +34,7 @@ public class VisitantesBean implements Serializable{
     private Visitante objeVisi;
     private List<Visitante> listVisi;
     private boolean guardar;
-    
+    private String pass;
     public Visitante getObjeVisi() {
         return objeVisi;
     }
@@ -84,6 +84,7 @@ public class VisitantesBean implements Serializable{
         {
             this.objeVisi = FCDEVisi.find(codi);
             this.guardar = false;
+            this.pass = objeVisi.getPassVisi();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
                     String.format("%s %s", this.objeVisi.getNombVisi(), this.objeVisi.getApelVisi()) + "')");
         }
@@ -119,6 +120,7 @@ public class VisitantesBean implements Serializable{
         try
         {
             this.listVisi.remove(this.objeVisi); //Limpia el objeto viejo
+            if(objeVisi.getPassVisi().trim().equals(""))objeVisi.setPassVisi(this.pass);//por si la contraseña no se modificó
             FCDEVisi.edit(this.objeVisi);
             this.listVisi.add(this.objeVisi); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="WEB-INF/resources/fragmentos/comun.xhtml">
+        <!-- Título de la página -->
+        <ui:param name="pageTitl" value="Visitantes"/>
+        <ui:param name="pageNomb" value="Visitantes"/>
+        <ui:param name="pageDesc" value="Mantenimiento de Visitantes"/>
+        <!-- Activar el link del menú -->
+        <ui:param name="actiMenuVisi" value="active"/>
+        <ui:param name="actiVisi" value="active"/>
+        <!-- Scripts personalizados -->
+        <ui:define name="CustomScripts">
+        </ui:define>
+        <!-- Elementos propios del boby -->
+        <ui:define name="body">
+            <div class="row col-md-12">
+                <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="box-header">Formulario</div>
+                    <div class="box-body">
+                        <h:form>
+                            <!--Form exclusivo para los remotos-->
+                            <p:remoteCommand name="consObje" actionListener="#{visitantesBean.cons()}" update=":FormRegi" 
+                                             oncomplete="INIT_OBJE();" global="true"/><!--Estandar consObje para usar un solo javascript-->
+                            <p:remoteCommand name="elimObje" actionListener="#{visitantesBean.elim()}" update=":FormRegi :ContRegi" 
+                                             oncomplete="INIT_OBJE();"  global="true"/><!--Estandar elimObje para usar un solo javascript-->
+                        </h:form>
+                        <h:form id="FormRegi">
+                            <h:inputHidden id="codi" value="#{visitantesBean.objeVisi.codiVisi}" />
+                            <div class="input-group col-xs-12">
+                                <h:outputLabel  for="nomb" value="Nombre: "/>
+                                <h:inputText id="nomb" value="#{visitantesBean.objeVisi.nombVisi}" class="form-control" />
+                                <h:message for="nomb" errorClass="field-error" />
+                            </div>
+                            <div class="input-group col-xs-12">
+                                <h:outputLabel  for="apel" value="Apellido: "/>
+                                <h:inputText id="apel" value="#{visitantesBean.objeVisi.apelVisi}" class="form-control" />
+                                <h:message for="apel" errorClass="field-error" />
+                            </div>
+                            <div class="input-group col-xs-12">
+                                <h:outputLabel  for="dui" value="DUI: "/>
+                                <h:inputText id="dui" value="#{visitantesBean.objeVisi.duiVisi}" class="form-control" />
+                                <h:message for="dui" errorClass="field-error" />
+                            </div>
+                            <div class="input-group col-xs-12">
+                                <h:outputLabel  for="usua" value="Usuario: "/>
+                                <h:inputText id="usua" value="#{visitantesBean.objeVisi.usuaVisi}" class="form-control" />
+                                <h:message for="usua" errorClass="field-error" />
+                            </div>
+                            <div class="input-group col-xs-12">
+                                <h:outputLabel  for="cont" value="Contraseña: "/>
+                                <h:inputSecret id="cont" value="#{visitantesBean.objeVisi.passVisi}" class="form-control" />
+                                <h:message for="cont" errorClass="field-error" />
+                            </div>
+                            <div class="input-group col-xs-12">
+                                <h:outputLabel  for="mail" value="E-mail: "/>
+                                <h:inputText id="mail" value="#{visitantesBean.objeVisi.corrVisi}" class="form-control" />
+                                <h:message for="mail" errorClass="field-error" />
+                            </div>
+                            <div class="input-group col-xs-12">
+                                <h:outputLabel  for="tipo" value="Tipo Visitante: "/>
+                                <h:selectOneMenu id="tipo" value="#{visitantesBean.objeVisi.tipoVisi}" class="form-control">
+                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                    <f:selectItem itemValue="1" itemLabel="Encargado Alumno"/>
+                                    <f:selectItem itemValue="2" itemLabel="Particular"/>
+                                    <f:selectItem itemValue="3" itemLabel="Grupo"/>
+                                </h:selectOneMenu>
+                                <h:message for="tipo" errorClass="field-error" />
+                            </div>
+                            <br/>
+                            <div class="">
+                                <div class="r-row">
+                                    <div class="r-col6">
+                                        <h:commandLink id="btonCanc" class="btn cancel-button">
+                                            <p:ajax listener="#{visitantesBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                            <i class="fa fa-mail-forward"/> Cancelar
+                                        </h:commandLink>
+                                    </div>
+                                    <div class="r-col6">
+                                        <h:commandLink id="btonGuar" class="btn confirm-button" rendered="#{visitantesBean.guardar}">
+                                            <p:ajax listener="#{visitantesBean.guar()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
+                                            <i class="fa fa-plus"/> Guardar
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                                <div class="r-row">
+                                    <div class="r-col6">
+                                      <h:commandLink id="btonModi" class="btn update-button" rendered="#{!visitantesBean.guardar}">
+                                        <p:ajax listener="#{visitantesBean.modi()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
+                                        <i class="fa fa-edit"/> Modificar
+                                    </h:commandLink>  
+                                    </div>
+                                    <div class="r-col6">
+                                        <h:outputLink id="btonElim" class="btn delete-button" rendered="#{!visitantesBean.guardar}" value="#" pt:data-placement="top"
+                                                    pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
+                                                    pt:data-btn-ok-class="btn delete-button btn-xs medium-button" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
+                                                    pt:data-btn-cancel-class="btn cancel-button btn-xs medium-button" pt:data-title="¿Esta seguro que desea eliminar?"
+                                                    pt:data-on-confirm="elimObje"><!--Estandar elimObje para usar un solo javascript-->
+                                          <i class="fa fa-times"/> Eliminar
+                                      </h:outputLink>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="box-header">Tabla de Datos</div>
+                    <div class="box-body">
+                        <h:panelGroup id="ContRegi">
+                            <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{visitantesBean.listVisi}"
+                                        var="fila" class="boottable" pt:data-toolbar="#toolbar"
+                                        styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
+                                        pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
+                                        pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
+                                        pt:data-click-to-select="true"  pt:data-select-item-name="radio"
+                                        pt:data-single-select="true">                                
+                               <h:column pt:data-field="state" pt:data-checkbox="true">
+                               </h:column>
+                               <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
+                                   <f:facet name="header">Código</f:facet>
+                                   <h:outputText value="#{fila.codiVisi}"/>
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="nomb">
+                                   <f:facet name="header">Nombre</f:facet>
+                                   <h:outputText value="#{fila.nombVisi.concat(' ').concat(fila.apelVisi)}"/>   
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="dui">
+                                   <f:facet name="header">DUI</f:facet>
+                                   <h:outputText value="#{fila.duiVisi}"/>   
+                               </h:column>
+                               <h:column pt:data-sortable="true">
+                                   <f:facet name="header">Email</f:facet>
+                                   <h:outputText value="#{fila.corrVisi}"/>
+                               </h:column>
+                            </h:dataTable>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </ui:define>
+    </ui:composition>
+</html>
