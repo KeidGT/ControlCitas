@@ -6,7 +6,9 @@
 package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.AlumnovisitanteFacadeLocal;
+import com.sv.udb.modelo.AlumWS;
 import com.sv.udb.modelo.Alumnovisitante;
+import com.sv.udb.modelo.Visitante;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -34,6 +36,8 @@ public class AlumnoVisitanteBean implements Serializable{
     private Alumnovisitante objeAlumVisi;
     private List<Alumnovisitante> listAlumVisi;
     private boolean guardar;
+    private String Visi;
+    private List<AlumWS> listAlum;
     
     public Alumnovisitante getObjeAlumVisi() {
         return objeAlumVisi;
@@ -50,6 +54,31 @@ public class AlumnoVisitanteBean implements Serializable{
     public boolean isGuardar() {
         return guardar;
     }
+
+    public String getVisi() {
+        return Visi;
+    }
+
+    public void setVisi(String Visi) {
+        this.Visi = Visi;
+    }
+
+    public AlumnovisitanteFacadeLocal getFCDEAlumVisi() {
+        return FCDEAlumVisi;
+    }
+
+    public void setFCDEAlumVisi(AlumnovisitanteFacadeLocal FCDEAlumVisi) {
+        this.FCDEAlumVisi = FCDEAlumVisi;
+    }
+
+    public List<AlumWS> getListAlum() {
+        return listAlum;
+    }
+
+    public void setListAlum(List<AlumWS> listAlum) {
+        this.listAlum = listAlum;
+    }
+    
     
     @PostConstruct
     public void init()
@@ -62,6 +91,30 @@ public class AlumnoVisitanteBean implements Serializable{
     {
         this.objeAlumVisi = new Alumnovisitante();
         this.guardar = true;        
+    }
+    
+    public void setVisi(){
+        try{
+            RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+            Visitante visi = new Visitante();
+            visi.setCodiVisi(Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiVisi")));
+            this.objeAlumVisi.setCodiVisi(visi);
+            this.Visi = String.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nombVisi"));
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + this.Visi + "')");
+        }catch(Exception e){
+             e.printStackTrace();
+        }
+    }
+    private void geneListAlum(){
+        try{
+            this.listAlum.add(new AlumWS("Kevin", "Guevara Tolentino", "20130670", "contra123"));
+            this.listAlum.add(new AlumWS("Kevin", "Guevara Tolentino", "20130670", "contra123"));
+            this.listAlum.add(new AlumWS("Kevin", "Guevara Tolentino", "20130670", "contra123"));
+            this.listAlum.add(new AlumWS("Kevin", "Guevara Tolentino", "20130670", "contra123"));
+            this.listAlum.add(new AlumWS("Kevin", "Guevara Tolentino", "20130670", "contra123"));
+        }catch(Exception e){
+             e.printStackTrace();
+        }
     }
     
     public void consTodo()

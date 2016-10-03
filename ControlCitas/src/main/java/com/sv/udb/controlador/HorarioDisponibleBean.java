@@ -5,8 +5,8 @@
  */
 package com.sv.udb.controlador;
 
-import com.sv.udb.ejb.EventoFacadeLocal;
-import com.sv.udb.modelo.Evento;
+import com.sv.udb.ejb.HorariodisponibleFacadeLocal;
+import com.sv.udb.modelo.Horariodisponible;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -20,31 +20,32 @@ import org.primefaces.context.RequestContext;
  *
  * @author REGISTRO
  */
-@Named(value = "eventosBean")
+@Named(value = "horarioDisponibleBean")
 @ViewScoped
-public class Eventos implements Serializable{
+public class HorarioDisponibleBean implements Serializable{
    
     
-    public Eventos() {
+    public HorarioDisponibleBean() {
         
     }
      
     @EJB
-    private EventoFacadeLocal FCDEEven;    
-    private Evento objeEven;
-    private List<Evento> listEven;
+    private HorariodisponibleFacadeLocal FCDEHoraDisp;    
+    private Horariodisponible objeHoraDisp;
+    private List<Horariodisponible> listHoraDisp;
     private boolean guardar;
+    private int codiUsua;
     
-    public Evento getObjeEven() {
-        return objeEven;
+    public Horariodisponible getObjeHoraDisp() {
+        return objeHoraDisp;
     }
 
-    public void setObjeEven(Evento objeEven) {
-        this.objeEven = objeEven;
+    public void setObjeHoraDisp(Horariodisponible objeHoraDisp) {
+        this.objeHoraDisp = objeHoraDisp;
     }
 
-    public List<Evento> getListEven() {
-        return listEven;
+    public List<Horariodisponible> getListHoraDisp() {
+        return listHoraDisp;
     }
 
     public boolean isGuardar() {
@@ -56,11 +57,12 @@ public class Eventos implements Serializable{
     {
         this.limpForm();
         this.consTodo();
+        this.codiUsua = 1;
     }
     
     public void limpForm()
     {
-        this.objeEven = new Evento();
+        this.objeHoraDisp = new Horariodisponible();
         this.guardar = true;        
     }
     
@@ -68,7 +70,7 @@ public class Eventos implements Serializable{
     {
         try
         {
-            this.listEven = FCDEEven.findAll();
+            this.listHoraDisp = FCDEHoraDisp.findAll();
         }
         catch(Exception ex)
         {
@@ -82,9 +84,10 @@ public class Eventos implements Serializable{
         int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiObjePara"));
         try
         {
-            this.objeEven = FCDEEven.find(codi);
+            this.objeHoraDisp = FCDEHoraDisp.find(codi);
             this.guardar = false;
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " +this.objeEven.getNombEven()+ "')");
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
+                    String.format("%s %s", this.objeHoraDisp.getDiaHoraDisp(), this.objeHoraDisp.getHoraInicHoraDisp()) + "')");
         }
         catch(Exception ex)
         {
@@ -101,8 +104,9 @@ public class Eventos implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            FCDEEven.create(this.objeEven);
-            this.listEven.add(this.objeEven);
+            this.objeHoraDisp.setCodiUsua(this.codiUsua);
+            FCDEHoraDisp.create(this.objeHoraDisp);
+            this.listHoraDisp.add(this.objeHoraDisp);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
             this.limpForm();
         }
@@ -117,9 +121,10 @@ public class Eventos implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            this.listEven.remove(this.objeEven); //Limpia el objeto viejo
-            FCDEEven.edit(this.objeEven);
-            this.listEven.add(this.objeEven); //Agrega el objeto modificado
+            this.objeHoraDisp.setCodiUsua(this.codiUsua);
+            this.listHoraDisp.remove(this.objeHoraDisp); //Limpia el objeto viejo
+            FCDEHoraDisp.edit(this.objeHoraDisp);
+            this.listHoraDisp.add(this.objeHoraDisp); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
             this.limpForm();
         }
@@ -134,8 +139,8 @@ public class Eventos implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            FCDEEven.remove(this.objeEven);
-            this.listEven.remove(this.objeEven);
+            FCDEHoraDisp.remove(this.objeHoraDisp);
+            this.listHoraDisp.remove(this.objeHoraDisp);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
             this.limpForm();
         }

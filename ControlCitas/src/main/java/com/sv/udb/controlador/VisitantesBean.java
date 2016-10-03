@@ -35,6 +35,7 @@ public class VisitantesBean implements Serializable{
     private List<Visitante> listVisi;
     private boolean guardar;
     private String pass;
+    
     public Visitante getObjeVisi() {
         return objeVisi;
     }

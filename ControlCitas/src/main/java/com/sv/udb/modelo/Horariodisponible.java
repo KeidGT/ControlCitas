@@ -59,7 +59,7 @@ public class Horariodisponible implements Serializable {
     private String horaInicHoraDisp;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 5)
+    @Size(min = 1, max = 8)
     @Column(name = "hora_fina_hora_disp")
     private String horaFinaHoraDisp;
     @Basic(optional = false)
