@@ -102,7 +102,7 @@ and open the template in the editor.
                                 <div class="r-row">
                                     <div class="r-col6">
                                         <h:commandLink id="btonCanc" class="btn cancel-button">
-                                            <p:ajax listener="#{eventosBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                            <p:ajax listener="#{eventosBean.limpForm()}" process="@form" update="@form" global="true" oncomplete="INIT_OBJE();"/>
                                             <i class="fa fa-mail-forward"/> Cancelar
                                         </h:commandLink>
                                     </div>

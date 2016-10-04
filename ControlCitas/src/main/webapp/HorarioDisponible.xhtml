@@ -65,7 +65,7 @@ and open the template in the editor.
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="anioDisp" value="Año disponible: "/>
-                                <h:inputText id="anioDisp" value="#{horarioDisponibleBean.objeHoraDisp.anioHoraDisp}"  class="form-control"/>
+                                <p:inputMask id="anioDisp" value="#{horarioDisponibleBean.objeHoraDisp.anioHoraDisp}" mask="9999" class="form-control"/>
                                 <h:message for="anioDisp" errorClass="field-error" />
                             </div>
                             <br/>
@@ -73,7 +73,7 @@ and open the template in the editor.
                                 <div class="r-row">
                                     <div class="r-col6">
                                         <h:commandLink id="btonCanc" class="btn cancel-button">
-                                            <p:ajax listener="#{horarioDisponibleBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                            <p:ajax listener="#{horarioDisponibleBean.limpForm()}" process="@form" update="@form" global="true" oncomplete="INIT_OBJE();"/>
                                             <i class="fa fa-mail-forward"/> Cancelar
                                         </h:commandLink>
                                     </div>

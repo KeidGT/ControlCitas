@@ -60,9 +60,9 @@ and open the template in the editor.
                                 <h:message for="usua" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
-                                <h:outputLabel  for="cont" value="Contraseña: "/>
-                                <h:inputSecret id="cont" value="#{visitantesBean.objeVisi.passVisi}" class="form-control" />
-                                <h:message for="cont" errorClass="field-error" />
+                                <h:outputLabel  for="pass" value="Contraseña: "/>
+                                <h:inputSecret id="pass" value="#{visitantesBean.objeVisi.passVisi}" class="form-control" />
+                                <h:message for="pass" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="mail" value="E-mail: "/>
@@ -71,20 +71,20 @@ and open the template in the editor.
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="tipo" value="Tipo Visitante: "/>
+                                <h:message for="tipo" errorClass="field-error" />
                                 <h:selectOneMenu id="tipo" value="#{visitantesBean.objeVisi.tipoVisi}" class="form-control select" pt:data-live-search="true">
                                     <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
                                     <f:selectItem itemValue="1" itemLabel="Encargado Alumno"/>
                                     <f:selectItem itemValue="2" itemLabel="Particular"/>
                                     <f:selectItem itemValue="3" itemLabel="Grupo"/>
                                 </h:selectOneMenu>
-                                <h:message for="tipo" errorClass="field-error" />
                             </div>
                             <br/>
                             <div class="">
                                 <div class="r-row">
                                     <div class="r-col6">
                                         <h:commandLink id="btonCanc" class="btn cancel-button">
-                                            <p:ajax listener="#{visitantesBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                            <p:ajax listener="#{visitantesBean.limpForm()}" process="@form" update="@form" global="true" oncomplete="INIT_OBJE();"/>
                                             <i class="fa fa-mail-forward"/> Cancelar
                                         </h:commandLink>
                                     </div>
