@@ -62,7 +62,7 @@ and open the template in the editor.
                                 <h:message for="nombEven" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
-                                <h:outputLabel  for="fechInic" value="Inicia: "/>
+                                <h:outputLabel  for="fechInic" value="Fecha Inicio: "/>
                                 <div class='input-group date' id='datetime'>
                                     <p:inputMask id="fechInic" value="#{eventosBean.objeEven.fechaInicEven}" mask="99/99/9999" class="form-control">
                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -75,7 +75,7 @@ and open the template in the editor.
                                 <h:message for="fechInic" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
-                                <h:outputLabel  for="fechFina" value="Termina: "/>
+                                <h:outputLabel  for="fechFina" value="Fecha Fin: "/>
                                 <div class='input-group date' id='datetime'>
                                     <p:inputMask id="fechFina" value="#{eventosBean.objeEven.fechaFinaEven}" mask="99/99/9999" class="form-control">
                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
