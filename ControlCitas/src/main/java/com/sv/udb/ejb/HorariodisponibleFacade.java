@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class HorariodisponibleFacade extends AbstractFacade<Horariodisponible> implements HorariodisponibleFacadeLocal {
 
-    @PersistenceContext(unitName = "PoolCitas")
+    @PersistenceContext(unitName = "PILETPU")
     private EntityManager em;
 
     @Override

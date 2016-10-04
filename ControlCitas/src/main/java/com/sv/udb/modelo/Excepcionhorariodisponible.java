@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Kevin
  */
 @Entity
-@Table(name = "Excepcion_horario_disponible", catalog = "GestionDeCitas", schema = "")
+@Table(name = "Excepcion_horario_disponible", catalog = "sistemas_pilet", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Excepcionhorariodisponible.findAll", query = "SELECT e FROM Excepcionhorariodisponible e"),

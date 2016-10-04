@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class EventoFacade extends AbstractFacade<Evento> implements EventoFacadeLocal {
 
-    @PersistenceContext(unitName = "PoolCitas")
+    @PersistenceContext(unitName = "PILETPU")
     private EntityManager em;
 
     @Override

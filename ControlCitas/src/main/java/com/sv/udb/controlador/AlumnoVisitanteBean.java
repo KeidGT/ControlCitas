@@ -6,9 +6,7 @@
 package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.AlumnovisitanteFacadeLocal;
-import com.sv.udb.modelo.AlumWS;
 import com.sv.udb.modelo.Alumnovisitante;
-import com.sv.udb.modelo.Visitante;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
