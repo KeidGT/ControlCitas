@@ -11,9 +11,11 @@ and open the template in the editor.
     <ui:composition>
         <title>#{pageTitl}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--JQuery + PrimeFaces-->
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+        <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
         <!--Plugins Frameworks-->
-        <!--Se le asigno ese target a jquery-3.1.0.min.js, para evitar conflictos con PrimeFaces-->
-        <h:outputScript library="js" name="jquery-3.1.0.min.js"/>
+        <!--h:outputScript library="js" name="jquery-3.1.0.min.js"/-->
         <h:outputStylesheet library="css" name="bootstrap.min.css"/>
         <h:outputScript library="js" name="bootstrap.min.js"/>
         <h:outputStylesheet library="css" name="font-awesome.min.css"/>
@@ -35,12 +37,16 @@ and open the template in the editor.
         <!--Plugins Confirmation [Eliminar]-->
         <h:outputScript library="js" name="bootstrap-tooltip.js"/>
         <h:outputScript library="js" name="bootstrap-confirmation.min.js"/>
-        <!--Custom Scripts para el diseño y funcionalidad-->
-        <h:outputScript library="js" name="custom/mantenimientos.js"/>
+        <!--Plugins Selector de Fecha-->
+        <h:outputStylesheet library="css" name="datepicker3.css"/>
+        <h:outputScript library="js" name="bootstrap-datepicker.js"/>
+        <h:outputScript library="js" name="bootstrap-datepicker.es.js"/>
+        <!--Plugins Select-->
+        <h:outputStylesheet library="css" name="bootstrap-select.css"/>
+        <h:outputScript library="js" name="bootstrap-select.js"/>
+        <!--Css de Diseño-->
         <h:outputStylesheet library="css" name="custom/style.css" />
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/ITR.png']}"/>
-        <style>
-            
-        </style>
+        
     </ui:composition>
 </html>

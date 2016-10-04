@@ -1,30 +1,23 @@
 $(document).ready(function() {
-    $.fn.initBootTable = function() {
-        $(this).bootstrapTable('destroy');
-        $(this).bootstrapTable().
-        unbind('check.bs.table').on('check.bs.table', function (e, row) {
-            consVisi([{name : 'codiVisi', value : row.id.trim()},{name : 'nombVisi', value : row.nomb.trim()}]);
-            
-        });
-        return false;
-    };
-    $.fn.initBootTable2 = function() {
-        $(this).bootstrapTable('destroy');
-        $(this).bootstrapTable().
-        unbind('check.bs.table').on('check.bs.table', function (e, row) {
-            consAlum([{name : 'codiVisi', value : row.id.trim()},{name : 'nombVisi', value : row.nomb.trim()}]);
-        });
-        return false;
-    };
-    
-    INIT_OBJE_VISI();
-    INIT_OBJE_ALUM();
+    INIT_FORM();
 });
-function INIT_OBJE_VISI()
-{
-    $("#TablVisi").initBootTable();
+
+function otroParen(val){
+    if(val  === "Otro"){
+        document.getElementById("ParenDiv").setAttribute("style","display:box;");
+    }else{
+        document.getElementById("ParenDiv").setAttribute("style","display:none;");
+       $("#FormRegi\\:pareEven").val("");
+    }
 }
-function INIT_OBJE_ALUM()
-{
-    $("#TablAlum").initBootTable2();
+function selectedItem(val){
+    $("#FormRegi\\:seleParen option:eq("+val+")").prop('selected', true);
+}
+
+function INIT_FORM(){
+    $("#FormRegi\\:seleParen").change(function() {
+        otroParen(this.options[this.selectedIndex].innerHTML);
+      });
+      var select = document.getElementById("FormRegi:seleParen");
+      otroParen(select[select.selectedIndex].innerHTML);
 }

@@ -36,8 +36,6 @@ public class AlumnoVisitanteBean implements Serializable{
     private Alumnovisitante objeAlumVisi;
     private List<Alumnovisitante> listAlumVisi;
     private boolean guardar;
-    private String Visi;
-    private List<AlumWS> listAlum;
     
     public Alumnovisitante getObjeAlumVisi() {
         return objeAlumVisi;
@@ -55,14 +53,6 @@ public class AlumnoVisitanteBean implements Serializable{
         return guardar;
     }
 
-    public String getVisi() {
-        return Visi;
-    }
-
-    public void setVisi(String Visi) {
-        this.Visi = Visi;
-    }
-
     public AlumnovisitanteFacadeLocal getFCDEAlumVisi() {
         return FCDEAlumVisi;
     }
@@ -71,13 +61,6 @@ public class AlumnoVisitanteBean implements Serializable{
         this.FCDEAlumVisi = FCDEAlumVisi;
     }
 
-    public List<AlumWS> getListAlum() {
-        return listAlum;
-    }
-
-    public void setListAlum(List<AlumWS> listAlum) {
-        this.listAlum = listAlum;
-    }
     
     
     @PostConstruct
@@ -91,30 +74,6 @@ public class AlumnoVisitanteBean implements Serializable{
     {
         this.objeAlumVisi = new Alumnovisitante();
         this.guardar = true;        
-    }
-    
-    public void setVisi(){
-        try{
-            RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-            Visitante visi = new Visitante();
-            visi.setCodiVisi(Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiVisi")));
-            this.objeAlumVisi.setCodiVisi(visi);
-            this.Visi = String.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nombVisi"));
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + this.Visi + "')");
-        }catch(Exception e){
-             e.printStackTrace();
-        }
-    }
-    private void geneListAlum(){
-        try{
-            this.listAlum.add(new AlumWS("Kevin", "Guevara Tolentino", "20130670", "contra123"));
-            this.listAlum.add(new AlumWS("Kevin", "Guevara Tolentino", "20130670", "contra123"));
-            this.listAlum.add(new AlumWS("Kevin", "Guevara Tolentino", "20130670", "contra123"));
-            this.listAlum.add(new AlumWS("Kevin", "Guevara Tolentino", "20130670", "contra123"));
-            this.listAlum.add(new AlumWS("Kevin", "Guevara Tolentino", "20130670", "contra123"));
-        }catch(Exception e){
-             e.printStackTrace();
-        }
     }
     
     public void consTodo()
@@ -139,6 +98,8 @@ public class AlumnoVisitanteBean implements Serializable{
             this.guardar = false;
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
                     String.format("%s %s", this.objeAlumVisi.getPareAlumVisi(), this.objeAlumVisi.getCarnAlum()) + "')");
+            //por alguna razón, al consultar con cambia el select... asi que se hace manualmente....
+            ctx.execute("selectedItem("+this.objeAlumVisi.getPareAlumVisi()+")");
         }
         catch(Exception ex)
         {

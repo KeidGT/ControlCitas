@@ -21,6 +21,7 @@ and open the template in the editor.
         <ui:param name="actiVisi" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
+            <h:outputScript library="js" name="custom/mantenimientos.js"/>
         </ui:define>
         <!-- Elementos propios del boby -->
         <ui:define name="body">
@@ -70,7 +71,7 @@ and open the template in the editor.
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="tipo" value="Tipo Visitante: "/>
-                                <h:selectOneMenu id="tipo" value="#{visitantesBean.objeVisi.tipoVisi}" class="form-control">
+                                <h:selectOneMenu id="tipo" value="#{visitantesBean.objeVisi.tipoVisi}" class="form-control select" pt:data-live-search="true">
                                     <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
                                     <f:selectItem itemValue="1" itemLabel="Encargado Alumno"/>
                                     <f:selectItem itemValue="2" itemLabel="Particular"/>

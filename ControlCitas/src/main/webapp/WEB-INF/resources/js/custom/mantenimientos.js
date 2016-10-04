@@ -14,14 +14,5 @@ function INIT_OBJE()
 {
     $("#TablRegi").initBootTable();
     $("#FormRegi\\:btonElim").confirmation({container: '#FormRegi'});
-    //ocultarCodigo();
-    //setTimeout('ocultarCodigo()',800);
-    
+    $(".select").selectpicker();
 }
-/*
-function ocultarCodigo(){
-    $("#TablRegi th:nth-child(1)").attr("style", "display: none;");
-    $("#TablRegi td:nth-child(1)").attr("style", "display: none;");
-    $("#TablRegi th:nth-child(2)").attr("style", "display: none;");
-    $("#TablRegi td:nth-child(2)").attr("style", "display: none;");
-}*/

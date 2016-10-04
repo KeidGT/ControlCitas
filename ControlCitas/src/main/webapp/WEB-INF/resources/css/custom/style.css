@@ -88,3 +88,6 @@
     display: inline-block;
     overflow: hidden;
 }
+.select{
+    width: 100%;
+}

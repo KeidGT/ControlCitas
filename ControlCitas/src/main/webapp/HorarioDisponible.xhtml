@@ -21,6 +21,9 @@ and open the template in the editor.
         <ui:param name="actiHora" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
+            <!--js del mantenimiento-->
+            <h:outputScript library="js" name="custom/mantenimientos.js"/>
+            <h:outputScript library="js" name="custom/HorarioDisponible.js"/>
         </ui:define>
         <!-- Elementos propios del boby -->
         <ui:define name="body">
@@ -40,7 +43,7 @@ and open the template in the editor.
                             <h:inputHidden id="codi" value="#{horarioDisponibleBean.objeHoraDisp.codiHoraDisp}" />
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="dia" value="Dia: "/>
-                                <h:selectOneMenu id="dia" value="#{horarioDisponibleBean.objeHoraDisp.diaHoraDisp}" class="form-control">
+                                <h:selectOneMenu id="dia" value="#{horarioDisponibleBean.objeHoraDisp.diaHoraDisp}" class="form-control select" pt:data-live-search="true">
                                     <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
                                     <f:selectItem itemValue="Lunes" itemLabel="Lunes"/>
                                     <f:selectItem itemValue="Martes" itemLabel="Martes"/>
@@ -52,12 +55,12 @@ and open the template in the editor.
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="horaInicHoraDisp" value="Hora Inicio: "/>
-                                <h:inputText  id="horaInicHoraDisp" value="#{horarioDisponibleBean.objeHoraDisp.horaInicHoraDisp}" class="form-control"/>
+                                <p:inputMask id="horaInicHoraDisp" value="#{horarioDisponibleBean.objeHoraDisp.horaInicHoraDisp}" mask="99:99 aa" class="form-control"/>
                                 <h:message for="horaInicHoraDisp" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="horaFinaHoraDisp" value="Hora Fin: "/>
-                                <h:inputText id="horaFinaHoraDisp" value="#{horarioDisponibleBean.objeHoraDisp.horaFinaHoraDisp}" class="form-control"/>
+                                <p:inputMask id="horaFinaHoraDisp" value="#{horarioDisponibleBean.objeHoraDisp.horaFinaHoraDisp}" mask="99:99 aa" class="form-control"/>
                                 <h:message for="horaFinaHoraDisp" errorClass="field-error" />	
                             </div>
                             <div class="input-group col-xs-12">
