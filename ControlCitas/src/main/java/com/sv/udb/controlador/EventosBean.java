@@ -92,29 +92,19 @@ public class EventosBean implements Serializable{
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
-        finally
-        {
-            
-        }
     }
     
     public void guar()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
-        {
-            DateFormat formatter = new SimpleDateFormat("hh:mm a");
-            
-            if(this.objeEven.getFechaFinaEven().after(this.objeEven.getFechaInicEven()) || (this.objeEven.getFechaFinaEven().equals(this.objeEven.getFechaInicEven())&&formatter.parse(this.objeEven.getHoraFinaEven()).after(formatter.parse(this.objeEven.getHoraInicEven()))))
+        {            
+            if(validar())
             {
                 FCDEEven.create(this.objeEven);
                 this.listEven.add(this.objeEven);
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
                 this.limpForm();
-            }
-            else
-            {
-                ctx.execute("setMessage('MESS_ERRO', 'Error', 'La fecha fin debe ser después de fecha inicial')");                
             }
         }
         catch(Exception ex)
@@ -128,8 +118,7 @@ public class EventosBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            DateFormat formatter = new SimpleDateFormat("hh:mm a");
-            if(this.objeEven.getFechaFinaEven().after(this.objeEven.getFechaInicEven()) || (this.objeEven.getFechaFinaEven().equals(this.objeEven.getFechaInicEven())&&formatter.parse(this.objeEven.getHoraFinaEven()).after(formatter.parse(this.objeEven.getHoraInicEven()))))
+            if(validar())
             {
                 this.listEven.remove(this.objeEven); //Limpia el objeto viejo
                 FCDEEven.edit(this.objeEven);
@@ -137,14 +126,35 @@ public class EventosBean implements Serializable{
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
                 this.limpForm();
             }
-            else
-            {
-                ctx.execute("setMessage('MESS_ERRO', 'Error', 'La fecha fin debe ser después de fecha inicial')");
-            }
         }
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
+        }
+    }
+    
+    private boolean validar()
+    {
+        RequestContext ctx = RequestContext.getCurrentInstance();
+        DateFormat formatter = new SimpleDateFormat("hh:mm a");
+        try
+        {
+            formatter.parse(this.getObjeEven().getHoraInicEven());
+            formatter.parse(this.getObjeEven().getHoraFinaEven());
+            if(this.objeEven.getFechaFinaEven().after(this.objeEven.getFechaInicEven()) || (this.objeEven.getFechaFinaEven().equals(this.objeEven.getFechaInicEven())&&formatter.parse(this.objeEven.getHoraFinaEven()).after(formatter.parse(this.objeEven.getHoraInicEven()))))
+            {
+                return true;
+            }
+            else
+            {
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Fecha Final no debe ser antes de la Inicial')");
+                return false;
+            }
+        }
+        catch(Exception err)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Horas no válidas')");
+            return false;
         }
     }
     

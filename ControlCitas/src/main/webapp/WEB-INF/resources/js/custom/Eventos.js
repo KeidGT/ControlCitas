@@ -5,5 +5,5 @@ $(document).ready(function() {
             orientation: "top auto"
         });
         
-        $('.date').timepicki(); 
+        $('#sds').timepicki(); 
 });
