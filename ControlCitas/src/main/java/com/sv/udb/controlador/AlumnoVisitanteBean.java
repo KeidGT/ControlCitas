@@ -122,6 +122,7 @@ public class AlumnoVisitanteBean implements Serializable{
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar')");
+            ex.printStackTrace();
         }
     }
     

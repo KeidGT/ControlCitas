@@ -6,6 +6,7 @@
 package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.VisitanteFacadeLocal;
+import com.sv.udb.modelo.Alumnovisitante;
 import com.sv.udb.modelo.Visitante;
 import java.io.Serializable;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -36,6 +38,13 @@ public class VisitantesBean implements Serializable{
     private boolean guardar;
     private String pass;
     
+    //variables para registro de nuevo visitante
+    @Inject
+    private GlobalAppBean globalAppBean;
+    private String carnAlum;
+    private String passAlum;
+    private AlumnoVisitanteBean alumVisiBean;
+    private Alumnovisitante objeAlumVisi;
     public Visitante getObjeVisi() {
         return objeVisi;
     }
@@ -51,12 +60,48 @@ public class VisitantesBean implements Serializable{
     public boolean isGuardar() {
         return guardar;
     }
+
+    public String getCarnAlum() {
+        return carnAlum;
+    }
+
+    public void setCarnAlum(String carnAlum) {
+        this.carnAlum = carnAlum;
+    }
+
+    public String getPassAlum() {
+        return passAlum;
+    }
+
+    public void setPassAlum(String passAlum) {
+        this.passAlum = passAlum;
+    }
+
+    public AlumnoVisitanteBean getAlumVisiBean() {
+        return alumVisiBean;
+    }
+
+    public void setAlumVisiBean(AlumnoVisitanteBean alumVisiBean) {
+        this.alumVisiBean = alumVisiBean;
+    }
+
+    public Alumnovisitante getObjeAlumVisi() {
+        return objeAlumVisi;
+    }
+
+    public void setObjeAlumVisi(Alumnovisitante objeAlumVisi) {
+        this.objeAlumVisi = objeAlumVisi;
+    }
+    
+    
     
     @PostConstruct
     public void init()
     {
         this.limpForm();
         this.consTodo();
+        this.alumVisiBean = new AlumnoVisitanteBean();
+        this.objeAlumVisi = new Alumnovisitante();
     }
     
     public void limpForm()
@@ -146,6 +191,46 @@ public class VisitantesBean implements Serializable{
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
+        }
+    }
+    
+    public void regiVisi(){
+        RequestContext ctx = RequestContext.getCurrentInstance();
+        FacesContext facsCtxt = FacesContext.getCurrentInstance();
+        try{
+            if(true){//aqui deveriamos comparar los datos ingresados, con los que existen en el web service
+                //Registramos Visitante
+                    this.objeVisi.setTipoVisi(2);
+                    FCDEVisi.create(this.objeVisi);
+                    this.listVisi.add(this.objeVisi);
+            }else{
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Información Incorrecta')");
+            }
+        }catch(Exception e){
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al intenar registrarse')");
+                System.out.println("ERROR AL REGISTRARSE");
+                e.printStackTrace();
+            }
+        finally
+        {
+            /*
+            try{
+                //asignamos alumno que se ingresó, al visitante
+                objeAlumVisi.setCarnAlum(carnAlum);
+                objeVisi.setCodiVisi(1);
+                objeAlumVisi.setCodiVisi(objeVisi);
+                objeAlumVisi.setEstaAlumVisi(1);
+                alumVisiBean.setObjeAlumVisi(objeAlumVisi);
+                alumVisiBean.guar();
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Registro Realizado')");
+                //redireccionamos
+                //facsCtxt.getExternalContext().redirect(globalAppBean.getUrl("index.xhtml"));
+            }catch(Exception e){
+                System.out.println("ERROR AL ASIGNAR ALUMNO");
+                e.printStackTrace();
+            }
+            */
+            
         }
     }
 }
