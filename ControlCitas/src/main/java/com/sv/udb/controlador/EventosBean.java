@@ -8,6 +8,8 @@ package com.sv.udb.controlador;
 import com.sv.udb.ejb.EventoFacadeLocal;
 import com.sv.udb.modelo.Evento;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -101,10 +103,19 @@ public class EventosBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            FCDEEven.create(this.objeEven);
-            this.listEven.add(this.objeEven);
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
-            this.limpForm();
+            DateFormat formatter = new SimpleDateFormat("hh:mm a");
+            
+            if(this.objeEven.getFechaFinaEven().after(this.objeEven.getFechaInicEven()) || (this.objeEven.getFechaFinaEven().equals(this.objeEven.getFechaInicEven())&&formatter.parse(this.objeEven.getHoraFinaEven()).after(formatter.parse(this.objeEven.getHoraInicEven()))))
+            {
+                FCDEEven.create(this.objeEven);
+                this.listEven.add(this.objeEven);
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
+                this.limpForm();
+            }
+            else
+            {
+                ctx.execute("setMessage('MESS_ERRO', 'Error', 'La fecha fin debe ser después de fecha inicial')");                
+            }
         }
         catch(Exception ex)
         {
@@ -117,11 +128,19 @@ public class EventosBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            this.listEven.remove(this.objeEven); //Limpia el objeto viejo
-            FCDEEven.edit(this.objeEven);
-            this.listEven.add(this.objeEven); //Agrega el objeto modificado
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-            this.limpForm();
+            DateFormat formatter = new SimpleDateFormat("hh:mm a");
+            if(this.objeEven.getFechaFinaEven().after(this.objeEven.getFechaInicEven()) || (this.objeEven.getFechaFinaEven().equals(this.objeEven.getFechaInicEven())&&formatter.parse(this.objeEven.getHoraFinaEven()).after(formatter.parse(this.objeEven.getHoraInicEven()))))
+            {
+                this.listEven.remove(this.objeEven); //Limpia el objeto viejo
+                FCDEEven.edit(this.objeEven);
+                this.listEven.add(this.objeEven); //Agrega el objeto modificado
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+                this.limpForm();
+            }
+            else
+            {
+                ctx.execute("setMessage('MESS_ERRO', 'Error', 'La fecha fin debe ser después de fecha inicial')");
+            }
         }
         catch(Exception ex)
         {

@@ -89,6 +89,7 @@ and open the template in the editor.
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="horaInicEven" value="Hora Inicio: "/>
+                                <input id='timepicker' type='text' name='timepicker'/>
                                 <p:inputMask id="horaInicEven" value="#{eventosBean.objeEven.horaInicEven}" mask="99:99 aa" class="form-control"/>
                                 <h:message for="horaInicEven" errorClass="field-error" />
                             </div>

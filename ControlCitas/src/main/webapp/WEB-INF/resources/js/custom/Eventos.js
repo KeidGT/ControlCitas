@@ -4,4 +4,6 @@ $(document).ready(function() {
             language: "es",
             orientation: "top auto"
         });
+        
+        $('.date').timepicki(); 
 });
