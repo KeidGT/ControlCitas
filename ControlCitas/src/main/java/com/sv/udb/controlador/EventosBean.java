@@ -139,9 +139,9 @@ public class EventosBean implements Serializable{
         DateFormat formatter = new SimpleDateFormat("hh:mm a");
         try
         {
-            formatter.parse(this.getObjeEven().getHoraInicEven());
-            formatter.parse(this.getObjeEven().getHoraFinaEven());
-            if(this.objeEven.getFechaFinaEven().after(this.objeEven.getFechaInicEven()) || (this.objeEven.getFechaFinaEven().equals(this.objeEven.getFechaInicEven())&&formatter.parse(this.objeEven.getHoraFinaEven()).after(formatter.parse(this.objeEven.getHoraInicEven()))))
+            //formatter.parse(this.getObjeEven().getHoraInicEven());
+            //formatter.parse(this.getObjeEven().getHoraFinaEven());
+            if(this.objeEven.getFechaFinaEven().after(this.objeEven.getFechaInicEven()) /*|| (this.objeEven.getFechaFinaEven().equals(this.objeEven.getFechaInicEven()).after(formatter.parse(this.objeEven.getHoraInicEven())))*/)
             {
                 return true;
             }

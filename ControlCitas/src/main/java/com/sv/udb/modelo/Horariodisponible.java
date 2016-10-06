@@ -6,18 +6,26 @@
 package com.sv.udb.modelo;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -54,14 +62,14 @@ public class Horariodisponible implements Serializable {
     private String diaHoraDisp;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 8)
     @Column(name = "hora_inic_hora_disp")
-    private String horaInicHoraDisp;
+    @Temporal(TemporalType.TIME)
+    private Date horaInicHoraDisp;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 8)
     @Column(name = "hora_fina_hora_disp")
-    private String horaFinaHoraDisp;
+    @Temporal(TemporalType.TIME)
+    private Date horaFinaHoraDisp;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 4)
@@ -71,6 +79,8 @@ public class Horariodisponible implements Serializable {
     @NotNull
     @Column(name = "esta_hora_disp")
     private int estaHoraDisp;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiHoraDisp", fetch = FetchType.EAGER)
+    private List<Excepcionhorariodisponible> excepcionhorariodisponibleList;
 
     public Horariodisponible() {
     }
@@ -79,7 +89,7 @@ public class Horariodisponible implements Serializable {
         this.codiHoraDisp = codiHoraDisp;
     }
 
-    public Horariodisponible(Integer codiHoraDisp, int codiUsua, String diaHoraDisp, String horaInicHoraDisp, String horaFinaHoraDisp, String anioHoraDisp, int estaHoraDisp) {
+    public Horariodisponible(Integer codiHoraDisp, int codiUsua, String diaHoraDisp, Date horaInicHoraDisp, Date horaFinaHoraDisp, String anioHoraDisp, int estaHoraDisp) {
         this.codiHoraDisp = codiHoraDisp;
         this.codiUsua = codiUsua;
         this.diaHoraDisp = diaHoraDisp;
@@ -113,19 +123,19 @@ public class Horariodisponible implements Serializable {
         this.diaHoraDisp = diaHoraDisp;
     }
 
-    public String getHoraInicHoraDisp() {
+    public Date getHoraInicHoraDisp() {
         return horaInicHoraDisp;
     }
 
-    public void setHoraInicHoraDisp(String horaInicHoraDisp) {
+    public void setHoraInicHoraDisp(Date horaInicHoraDisp) {
         this.horaInicHoraDisp = horaInicHoraDisp;
     }
 
-    public String getHoraFinaHoraDisp() {
+    public Date getHoraFinaHoraDisp() {
         return horaFinaHoraDisp;
     }
 
-    public void setHoraFinaHoraDisp(String horaFinaHoraDisp) {
+    public void setHoraFinaHoraDisp(Date horaFinaHoraDisp) {
         this.horaFinaHoraDisp = horaFinaHoraDisp;
     }
 
@@ -143,6 +153,15 @@ public class Horariodisponible implements Serializable {
 
     public void setEstaHoraDisp(int estaHoraDisp) {
         this.estaHoraDisp = estaHoraDisp;
+    }
+
+    @XmlTransient
+    public List<Excepcionhorariodisponible> getExcepcionhorariodisponibleList() {
+        return excepcionhorariodisponibleList;
+    }
+
+    public void setExcepcionhorariodisponibleList(List<Excepcionhorariodisponible> excepcionhorariodisponibleList) {
+        this.excepcionhorariodisponibleList = excepcionhorariodisponibleList;
     }
 
     @Override

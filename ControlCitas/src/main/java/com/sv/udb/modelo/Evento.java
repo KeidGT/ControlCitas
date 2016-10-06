@@ -7,20 +7,24 @@ package com.sv.udb.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -67,14 +71,16 @@ public class Evento implements Serializable {
     private Date fechaFinaEven;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 8)
     @Column(name = "hora_inic_even")
-    private String horaInicEven;
+    @Temporal(TemporalType.TIME)
+    private Date horaInicEven;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 8)
     @Column(name = "hora_fina_even")
-    private String horaFinaEven;
+    @Temporal(TemporalType.TIME)
+    private Date horaFinaEven;
+    @OneToMany(mappedBy = "codiEven", fetch = FetchType.EAGER)
+    private List<Cita> citaList;
 
     public Evento() {
     }
@@ -83,7 +89,7 @@ public class Evento implements Serializable {
         this.codiEvent = codiEvent;
     }
 
-    public Evento(Integer codiEvent, int codiLuga, String nombEven, Date fechaInicEven, Date fechaFinaEven, String horaInicEven, String horaFinaEven) {
+    public Evento(Integer codiEvent, int codiLuga, String nombEven, Date fechaInicEven, Date fechaFinaEven, Date horaInicEven, Date horaFinaEven) {
         this.codiEvent = codiEvent;
         this.codiLuga = codiLuga;
         this.nombEven = nombEven;
@@ -133,20 +139,29 @@ public class Evento implements Serializable {
         this.fechaFinaEven = fechaFinaEven;
     }
 
-    public String getHoraInicEven() {
+    public Date getHoraInicEven() {
         return horaInicEven;
     }
 
-    public void setHoraInicEven(String horaInicEven) {
+    public void setHoraInicEven(Date horaInicEven) {
         this.horaInicEven = horaInicEven;
     }
 
-    public String getHoraFinaEven() {
+    public Date getHoraFinaEven() {
         return horaFinaEven;
     }
 
-    public void setHoraFinaEven(String horaFinaEven) {
+    public void setHoraFinaEven(Date horaFinaEven) {
         this.horaFinaEven = horaFinaEven;
+    }
+
+    @XmlTransient
+    public List<Cita> getCitaList() {
+        return citaList;
+    }
+
+    public void setCitaList(List<Cita> citaList) {
+        this.citaList = citaList;
     }
 
     @Override

@@ -23,7 +23,6 @@ and open the template in the editor.
         <ui:define name="CustomScripts">
             <!--js del mantenimiento-->
             <h:outputScript library="js" name="custom/mantenimientos.js"/>
-            <h:outputScript library="js" name="custom/Eventos.js"/>
         </ui:define>
         <!-- Elementos propios del boby -->
         <ui:define name="body">
@@ -63,38 +62,23 @@ and open the template in the editor.
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="fechInic" value="Fecha Inicio: "/>
-                                <div class='input-group date' id='datetime'>
-                                    <p:inputMask id="fechInic" value="#{eventosBean.objeEven.fechaInicEven}" mask="99/99/9999" class="form-control">
-                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                    </p:inputMask>
-
-                                    <span class="input-group-addon">
-                                        <span class="fa fa-calendar"></span>
-                                    </span>
-                                </div>
+                                <p:calendar id="fechInic" value="#{eventosBean.objeEven.fechaInicEven}" pattern="dd-MM-yyyy" locale="es"  mask="true"/>
+                                       
                                 <h:message for="fechInic" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="fechFina" value="Fecha Fin: "/>
-                                <div class='input-group date' id='datetime'>
-                                    <p:inputMask id="fechFina" value="#{eventosBean.objeEven.fechaFinaEven}" mask="99/99/9999" class="form-control">
-                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                    </p:inputMask>
-
-                                    <span class="input-group-addon">
-                                        <span class="fa fa-calendar"></span>
-                                    </span>
-                                </div>
+                                <p:calendar id="fechFina" value="#{eventosBean.objeEven.fechaFinaEven}" pattern="dd-MM-yyyy" locale="es" mask="true"/>
                                 <h:message for="fechFina" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="horaInicEven" value="Hora Inicio: "/>
-                                <p:inputMask id="horaInicEven" value="#{eventosBean.objeEven.horaInicEven}" mask="99:99 aa" class="form-control"/>
+                                <p:calendar id="horaInicEven" value="#{eventosBean.objeEven.horaInicEven}" pattern="HH:mm a" locale="es" mask="true" timeOnly="true" />
                                 <h:message for="horaInicEven" errorClass="field-error" />
                             </div>
                             <div class="input-group col-xs-12">
                                 <h:outputLabel  for="horaFinaEven" value="Hora Fin: "/>
-                                <p:inputMask id="horaFinaEven" value="#{eventosBean.objeEven.horaFinaEven}" mask="99:99 aa" class="form-control"/>
+                                <p:calendar id="horaFinaEven" value="#{eventosBean.objeEven.horaFinaEven}" pattern="HH:mm a" locale="es" mask="true" timeOnly="true" />
                                 <h:message for="horaFinaEven" errorClass="field-error" />	
                             </div>
                             <br/>
