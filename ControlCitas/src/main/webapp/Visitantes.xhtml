@@ -42,12 +42,12 @@ and open the template in the editor.
                                 <div id="toolTablRegi">
                                     <h:form>
                                         
-                                        <p:remoteCommand name="consObje" actionListener="#{eventosBean.cons()}" update=":FormRegi" 
+                                        <p:remoteCommand name="consObje" actionListener="#{visitantesBean.cons()}" update=":FormRegi" 
                                                          oncomplete="$('#ModaFormRegi').modal('show');" global="true"/>
-                                        <p:remoteCommand name="elimObje" actionListener="#{eventosBean.elim()}" update=":FormRegi :ContRegi" 
+                                        <p:remoteCommand name="elimObje" actionListener="#{visitantesBean.elim()}" update=":FormRegi :ContRegi" 
                                                          oncomplete="INIT_OBJE();" global="true"/>
                                         <h:commandLink id="btonNuev" class="btn btn-success">
-                                            <p:ajax listener="#{eventosBean.limpForm()}" update=":FormRegi" global="true" 
+                                            <p:ajax listener="#{visitantesBean.limpForm()}" update=":FormRegi" global="true" 
                                                     oncomplete="$('#ModaFormRegi').modal('show');"/>
                                             <i class="fa fa-plus"/> Nuevo
                                         </h:commandLink>
