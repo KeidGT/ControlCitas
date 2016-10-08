@@ -87,15 +87,15 @@ public class Cita implements Serializable {
     @Column(name = "fech_lleg_cita")
     @Temporal(TemporalType.DATE)
     private Date fechLlegCita;
+    @Size(max = 8)
     @Column(name = "hora_lleg_cita")
-    @Temporal(TemporalType.TIME)
-    private Date horaLlegCita;
+    private String horaLlegCita;
     @Column(name = "fech_sali_cita")
     @Temporal(TemporalType.DATE)
     private Date fechSaliCita;
+    @Size(max = 8)
     @Column(name = "hora_sali_cita")
-    @Temporal(TemporalType.TIME)
-    private Date horaSaliCita;
+    private String horaSaliCita;
     @JoinColumn(name = "codi_even", referencedColumnName = "codi_event")
     @ManyToOne(fetch = FetchType.EAGER)
     private Evento codiEven;
@@ -205,11 +205,11 @@ public class Cita implements Serializable {
         this.fechLlegCita = fechLlegCita;
     }
 
-    public Date getHoraLlegCita() {
+    public String getHoraLlegCita() {
         return horaLlegCita;
     }
 
-    public void setHoraLlegCita(Date horaLlegCita) {
+    public void setHoraLlegCita(String horaLlegCita) {
         this.horaLlegCita = horaLlegCita;
     }
 
@@ -221,11 +221,11 @@ public class Cita implements Serializable {
         this.fechSaliCita = fechSaliCita;
     }
 
-    public Date getHoraSaliCita() {
+    public String getHoraSaliCita() {
         return horaSaliCita;
     }
 
-    public void setHoraSaliCita(Date horaSaliCita) {
+    public void setHoraSaliCita(String horaSaliCita) {
         this.horaSaliCita = horaSaliCita;
     }
 

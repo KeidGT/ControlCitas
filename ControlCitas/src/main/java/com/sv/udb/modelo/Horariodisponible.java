@@ -6,7 +6,6 @@
 package com.sv.udb.modelo;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,8 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -62,14 +59,14 @@ public class Horariodisponible implements Serializable {
     private String diaHoraDisp;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 8)
     @Column(name = "hora_inic_hora_disp")
-    @Temporal(TemporalType.TIME)
-    private Date horaInicHoraDisp;
+    private String horaInicHoraDisp;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 8)
     @Column(name = "hora_fina_hora_disp")
-    @Temporal(TemporalType.TIME)
-    private Date horaFinaHoraDisp;
+    private String horaFinaHoraDisp;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 4)
@@ -89,7 +86,7 @@ public class Horariodisponible implements Serializable {
         this.codiHoraDisp = codiHoraDisp;
     }
 
-    public Horariodisponible(Integer codiHoraDisp, int codiUsua, String diaHoraDisp, Date horaInicHoraDisp, Date horaFinaHoraDisp, String anioHoraDisp, int estaHoraDisp) {
+    public Horariodisponible(Integer codiHoraDisp, int codiUsua, String diaHoraDisp, String horaInicHoraDisp, String horaFinaHoraDisp, String anioHoraDisp, int estaHoraDisp) {
         this.codiHoraDisp = codiHoraDisp;
         this.codiUsua = codiUsua;
         this.diaHoraDisp = diaHoraDisp;
@@ -123,19 +120,19 @@ public class Horariodisponible implements Serializable {
         this.diaHoraDisp = diaHoraDisp;
     }
 
-    public Date getHoraInicHoraDisp() {
+    public String getHoraInicHoraDisp() {
         return horaInicHoraDisp;
     }
 
-    public void setHoraInicHoraDisp(Date horaInicHoraDisp) {
+    public void setHoraInicHoraDisp(String horaInicHoraDisp) {
         this.horaInicHoraDisp = horaInicHoraDisp;
     }
 
-    public Date getHoraFinaHoraDisp() {
+    public String getHoraFinaHoraDisp() {
         return horaFinaHoraDisp;
     }
 
-    public void setHoraFinaHoraDisp(Date horaFinaHoraDisp) {
+    public void setHoraFinaHoraDisp(String horaFinaHoraDisp) {
         this.horaFinaHoraDisp = horaFinaHoraDisp;
     }
 

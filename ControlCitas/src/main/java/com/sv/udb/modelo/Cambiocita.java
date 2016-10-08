@@ -58,9 +58,9 @@ public class Cambiocita implements Serializable {
     private Date fechCambCita;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 8)
     @Column(name = "hora_camb_cita")
-    @Temporal(TemporalType.TIME)
-    private Date horaCambCita;
+    private String horaCambCita;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fech_inic_cita_nuev")
@@ -68,9 +68,9 @@ public class Cambiocita implements Serializable {
     private Date fechInicCitaNuev;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 8)
     @Column(name = "hora_inic_cita_nuev")
-    @Temporal(TemporalType.TIME)
-    private Date horaInicCitaNuev;
+    private String horaInicCitaNuev;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fech_fin_cita_nuev")
@@ -78,9 +78,9 @@ public class Cambiocita implements Serializable {
     private Date fechFinCitaNuev;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 8)
     @Column(name = "hora_fin_cita_nuev")
-    @Temporal(TemporalType.TIME)
-    private Date horaFinCitaNuev;
+    private String horaFinCitaNuev;
     @Size(max = 500)
     @Column(name = "moti_camb_cita")
     private String motiCambCita;
@@ -99,7 +99,7 @@ public class Cambiocita implements Serializable {
         this.codiCambCita = codiCambCita;
     }
 
-    public Cambiocita(Integer codiCambCita, Date fechCambCita, Date horaCambCita, Date fechInicCitaNuev, Date horaInicCitaNuev, Date fechFinCitaNuev, Date horaFinCitaNuev, int estaCambCita) {
+    public Cambiocita(Integer codiCambCita, Date fechCambCita, String horaCambCita, Date fechInicCitaNuev, String horaInicCitaNuev, Date fechFinCitaNuev, String horaFinCitaNuev, int estaCambCita) {
         this.codiCambCita = codiCambCita;
         this.fechCambCita = fechCambCita;
         this.horaCambCita = horaCambCita;
@@ -126,11 +126,11 @@ public class Cambiocita implements Serializable {
         this.fechCambCita = fechCambCita;
     }
 
-    public Date getHoraCambCita() {
+    public String getHoraCambCita() {
         return horaCambCita;
     }
 
-    public void setHoraCambCita(Date horaCambCita) {
+    public void setHoraCambCita(String horaCambCita) {
         this.horaCambCita = horaCambCita;
     }
 
@@ -142,11 +142,11 @@ public class Cambiocita implements Serializable {
         this.fechInicCitaNuev = fechInicCitaNuev;
     }
 
-    public Date getHoraInicCitaNuev() {
+    public String getHoraInicCitaNuev() {
         return horaInicCitaNuev;
     }
 
-    public void setHoraInicCitaNuev(Date horaInicCitaNuev) {
+    public void setHoraInicCitaNuev(String horaInicCitaNuev) {
         this.horaInicCitaNuev = horaInicCitaNuev;
     }
 
@@ -158,11 +158,11 @@ public class Cambiocita implements Serializable {
         this.fechFinCitaNuev = fechFinCitaNuev;
     }
 
-    public Date getHoraFinCitaNuev() {
+    public String getHoraFinCitaNuev() {
         return horaFinCitaNuev;
     }
 
-    public void setHoraFinCitaNuev(Date horaFinCitaNuev) {
+    public void setHoraFinCitaNuev(String horaFinCitaNuev) {
         this.horaFinCitaNuev = horaFinCitaNuev;
     }
 

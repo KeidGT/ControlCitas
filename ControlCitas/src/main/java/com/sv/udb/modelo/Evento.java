@@ -71,14 +71,14 @@ public class Evento implements Serializable {
     private Date fechaFinaEven;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 8)
     @Column(name = "hora_inic_even")
-    @Temporal(TemporalType.TIME)
-    private Date horaInicEven;
+    private String horaInicEven;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 8)
     @Column(name = "hora_fina_even")
-    @Temporal(TemporalType.TIME)
-    private Date horaFinaEven;
+    private String horaFinaEven;
     @OneToMany(mappedBy = "codiEven", fetch = FetchType.EAGER)
     private List<Cita> citaList;
 
@@ -89,7 +89,7 @@ public class Evento implements Serializable {
         this.codiEvent = codiEvent;
     }
 
-    public Evento(Integer codiEvent, int codiLuga, String nombEven, Date fechaInicEven, Date fechaFinaEven, Date horaInicEven, Date horaFinaEven) {
+    public Evento(Integer codiEvent, int codiLuga, String nombEven, Date fechaInicEven, Date fechaFinaEven, String horaInicEven, String horaFinaEven) {
         this.codiEvent = codiEvent;
         this.codiLuga = codiLuga;
         this.nombEven = nombEven;
@@ -139,19 +139,19 @@ public class Evento implements Serializable {
         this.fechaFinaEven = fechaFinaEven;
     }
 
-    public Date getHoraInicEven() {
+    public String getHoraInicEven() {
         return horaInicEven;
     }
 
-    public void setHoraInicEven(Date horaInicEven) {
+    public void setHoraInicEven(String horaInicEven) {
         this.horaInicEven = horaInicEven;
     }
 
-    public Date getHoraFinaEven() {
+    public String getHoraFinaEven() {
         return horaFinaEven;
     }
 
-    public void setHoraFinaEven(Date horaFinaEven) {
+    public void setHoraFinaEven(String horaFinaEven) {
         this.horaFinaEven = horaFinaEven;
     }
 
