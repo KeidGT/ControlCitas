@@ -112,7 +112,7 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
                 val = true;
             }else{
                 ctx.execute("setMessage('MESS_INFO', 'Atención', 'La excepción seleccionada "
-                        + "no coincide con la fecha ingresada'); INIT_OBJE_MODA();");
+                        + "no coincide con la fecha ingresada');");
             }
         return val;
     }

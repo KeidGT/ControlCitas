@@ -41,7 +41,7 @@ and open the template in the editor.
                                         <p:remoteCommand name="consObje" actionListener="#{visitantesBean.cons()}" update=":FormRegi" 
                                                          oncomplete="$('#ModaFormRegi').modal('show');" global="true"/>
                                         <p:remoteCommand name="elimObje" actionListener="#{visitantesBean.elim()}" update=":FormRegi :ContRegi" 
-                                                         oncomplete="INIT_OBJE();" global="true"/>
+                                                         oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" global="true"/>
                                         <h:commandLink id="btonNuev" class="btn btn-success">
                                             <p:ajax listener="#{visitantesBean.limpForm()}" update=":FormRegi" global="true" 
                                                     oncomplete="$('#ModaFormRegi').modal('show');"/>
@@ -143,7 +143,7 @@ and open the template in the editor.
                                                     <i class="fa fa-mail-forward"/> Cerrar
                                                 </h:commandLink>
                                                 <h:commandLink id="btonGuar" class="btn btn-success" rendered="#{visitantesBean.guardar}">
-                                                    <p:ajax listener="#{visitantesBean.guar()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
+                                                    <p:ajax listener="#{visitantesBean.guar()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" />
                                                     <i class="fa fa-plus"/> Guardar
                                                 </h:commandLink>
                                                 <h:commandLink id="btonNuev" class="btn btn-success" rendered="#{!visitantesBean.guardar}">
@@ -151,14 +151,14 @@ and open the template in the editor.
                                                     <i class="fa fa-plus"/> Nuevo
                                                 </h:commandLink>
                                                 <h:commandLink id="btonModi" class="btn btn-primary" rendered="#{!visitantesBean.guardar}">
-                                                    <p:ajax listener="#{visitantesBean.modi()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE();" />
+                                                    <p:ajax listener="#{visitantesBean.modi()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" />
                                                     <i class="fa fa-edit"/> Modificar
                                                 </h:commandLink>
                                                 <h:outputLink id="btonElim" class="btn btn-danger" rendered="#{!visitantesBean.guardar}" value="#" pt:data-placement="left"
                                                               pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
                                                               pt:data-btn-ok-class="btn-danger btn-xs" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
                                                               pt:data-btn-cancel-class="btn-default btn-xs" pt:data-title="¿Esta seguro que desea eliminar?"
-                                                              pt:data-on-confirm="elimRegi"><!--data-on-confirm = nombre del comando remoto de eliminar (sin paréntesis)-->
+                                                              pt:data-on-confirm="elimObje"><!--data-on-confirm = nombre del comando remoto de eliminar (sin paréntesis)-->
                                                     <i class="fa fa-times"/> Eliminar
                                                 </h:outputLink>
                                             </div>

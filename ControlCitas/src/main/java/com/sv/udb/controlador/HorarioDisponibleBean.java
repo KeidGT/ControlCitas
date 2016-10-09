@@ -163,7 +163,7 @@ public class HorarioDisponibleBean implements Serializable{
             }
             else
             {
-                ctx.execute("setMessage('MESS_INFO', 'Atención', 'La hora Final no puede ser antes de la Inicial'); INIT_OBJE_MODA();");
+                ctx.execute("setMessage('MESS_INFO', 'Atención', 'La hora Final no puede ser antes de la Inicial');");
             }
         }
         catch(Exception err)
