@@ -72,7 +72,7 @@ public class HorarioDisponibleBean implements Serializable{
     {
         try
         {
-            this.listHoraDisp = FCDEHoraDisp.findAll();
+            this.listHoraDisp = FCDEHoraDisp.findByCodiUsua(UsuarioBean.getCodiUsua());
         }
         catch(Exception ex)
         {
@@ -103,7 +103,7 @@ public class HorarioDisponibleBean implements Serializable{
         try
         {
             if(validar()){
-                this.objeHoraDisp.setCodiUsua(this.codiUsua);
+                this.objeHoraDisp.setCodiUsua(UsuarioBean.getCodiUsua());
                 FCDEHoraDisp.create(this.objeHoraDisp);
                 this.listHoraDisp.add(this.objeHoraDisp);
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
@@ -112,6 +112,7 @@ public class HorarioDisponibleBean implements Serializable{
         }
         catch(Exception ex)
         {
+            ex.printStackTrace();
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar')");
         }
     }

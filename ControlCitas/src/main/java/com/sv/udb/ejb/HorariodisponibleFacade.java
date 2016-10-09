@@ -5,12 +5,14 @@
  */
 package com.sv.udb.ejb;
 
+import com.sv.udb.controlador.UsuarioBean;
 import com.sv.udb.modelo.Horariodisponible;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -33,8 +35,8 @@ public class HorariodisponibleFacade extends AbstractFacade<Horariodisponible> i
     
     @Override
     public List<Horariodisponible> findByCodiUsua(Object codi) {
-        Query q = getEntityManager().createQuery("SELECT u FROM Usuarios u WHERE u.acceUsua = :acceUsua AND u.contUsua = :contUsua AND u.estaUsua = :estaUsua", Horariodisponible.class);        
-        q.setParameter("codiUsua", 1);
+        TypedQuery<Horariodisponible> q = getEntityManager().createNamedQuery("Horariodisponible.findByCodiUsua", Horariodisponible.class);        
+        q.setParameter("codiUsua", codi);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
