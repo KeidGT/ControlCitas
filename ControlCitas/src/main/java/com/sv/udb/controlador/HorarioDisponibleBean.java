@@ -93,10 +93,6 @@ public class HorarioDisponibleBean implements Serializable{
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
-        finally
-        {
-            
-        }
     }
     
     public void guar()

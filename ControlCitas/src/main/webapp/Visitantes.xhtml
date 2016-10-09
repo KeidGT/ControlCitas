@@ -110,7 +110,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="input-group col-xs-12">
                                             <h:outputLabel  for="dui" value="DUI: "/>
-                                            <h:inputText id="dui" value="#{visitantesBean.objeVisi.duiVisi}" class="form-control" />
+                                            <p:inputMask id="dui" value="#{visitantesBean.objeVisi.duiVisi}" class="form-control" mask="99999999-9"/>
                                             <h:message for="dui" errorClass="field-error" />
                                         </div>
                                         <div class="input-group col-xs-12">

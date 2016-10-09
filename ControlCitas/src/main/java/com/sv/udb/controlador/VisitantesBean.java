@@ -217,8 +217,7 @@ public class VisitantesBean implements Serializable{
                 System.out.println("ERROR AL ASIGNAR ALUMNO");
                 e.printStackTrace();
             }
-            */
-            
+            */            
         }
     }
 }
