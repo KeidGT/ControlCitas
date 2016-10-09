@@ -28,6 +28,8 @@ public interface HorariodisponibleFacadeLocal {
 
     List<Horariodisponible> findRange(int[] range);
 
+    List<Horariodisponible> findByCodiUsua(Object codi);
+    
     int count();
     
 }
