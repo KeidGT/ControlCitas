@@ -36,13 +36,11 @@ public class VisitantesBean implements Serializable{
     private Visitante objeVisi;
     private List<Visitante> listVisi;
     private boolean guardar;
-    private String pass;
     
     //variables para registro de nuevo visitante
     @Inject
     private GlobalAppBean globalAppBean;
     private String carnAlum;
-    private String passAlum;
     private AlumnoVisitanteBean alumVisiBean;
     private Alumnovisitante objeAlumVisi;
     public Visitante getObjeVisi() {
@@ -67,14 +65,6 @@ public class VisitantesBean implements Serializable{
 
     public void setCarnAlum(String carnAlum) {
         this.carnAlum = carnAlum;
-    }
-
-    public String getPassAlum() {
-        return passAlum;
-    }
-
-    public void setPassAlum(String passAlum) {
-        this.passAlum = passAlum;
     }
 
     public AlumnoVisitanteBean getAlumVisiBean() {
@@ -130,7 +120,6 @@ public class VisitantesBean implements Serializable{
         {
             this.objeVisi = FCDEVisi.find(codi);
             this.guardar = false;
-            this.pass = objeVisi.getPassVisi();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
                     String.format("%s %s", this.objeVisi.getNombVisi(), this.objeVisi.getApelVisi()) + "')");
         }
@@ -166,7 +155,6 @@ public class VisitantesBean implements Serializable{
         try
         {
             this.listVisi.remove(this.objeVisi); //Limpia el objeto viejo
-            if(objeVisi.getPassVisi().trim().equals(""))objeVisi.setPassVisi(this.pass);//por si la contraseña no se modificó
             FCDEVisi.edit(this.objeVisi);
             this.listVisi.add(this.objeVisi); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");

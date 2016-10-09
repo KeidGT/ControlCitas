@@ -37,9 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Visitante.findByDuiVisi", query = "SELECT v FROM Visitante v WHERE v.duiVisi = :duiVisi"),
     @NamedQuery(name = "Visitante.findByNombVisi", query = "SELECT v FROM Visitante v WHERE v.nombVisi = :nombVisi"),
     @NamedQuery(name = "Visitante.findByApelVisi", query = "SELECT v FROM Visitante v WHERE v.apelVisi = :apelVisi"),
-    @NamedQuery(name = "Visitante.findByUsuaVisi", query = "SELECT v FROM Visitante v WHERE v.usuaVisi = :usuaVisi"),
-    @NamedQuery(name = "Visitante.findByPassVisi", query = "SELECT v FROM Visitante v WHERE v.passVisi = :passVisi"),
     @NamedQuery(name = "Visitante.findByCorrVisi", query = "SELECT v FROM Visitante v WHERE v.corrVisi = :corrVisi"),
+    @NamedQuery(name = "Visitante.findByTeleVisi", query = "SELECT v FROM Visitante v WHERE v.teleVisi = :teleVisi"),
     @NamedQuery(name = "Visitante.findByTipoVisi", query = "SELECT v FROM Visitante v WHERE v.tipoVisi = :tipoVisi")})
 public class Visitante implements Serializable {
 
@@ -54,23 +53,20 @@ public class Visitante implements Serializable {
     private String duiVisi;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 50)
     @Column(name = "nomb_visi")
     private String nombVisi;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 50)
     @Column(name = "apel_visi")
     private String apelVisi;
-    @Size(max = 40)
-    @Column(name = "usua_visi")
-    private String usuaVisi;
-    @Size(max = 200)
-    @Column(name = "pass_visi")
-    private String passVisi;
     @Size(max = 100)
     @Column(name = "corr_visi")
     private String corrVisi;
+    @Size(max = 10)
+    @Column(name = "tele_visi")
+    private String teleVisi;
     @Column(name = "tipo_visi")
     private Integer tipoVisi;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiVisi", fetch = FetchType.EAGER)
@@ -123,28 +119,20 @@ public class Visitante implements Serializable {
         this.apelVisi = apelVisi;
     }
 
-    public String getUsuaVisi() {
-        return usuaVisi;
-    }
-
-    public void setUsuaVisi(String usuaVisi) {
-        this.usuaVisi = usuaVisi;
-    }
-
-    public String getPassVisi() {
-        return passVisi;
-    }
-
-    public void setPassVisi(String passVisi) {
-        this.passVisi = passVisi;
-    }
-
     public String getCorrVisi() {
         return corrVisi;
     }
 
     public void setCorrVisi(String corrVisi) {
         this.corrVisi = corrVisi;
+    }
+
+    public String getTeleVisi() {
+        return teleVisi;
+    }
+
+    public void setTeleVisi(String teleVisi) {
+        this.teleVisi = teleVisi;
     }
 
     public Integer getTipoVisi() {
