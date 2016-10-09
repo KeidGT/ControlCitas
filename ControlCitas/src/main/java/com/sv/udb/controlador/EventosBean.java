@@ -145,7 +145,7 @@ public class EventosBean implements Serializable{
             }
             else
             {
-                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Fecha Final no debe ser antes de la Inicial')");
+                ctx.execute("setMessage('MESS_INFO', 'Atención', 'Fecha Final no debe ser antes de la Inicial'); INIT_OBJE_MODA();");
                 return false;
             }
         }

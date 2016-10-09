@@ -103,20 +103,29 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
         }
         return ndia;
     }
+    private boolean validar(){
+        boolean val = false;
+        RequestContext ctx = RequestContext.getCurrentInstance();
+            int diaHoraDisp = getDay(this.objeExceHoraDisp.getCodiHoraDisp().getDiaHoraDisp());
+            int diaExceHoraDisp = this.objeExceHoraDisp.getFechExceHoraDisp().getDay();
+            if(diaHoraDisp == diaExceHoraDisp){
+                val = true;
+            }else{
+                ctx.execute("setMessage('MESS_INFO', 'Atención', 'La excepción seleccionada "
+                        + "no coincide con la fecha ingresada'); INIT_OBJE_MODA();");
+            }
+        return val;
+    }
     public void guar()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
-        {   int diaHoraDisp = getDay(this.objeExceHoraDisp.getCodiHoraDisp().getDiaHoraDisp());
-            int diaExceHoraDisp = this.objeExceHoraDisp.getFechExceHoraDisp().getDay();
-            if(diaHoraDisp == diaExceHoraDisp){
+        {   
+            if(validar()){
               FCDEExceHoraDisp.create(this.objeExceHoraDisp);
               this.listExceHoraDisp.add(this.objeExceHoraDisp);
               ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
               this.limpForm();  
-            }else{
-                ctx.execute("setMessage('MESS_INFO', 'Atención', 'La excepción seleccionada "
-                        + "no coincide con la fecha ingresada'); INIT_OBJE_MODA();");
             }
         }
         catch(Exception ex)
@@ -130,17 +139,12 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            int diaHoraDisp = getDay(this.objeExceHoraDisp.getCodiHoraDisp().getDiaHoraDisp());
-            int diaExceHoraDisp = this.objeExceHoraDisp.getFechExceHoraDisp().getDay();
-            if(diaHoraDisp == diaExceHoraDisp){
-                this.listExceHoraDisp.remove(this.objeExceHoraDisp); //Limpia el objeto viejo
-                FCDEExceHoraDisp.edit(this.objeExceHoraDisp);
-                this.listExceHoraDisp.add(this.objeExceHoraDisp); //Agrega el objeto modificado
-                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-                this.limpForm(); 
-            }else{
-                ctx.execute("setMessage('MESS_INFO', 'Atención', 'La excepción seleccionada "
-                        + "no coincide con la fecha ingresada'); INIT_OBJE_MODA();");
+            if(validar()){
+              this.listExceHoraDisp.remove(this.objeExceHoraDisp); //Limpia el objeto viejo
+              FCDEExceHoraDisp.edit(this.objeExceHoraDisp);
+              this.listExceHoraDisp.add(this.objeExceHoraDisp); //Agrega el objeto modificado
+              ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+              this.limpForm(); 
             }
         }
         catch(Exception ex)
