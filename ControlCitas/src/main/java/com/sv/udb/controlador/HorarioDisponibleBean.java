@@ -8,6 +8,8 @@ package com.sv.udb.controlador;
 import com.sv.udb.ejb.HorariodisponibleFacadeLocal;
 import com.sv.udb.modelo.Horariodisponible;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -100,11 +102,13 @@ public class HorarioDisponibleBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            this.objeHoraDisp.setCodiUsua(this.codiUsua);
-            FCDEHoraDisp.create(this.objeHoraDisp);
-            this.listHoraDisp.add(this.objeHoraDisp);
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
-            this.limpForm();
+            if(validar()){
+                this.objeHoraDisp.setCodiUsua(this.codiUsua);
+                FCDEHoraDisp.create(this.objeHoraDisp);
+                this.listHoraDisp.add(this.objeHoraDisp);
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
+                this.limpForm();
+            }
         }
         catch(Exception ex)
         {
@@ -117,12 +121,14 @@ public class HorarioDisponibleBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            this.objeHoraDisp.setCodiUsua(this.codiUsua);
-            this.listHoraDisp.remove(this.objeHoraDisp); //Limpia el objeto viejo
-            FCDEHoraDisp.edit(this.objeHoraDisp);
-            this.listHoraDisp.add(this.objeHoraDisp); //Agrega el objeto modificado
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-            this.limpForm();
+            if(validar()){
+                this.objeHoraDisp.setCodiUsua(this.codiUsua);
+                this.listHoraDisp.remove(this.objeHoraDisp); //Limpia el objeto viejo
+                FCDEHoraDisp.edit(this.objeHoraDisp);
+                this.listHoraDisp.add(this.objeHoraDisp); //Agrega el objeto modificado
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+                this.limpForm();
+            }
         }
         catch(Exception ex)
         {
@@ -144,5 +150,27 @@ public class HorarioDisponibleBean implements Serializable{
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
+    }
+    private boolean validar(){
+        boolean val = false;
+        RequestContext ctx = RequestContext.getCurrentInstance();
+        DateFormat formatter = new SimpleDateFormat("hh:mm a");
+        try
+        {
+          
+            if(formatter.parse(this.objeHoraDisp.getHoraFinaHoraDisp()).after(formatter.parse(this.objeHoraDisp.getHoraInicHoraDisp()))){
+                val = true;
+            }
+            else
+            {
+                ctx.execute("setMessage('MESS_INFO', 'Atención', 'La hora Final no puede ser antes de la Inicial'); INIT_OBJE_MODA();");
+            }
+        }
+        catch(Exception err)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Horas no válidas')");
+            return false;
+        }
+        return val;
     }
 }
