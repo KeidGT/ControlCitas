@@ -95,16 +95,29 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
             
         }
     }
-    
+    private int getDay(String dia){
+        int ndia = 0;
+        String dias[] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes"};
+        for(int i = 0; i < dias.length; i++){
+            if(dia.equals(dias[i])){ndia = i+1; break;}
+        }
+        return ndia;
+    }
     public void guar()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
-        {
-            FCDEExceHoraDisp.create(this.objeExceHoraDisp);
-            this.listExceHoraDisp.add(this.objeExceHoraDisp);
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
-            this.limpForm();
+        {   int diaHoraDisp = getDay(this.objeExceHoraDisp.getCodiHoraDisp().getDiaHoraDisp());
+            int diaExceHoraDisp = this.objeExceHoraDisp.getFechExceHoraDisp().getDay();
+            if(diaHoraDisp == diaExceHoraDisp){
+              FCDEExceHoraDisp.create(this.objeExceHoraDisp);
+              this.listExceHoraDisp.add(this.objeExceHoraDisp);
+              ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
+              this.limpForm();  
+            }else{
+                ctx.execute("setMessage('MESS_INFO', 'Atención', 'La excepción seleccionada "
+                        + "no coincide con la fecha ingresada'); INIT_OBJE_MODA();");
+            }
         }
         catch(Exception ex)
         {
@@ -117,11 +130,18 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            this.listExceHoraDisp.remove(this.objeExceHoraDisp); //Limpia el objeto viejo
-            FCDEExceHoraDisp.edit(this.objeExceHoraDisp);
-            this.listExceHoraDisp.add(this.objeExceHoraDisp); //Agrega el objeto modificado
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-            this.limpForm();
+            int diaHoraDisp = getDay(this.objeExceHoraDisp.getCodiHoraDisp().getDiaHoraDisp());
+            int diaExceHoraDisp = this.objeExceHoraDisp.getFechExceHoraDisp().getDay();
+            if(diaHoraDisp == diaExceHoraDisp){
+                this.listExceHoraDisp.remove(this.objeExceHoraDisp); //Limpia el objeto viejo
+                FCDEExceHoraDisp.edit(this.objeExceHoraDisp);
+                this.listExceHoraDisp.add(this.objeExceHoraDisp); //Agrega el objeto modificado
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+                this.limpForm(); 
+            }else{
+                ctx.execute("setMessage('MESS_INFO', 'Atención', 'La excepción seleccionada "
+                        + "no coincide con la fecha ingresada'); INIT_OBJE_MODA();");
+            }
         }
         catch(Exception ex)
         {
