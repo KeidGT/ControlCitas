@@ -25,6 +25,9 @@ and open the template in the editor.
         <h:outputStylesheet library="css" name="datepicker3.css"/>
         <h:outputScript library="js" name="bootstrap-datepicker.js"/>
         <h:outputScript library="js" name="bootstrap-datepicker.es.js"/>
+         <!--Plugins Selector de Hora-->
+        <h:outputStylesheet library="css" name="bootstrap-timepicker.min.css"/>
+        <h:outputScript library="js" name="bootstrap-timepicker.js"/>
         <!--Plugins Select-->
         <h:outputStylesheet library="css" name="bootstrap-select.css"/>
         <h:outputScript library="js" name="bootstrap-select.js"/>
@@ -121,12 +124,12 @@ and open the template in the editor.
                                         </div>
                                         <div class="input-group col-xs-12">
                                             <h:outputLabel  for="horaInicHoraDisp" value="Hora Inicio: "/>
-                                            <p:inputMask id="horaInicHoraDisp" value="#{horarioDisponibleBean.objeHoraDisp.horaInicHoraDisp}" mask="99:99"/>
+                                            <h:inputText id="horaInicHoraDisp" value="#{horarioDisponibleBean.objeHoraDisp.horaInicHoraDisp}" class="form-control timepicker"/>
                                             <h:message for="horaInicHoraDisp" errorClass="field-error" />
                                         </div>
                                         <div class="input-group col-xs-12">
                                             <h:outputLabel  for="horaFinaHoraDisp" value="Hora Fin: "/>
-                                            <p:inputMask id="horaFinaHoraDisp" value="#{horarioDisponibleBean.objeHoraDisp.horaFinaHoraDisp}" mask="99:99"/>
+                                            <h:inputText id="horaFinaHoraDisp" value="#{horarioDisponibleBean.objeHoraDisp.horaFinaHoraDisp}" class="form-control timepicker"/>
                                             <h:message for="horaFinaHoraDisp" errorClass="field-error" />	
                                         </div>
                                         <div class="input-group col-xs-12">
