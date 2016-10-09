@@ -70,7 +70,11 @@ and open the template in the editor.
                                    <f:facet name="header">DUI</f:facet>
                                    <h:outputText value="#{fila.duiVisi}"/>   
                                </h:column>
-                               <h:column pt:data-sortable="true">
+                               <h:column pt:data-sortable="true" pt:data-field="tele">
+                                   <f:facet name="header">Teléfono</f:facet>
+                                   <h:outputText value="#{fila.teleVisi}"/>
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="mail">
                                    <f:facet name="header">Email</f:facet>
                                    <h:outputText value="#{fila.corrVisi}"/>
                                </h:column>
