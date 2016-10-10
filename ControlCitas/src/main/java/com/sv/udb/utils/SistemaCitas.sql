@@ -28,8 +28,8 @@ CREATE TABLE Evento(
 codi_event INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- Identificador, codigo de registro
 codi_luga INT NOT NULL,
 nomb_even VARCHAR(50) NOT NULL,
-fecha_inic_even DATE NOT NULL,
-fechas_fina_even DATE NOT NULL,
+fech_inic_even DATE NOT NULL,
+fech_fina_even DATE NOT NULL,
 hora_inic_even VARCHAR(8) NOT NULL,
 hora_fina_even VARCHAR(8) NOT NULL
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

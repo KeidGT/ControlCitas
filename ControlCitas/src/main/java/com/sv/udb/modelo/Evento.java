@@ -34,8 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Evento.findByCodiEvent", query = "SELECT e FROM Evento e WHERE e.codiEvent = :codiEvent"),
     @NamedQuery(name = "Evento.findByCodiLuga", query = "SELECT e FROM Evento e WHERE e.codiLuga = :codiLuga"),
     @NamedQuery(name = "Evento.findByNombEven", query = "SELECT e FROM Evento e WHERE e.nombEven = :nombEven"),
-    @NamedQuery(name = "Evento.findByFechaInicEven", query = "SELECT e FROM Evento e WHERE e.fechaInicEven = :fechaInicEven"),
-    @NamedQuery(name = "Evento.findByFechaFinaEven", query = "SELECT e FROM Evento e WHERE e.fechaFinaEven = :fechaFinaEven"),
+    @NamedQuery(name = "Evento.findByFechInicEven", query = "SELECT e FROM Evento e WHERE e.fechInicEven = :fechInicEven"),
+    @NamedQuery(name = "Evento.findByFechFinaEven", query = "SELECT e FROM Evento e WHERE e.fechFinaEven = :fechFinaEven"),
     @NamedQuery(name = "Evento.findByHoraInicEven", query = "SELECT e FROM Evento e WHERE e.horaInicEven = :horaInicEven"),
     @NamedQuery(name = "Evento.findByHoraFinaEven", query = "SELECT e FROM Evento e WHERE e.horaFinaEven = :horaFinaEven")})
 public class Evento implements Serializable {
@@ -57,14 +57,14 @@ public class Evento implements Serializable {
     private String nombEven;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "fecha_inic_even")
+    @Column(name = "fech_inic_even")
     @Temporal(TemporalType.DATE)
-    private Date fechaInicEven;
+    private Date fechInicEven;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "fecha_fina_even")
+    @Column(name = "fech_fina_even")
     @Temporal(TemporalType.DATE)
-    private Date fechaFinaEven;
+    private Date fechFinaEven;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 8)
@@ -83,12 +83,12 @@ public class Evento implements Serializable {
         this.codiEvent = codiEvent;
     }
 
-    public Evento(Integer codiEvent, int codiLuga, String nombEven, Date fechaInicEven, Date fechaFinaEven, String horaInicEven, String horaFinaEven) {
+    public Evento(Integer codiEvent, int codiLuga, String nombEven, Date fechInicEven, Date fechFinaEven, String horaInicEven, String horaFinaEven) {
         this.codiEvent = codiEvent;
         this.codiLuga = codiLuga;
         this.nombEven = nombEven;
-        this.fechaInicEven = fechaInicEven;
-        this.fechaFinaEven = fechaFinaEven;
+        this.fechInicEven = fechInicEven;
+        this.fechFinaEven = fechFinaEven;
         this.horaInicEven = horaInicEven;
         this.horaFinaEven = horaFinaEven;
     }
@@ -117,20 +117,20 @@ public class Evento implements Serializable {
         this.nombEven = nombEven;
     }
 
-    public Date getFechaInicEven() {
-        return fechaInicEven;
+    public Date getFechInicEven() {
+        return fechInicEven;
     }
 
-    public void setFechaInicEven(Date fechaInicEven) {
-        this.fechaInicEven = fechaInicEven;
+    public void setFechInicEven(Date fechInicEven) {
+        this.fechInicEven = fechInicEven;
     }
 
-    public Date getFechaFinaEven() {
-        return fechaFinaEven;
+    public Date getFechFinaEven() {
+        return fechFinaEven;
     }
 
-    public void setFechaFinaEven(Date fechaFinaEven) {
-        this.fechaFinaEven = fechaFinaEven;
+    public void setFechFinaEven(Date fechFinaEven) {
+        this.fechFinaEven = fechFinaEven;
     }
 
     public String getHoraInicEven() {

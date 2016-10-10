@@ -78,13 +78,13 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="dui">
                                    <f:facet name="header">Inicia</f:facet>
-                                   <h:outputText value="#{fila.fechaInicEven}">
+                                   <h:outputText value="#{fila.fechInicEven}">
                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-6"/>
                                    </h:outputText>   
                                </h:column>
                                <h:column pt:data-sortable="true">
                                   <f:facet name="header">Termina</f:facet>
-                                  <h:outputText value="#{fila.fechaFinaEven}">
+                                  <h:outputText value="#{fila.fechFinaEven}">
                                       <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-6"/>
                                   </h:outputText> 
                                </h:column>
@@ -130,14 +130,14 @@ and open the template in the editor.
 			                            </div>
 			                            <div class="input-group col-xs-12">
 			                                <h:outputLabel  for="fechInic" value="Fecha Inicio: "/>
-			                                <h:inputText id="fechInic" value="#{eventosBean.objeEven.fechaInicEven}" class="form-control datepicker">
+			                                <h:inputText id="fechInic" value="#{eventosBean.objeEven.fechInicEven}" class="form-control datepicker">
                                                             <f:convertDateTime pattern="dd/MM/yyyy" />
                                                         </h:inputText>       
 			                                <h:message for="fechInic" errorClass="field-error" />
 			                            </div>
 			                            <div class="input-group col-xs-12">
 			                                <h:outputLabel  for="fechFina" value="Fecha Fin: "/>
-                                                        <h:inputText id="fechFina" value="#{eventosBean.objeEven.fechaFinaEven}" class="form-control datepicker">
+                                                        <h:inputText id="fechFina" value="#{eventosBean.objeEven.fechFinaEven}" class="form-control datepicker">
                                                             <f:convertDateTime pattern="dd/MM/yyyy" />
                                                         </h:inputText>
 			                                <h:message for="fechFina" errorClass="field-error" />
