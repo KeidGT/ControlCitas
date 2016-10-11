@@ -31,12 +31,13 @@ public class AlumnovisitanteFacade extends AbstractFacade<Alumnovisitante> imple
     public AlumnovisitanteFacade() {
         super(Alumnovisitante.class);
     }
-    /*
+    
     @Override
-    public List<Alumnovisitante> findByCodiVisi(Object codi) {
-        TypedQuery<Horariodisponible> q = getEntityManager().createNamedQuery("Horariodisponible.findByCodiVisi", Horariodisponible.class);        
-        q.setParameter("codiVisi", codi);
+    public List<Alumnovisitante> findByCodiVisiCarnAlum(Object codiVisi, Object carnAlum) {
+        TypedQuery<Alumnovisitante> q = getEntityManager().createNamedQuery("Horariodisponible.findByCodiVisiCarnAlum", Alumnovisitante.class);        
+        q.setParameter("codiVisi", codiVisi);
+        q.setParameter("carnAlum", carnAlum);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
-    }*/
+    }
 }

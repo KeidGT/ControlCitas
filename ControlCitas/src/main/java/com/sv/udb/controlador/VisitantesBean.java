@@ -37,6 +37,8 @@ public class VisitantesBean implements Serializable{
     private List<Visitante> listVisi;
     private boolean guardar;
     
+    private boolean Disabled;
+    
     //variables para registro de nuevo visitante
     @Inject
     private GlobalAppBean globalAppBean;
@@ -82,6 +84,16 @@ public class VisitantesBean implements Serializable{
     public void setObjeAlumVisi(Alumnovisitante objeAlumVisi) {
         this.objeAlumVisi = objeAlumVisi;
     }
+
+    public boolean isDisabled() {
+        return Disabled;
+    }
+
+    public void setDisabled(boolean Disabled) {
+        this.Disabled = Disabled;
+    }
+
+    
     
     
     
@@ -97,7 +109,8 @@ public class VisitantesBean implements Serializable{
     public void limpForm()
     {
         this.objeVisi = new Visitante();
-        this.guardar = true;        
+        this.guardar = true;
+        this.Disabled = true;        
     }
     
     public void consTodo()
@@ -111,6 +124,37 @@ public class VisitantesBean implements Serializable{
             ex.printStackTrace();
         }
     }
+     public void consPorDui()
+    {
+        RequestContext ctx = RequestContext.getCurrentInstance();
+        try
+        {   
+            List<Visitante> lst = FCDEVisi.findByDuiVisi(this.objeVisi.getDuiVisi());
+            if(lst != null){
+                for(Visitante visi: lst){
+                    if(visi.getDuiVisi().equals(this.objeVisi.getDuiVisi())){
+                        this.objeVisi = visi;
+                        ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante Encontrado!')");
+                        break;
+                    }
+                }
+            }
+            else{
+                    this.Disabled = false;
+                    String dui = this.objeVisi.getDuiVisi();
+                    this.objeVisi = new Visitante();
+                    this.objeVisi.setDuiVisi(dui);
+                    ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante no encontrado, Registrarse por favor!')");
+                }
+            
+            
+        }
+        catch(Exception ex)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Datos No Consultados')");
+            ex.printStackTrace();
+        }
+    }
     
     public void cons()
     {
@@ -120,6 +164,7 @@ public class VisitantesBean implements Serializable{
         {
             this.objeVisi = FCDEVisi.find(codi);
             this.guardar = false;
+            this.Disabled=false;
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
                     String.format("%s %s", this.objeVisi.getNombVisi(), this.objeVisi.getApelVisi()) + "')");
         }

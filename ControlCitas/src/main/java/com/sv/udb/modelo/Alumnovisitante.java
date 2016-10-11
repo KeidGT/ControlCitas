@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Alumnovisitante.findAll", query = "SELECT a FROM Alumnovisitante a"),
     @NamedQuery(name = "Alumnovisitante.findByCodiAlumVisi", query = "SELECT a FROM Alumnovisitante a WHERE a.codiAlumVisi = :codiAlumVisi"),
     @NamedQuery(name = "Alumnovisitante.findByCarnAlum", query = "SELECT a FROM Alumnovisitante a WHERE a.carnAlum = :carnAlum"),
-    @NamedQuery(name = "Alumnovisitante.findByCodiVisi", query = "SELECT a FROM Alumnovisitante a WHERE a.codiVisi = :codiVisi"),
+    @NamedQuery(name = "Alumnovisitante.findByCodiVisiCarnAlum", query = "SELECT a FROM Alumnovisitante a WHERE a.codiVisi = :codiVisi and a.carnAlum = :carnAlum"),
     @NamedQuery(name = "Alumnovisitante.findByPareAlumVisi", query = "SELECT a FROM Alumnovisitante a WHERE a.pareAlumVisi = :pareAlumVisi"),
     @NamedQuery(name = "Alumnovisitante.findByEspeAlumVisi", query = "SELECT a FROM Alumnovisitante a WHERE a.espeAlumVisi = :espeAlumVisi"),
     @NamedQuery(name = "Alumnovisitante.findByEstaAlumVisi", query = "SELECT a FROM Alumnovisitante a WHERE a.estaAlumVisi = :estaAlumVisi")})
