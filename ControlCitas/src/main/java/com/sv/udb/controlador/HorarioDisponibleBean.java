@@ -35,8 +35,17 @@ public class HorarioDisponibleBean implements Serializable{
     private HorariodisponibleFacadeLocal FCDEHoraDisp;    
     private Horariodisponible objeHoraDisp;
     private List<Horariodisponible> listHoraDisp;
+    private List<Horariodisponible> listHoraDispTodo;
     private boolean guardar;
-    
+
+    public List<Horariodisponible> getListHoraDispTodo() {
+        return listHoraDispTodo;
+    }
+
+    public void setListHoraDispTodo(List<Horariodisponible> listHoraDispTodo) {
+        this.listHoraDispTodo = listHoraDispTodo;
+    }
+
     public Horariodisponible getObjeHoraDisp() {
         return objeHoraDisp;
     }
@@ -57,6 +66,7 @@ public class HorarioDisponibleBean implements Serializable{
     public void init()
     {
         this.limpForm();
+        this.consPorUsua();
         this.consTodo();
     }
     
@@ -67,11 +77,23 @@ public class HorarioDisponibleBean implements Serializable{
         consTodo();
     }
     
-    public void consTodo()
+    public void consPorUsua()
     {
         try
         {
             this.listHoraDisp = FCDEHoraDisp.findByCodiUsua(LoginBean.getCodiUsuaSesion());
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void consTodo()
+    {
+        try
+        {
+            this.listHoraDispTodo = FCDEHoraDisp.findAll();
         }
         catch(Exception ex)
         {

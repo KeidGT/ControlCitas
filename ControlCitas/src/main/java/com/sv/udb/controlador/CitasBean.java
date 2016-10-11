@@ -6,7 +6,9 @@
 package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.CitaFacadeLocal;
+import com.sv.udb.ejb.HorariodisponibleFacadeLocal;
 import com.sv.udb.modelo.Cita;
+import com.sv.udb.modelo.Horariodisponible;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -28,13 +30,33 @@ public class CitasBean implements Serializable{
     public CitasBean() {
         
     }
-     
+    @EJB
+    private HorariodisponibleFacadeLocal FCDEHoraDisp;
     @EJB
     private CitaFacadeLocal FCDECita;    
     private Cita objeCita;
     private List<Cita> listCita;
     private boolean guardar;
+    private Horariodisponible HorarioSeleccionado;
+    private List<Horariodisponible> listHoraDisp;
+
+    public List<Horariodisponible> getListHoraDisp() {
+        return listHoraDisp;
+    }
+
+    public void setListHoraDisp(List<Horariodisponible> listHoraDisp) {
+        this.listHoraDisp = listHoraDisp;
+    }
     
+    public Horariodisponible getHorarioSeleccionado() {
+        return HorarioSeleccionado;
+    }
+
+    public void setHorarioSeleccionado(Horariodisponible HorarioSeleccionado) {
+        this.HorarioSeleccionado = HorarioSeleccionado;
+    }
+    
+        
     public Cita getObjeCita() {
         return objeCita;
     }
@@ -56,12 +78,25 @@ public class CitasBean implements Serializable{
     {
         this.limpForm();
         this.consTodo();
+        this.consHorarios();
     }
     
     public void limpForm()
     {
         this.objeCita = new Cita();
         this.guardar = true;        
+    }
+    
+    public void consHorarios()
+    {
+        try
+        {
+            this.listHoraDisp = FCDEHoraDisp.findByCodiUsua(this.objeCita.getCodiUsua());
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
     
     public void consTodo()
