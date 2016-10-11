@@ -5,11 +5,15 @@
  */
 package com.sv.udb.controlador;
 
+import com.sv.udb.ejb.AlumnovisitanteFacadeLocal;
 import com.sv.udb.ejb.CitaFacadeLocal;
 import com.sv.udb.ejb.HorariodisponibleFacadeLocal;
+import com.sv.udb.modelo.Alumnovisitante;
 import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Horariodisponible;
+import com.sv.udb.modelo.Visitante;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -31,6 +35,8 @@ public class CitasBean implements Serializable{
         
     }
     @EJB
+    private AlumnovisitanteFacadeLocal FCDEAlumVisi; 
+    @EJB
     private HorariodisponibleFacadeLocal FCDEHoraDisp;
     @EJB
     private CitaFacadeLocal FCDECita;    
@@ -39,6 +45,36 @@ public class CitasBean implements Serializable{
     private boolean guardar;
     private Horariodisponible HorarioSeleccionado;
     private List<Horariodisponible> listHoraDisp;
+    private Visitante visitanteSeleccionado;
+    private String motivo;
+    private Date fechaSolicitud;
+
+    public Date getFechaSolicitud() {
+        return fechaSolicitud;
+    }
+
+    public void setFechaSolicitud(Date fechaSolicitud) {
+        this.fechaSolicitud = fechaSolicitud;
+    }
+    
+    
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+            
+    public Visitante getVisitanteSeleccionado() {
+        return visitanteSeleccionado;
+    }
+
+    public void setVisitanteSeleccionado(Visitante visitanteSeleccionado) {
+        this.visitanteSeleccionado = visitanteSeleccionado;
+    }
+    
+    
 
     public List<Horariodisponible> getListHoraDisp() {
         return listHoraDisp;
@@ -81,11 +117,13 @@ public class CitasBean implements Serializable{
         this.consHorarios();
     }
     
+    
     public void limpForm()
     {
         this.objeCita = new Cita();
         this.guardar = true;        
     }
+    
     
     public void consHorarios()
     {
@@ -126,15 +164,16 @@ public class CitasBean implements Serializable{
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
-        finally
-        {
-            
-        }
     }
     
     public void guar()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        if(valiDato())
+        {
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'sHI')");
+        }
+        /*
         try
         {
             FCDECita.create(this.objeCita);
@@ -145,7 +184,7 @@ public class CitasBean implements Serializable{
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar')");
-        }
+        }*/
     }
     
     public void modi()
@@ -180,4 +219,28 @@ public class CitasBean implements Serializable{
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
     }
+    
+    private int getDay(String dia){
+        int ndia = 0;
+        String dias[] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes"};
+        for(int i = 0; i < dias.length; i++){
+            if(dia.equals(dias[i])){ndia = i+1; break;}
+        }
+        return ndia;
+    }
+    
+    private boolean valiDato(){
+        boolean val = false;
+        RequestContext ctx = RequestContext.getCurrentInstance();
+            int diaHoraDisp = getDay(this.HorarioSeleccionado.getDiaHoraDisp());
+            int diaExceHoraDisp = this.fechaSolicitud.getDay();
+            if(diaHoraDisp == diaExceHoraDisp){
+                
+                val = true;
+            }else{
+                ctx.execute("setMessage('MESS_INFO', 'Atención', 'Fecha Inválida para el Horario Seleccionado');");
+            }
+        return val;
+    }
+    
 }
