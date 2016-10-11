@@ -6,13 +6,17 @@
 package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.AlumnovisitanteFacadeLocal;
+import com.sv.udb.ejb.CambiocitaFacadeLocal;
 import com.sv.udb.ejb.CitaFacadeLocal;
 import com.sv.udb.ejb.HorariodisponibleFacadeLocal;
 import com.sv.udb.modelo.Alumnovisitante;
+import com.sv.udb.modelo.Cambiocita;
 import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Horariodisponible;
 import com.sv.udb.modelo.Visitante;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -34,6 +38,8 @@ public class CitasBean implements Serializable{
     public CitasBean() {
         
     }
+    @EJB
+    private CambiocitaFacadeLocal FCDECambCita;
     @EJB
     private AlumnovisitanteFacadeLocal FCDEAlumVisi; 
     @EJB
@@ -171,20 +177,26 @@ public class CitasBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         if(valiDato())
         {
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'sHI')");
-        }
-        /*
-        try
-        {
-            FCDECita.create(this.objeCita);
+            this.objeCita.setTipoCita(1);
+            this.objeCita.setTipoVisi(2);
+            this.objeCita.setTipoDura(2);
+            this.objeCita.setEstaCita(1);
+            FCDECita.create(this.objeCita);            
             this.listCita.add(this.objeCita);
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
+            Cambiocita objeCambCita = new Cambiocita();
+            objeCambCita.setCodiCita(this.objeCita);
+            objeCambCita.setFechCambCita(new Date());
+            objeCambCita.setFechInicCitaNuev(fechaSolicitud);
+            DateFormat df = new SimpleDateFormat("HH:mm:a");
+            objeCambCita.setHoraCambCita(df.format(new Date()));
+            objeCambCita.setHoraInicCitaNuev(this.getHorarioSeleccionado().getHoraInicHoraDisp());
+            objeCambCita.setHoraFinCitaNuev(this.getHorarioSeleccionado().getHoraFinaHoraDisp());
+            objeCambCita.setMotiCambCita(this.motivo);
+            objeCambCita.setEstaCambCita(0);
+            FCDECambCita.create(objeCambCita);
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Guardado con éxito')");
             this.limpForm();
         }
-        catch(Exception ex)
-        {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar')");
-        }*/
     }
     
     public void modi()

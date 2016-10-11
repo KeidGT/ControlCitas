@@ -39,9 +39,9 @@ codi_cita INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- Identificador, codigo de r
 codi_lugar INT, -- Dato Tomado Desde Web Service llave foránea
 codi_even INT,
 codi_usua INT, -- Dato Tomado Desde Web Service, llave foránea para el citador
-tipo_cita INT NOT NULL, -- Identificar si es una cita solicitada (pre programada), o normal (no programada)
-tipo_visi INT, -- Identificar si el visutante es particular, representante alumno, o grupo
-tipo_dura INT, -- Identificar si la cita tiene una duración de "x" periodo de tiempo, o solamente un dia
+tipo_cita INT NOT NULL, -- Identificar si es una cita solicitada (pre programada) 1, o normal (no programada) 2
+tipo_visi INT, -- Identificar si el visutante es particular 1, representante alumno 2, o grupo 3
+tipo_dura INT, -- Identificar si la cita tiene una duración de "x" periodo de tiempo 1, o solamente un dia 2
 desc_cita VARCHAR(500), -- Describir motivo de cita
 esta_cita INT NOT NULL,-- Especificar si la cita sigue vigente o se ha dado de baja
 nomb_grup_cita varchar(100),
