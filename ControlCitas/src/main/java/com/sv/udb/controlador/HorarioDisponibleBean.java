@@ -65,14 +65,15 @@ public class HorarioDisponibleBean implements Serializable{
     public void limpForm()
     {
         this.objeHoraDisp = new Horariodisponible();
-        this.guardar = true;        
+        this.guardar = true; 
+        consTodo();
     }
     
     public void consTodo()
     {
         try
         {
-            this.listHoraDisp = FCDEHoraDisp.findByCodiUsua(UsuarioBean.getCodiUsua());
+            this.listHoraDisp = FCDEHoraDisp.findByCodiUsua(LoginBean.getCodiUsuaSesion());
         }
         catch(Exception ex)
         {
@@ -103,9 +104,8 @@ public class HorarioDisponibleBean implements Serializable{
         try
         {
             if(validar()){
-                this.objeHoraDisp.setCodiUsua(UsuarioBean.getCodiUsua());
+                this.objeHoraDisp.setCodiUsua(LoginBean.getCodiUsuaSesion());
                 FCDEHoraDisp.create(this.objeHoraDisp);
-                this.listHoraDisp.add(this.objeHoraDisp);
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
                 this.limpForm();
             }
@@ -126,7 +126,6 @@ public class HorarioDisponibleBean implements Serializable{
                 this.objeHoraDisp.setCodiUsua(this.codiUsua);
                 this.listHoraDisp.remove(this.objeHoraDisp); //Limpia el objeto viejo
                 FCDEHoraDisp.edit(this.objeHoraDisp);
-                this.listHoraDisp.add(this.objeHoraDisp); //Agrega el objeto modificado
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
                 this.limpForm();
             }

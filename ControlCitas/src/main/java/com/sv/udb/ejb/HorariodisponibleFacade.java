@@ -5,7 +5,6 @@
  */
 package com.sv.udb.ejb;
 
-import com.sv.udb.controlador.UsuarioBean;
 import com.sv.udb.modelo.Horariodisponible;
 import java.util.List;
 import javax.ejb.Stateless;
