@@ -36,14 +36,8 @@ public class VisitantesBean implements Serializable{
     private VisitanteFacadeLocal FCDEVisi;    
     private Visitante objeVisi;
     
-    @EJB
-    private AlumnovisitanteFacadeLocal FCDEAlumVisi;    
-    private Alumnovisitante objeAlumVisi;
-    
     private List<Visitante> listVisi;
     private boolean guardar;
-    
-    private boolean Disabled;
     
     //variables para registro de nuevo visitante
     @Inject
@@ -73,23 +67,6 @@ public class VisitantesBean implements Serializable{
         this.alumVisiBean = alumVisiBean;
     }
 
-    public Alumnovisitante getObjeAlumVisi() {
-        return objeAlumVisi;
-    }
-
-    public void setObjeAlumVisi(Alumnovisitante objeAlumVisi) {
-        this.objeAlumVisi = objeAlumVisi;
-    }
-
-    public boolean isDisabled() {
-        return Disabled;
-    }
-
-    public void setDisabled(boolean Disabled) {
-        this.Disabled = Disabled;
-    }
-
-    
     
     
     
@@ -98,14 +75,13 @@ public class VisitantesBean implements Serializable{
     {
         this.limpForm();
         this.alumVisiBean = new AlumnoVisitanteBean();
-        this.objeAlumVisi = new Alumnovisitante();
+        
     }
     
     public void limpForm()
     {
         this.objeVisi = new Visitante();
-        this.guardar = true;
-        this.Disabled = true;        
+        this.guardar = true;       
     }
     
     public void consTodo()
@@ -119,35 +95,7 @@ public class VisitantesBean implements Serializable{
             ex.printStackTrace();
         }
     }
-     public void consPorDui()
-    {
-        RequestContext ctx = RequestContext.getCurrentInstance();
-        try
-        {   
-            Visitante objVis = FCDEVisi.findByDuiVisi(this.objeVisi.getDuiVisi());
-            if(objVis != null){
-                    if(objVis.getDuiVisi().equals(this.objeVisi.getDuiVisi())){
-                        this.objeVisi = objVis;
-                        ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante Encontrado!')");
-                }
-            }
-            else{
-                    this.Disabled = false;
-                    String dui = this.objeVisi.getDuiVisi();
-                    this.objeVisi = new Visitante();
-                    this.objeVisi.setDuiVisi(dui);
-                    ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante no encontrado, Registrarse por favor!')");
-                }
-            
-            
-        }
-        catch(Exception ex)
-        {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Datos No Consultados')");
-            ex.printStackTrace();
-        }
-    }
-    
+     
     public void cons()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -156,7 +104,6 @@ public class VisitantesBean implements Serializable{
         {
             this.objeVisi = FCDEVisi.find(codi);
             this.guardar = false;
-            this.Disabled=false;
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
                     String.format("%s %s", this.objeVisi.getNombVisi(), this.objeVisi.getApelVisi()) + "')");
         }
@@ -217,41 +164,5 @@ public class VisitantesBean implements Serializable{
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
-    }
-    
-    public void regiVisi(){
-        RequestContext ctx = RequestContext.getCurrentInstance();
-        FacesContext facsCtxt = FacesContext.getCurrentInstance();
-        try{
-            if(!Disabled){//si aun no está registrado
-                //Registramos Visitante
-                    this.objeVisi.setTipoVisi(1);
-                    FCDEVisi.create(this.objeVisi);
-                    this.listVisi.add(this.objeVisi);
-            }else{
-                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Información Incorrecta')");
-            }
-        }catch(Exception e){
-                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al intenar registrarse')");
-                System.out.println("ERROR AL REGISTRARSE");
-                e.printStackTrace();
-            }
-        //ahora asignamos el alumno a ese visitante
-            
-        try{
-            objeAlumVisi.setCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
-            objeAlumVisi.setCodiVisi(objeVisi);
-            objeAlumVisi.setEstaAlumVisi(1);
-            alumVisiBean.setObjeAlumVisi(objeAlumVisi);
-            alumVisiBean.guar();
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Registro Realizado')");
-            //redireccionamos
-            //facsCtxt.getExternalContext().redirect(globalAppBean.getUrl("index.xhtml"));
-        }catch(Exception e){
-            System.out.println("ERROR AL ASIGNAR ALUMNO");
-            e.printStackTrace();
-        }
-                        
-        
     }
 }

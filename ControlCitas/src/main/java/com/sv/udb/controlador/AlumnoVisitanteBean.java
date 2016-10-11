@@ -6,7 +6,9 @@
 package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.AlumnovisitanteFacadeLocal;
+import com.sv.udb.ejb.VisitanteFacadeLocal;
 import com.sv.udb.modelo.Alumnovisitante;
+import com.sv.udb.modelo.Visitante;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -32,9 +34,16 @@ public class AlumnoVisitanteBean implements Serializable{
     @EJB
     private AlumnovisitanteFacadeLocal FCDEAlumVisi;    
     private Alumnovisitante objeAlumVisi;
+        
     private List<Alumnovisitante> listAlumVisi;
-    private List<Alumnovisitante> listAlumVisiCarne;
     private boolean guardar;
+    
+    // Variables para registrarse como visitante representante alumno
+    @EJB
+    private VisitanteFacadeLocal FCDEVisi;    
+    private Visitante objeVisi;
+    private boolean Disabled;
+    private List<Alumnovisitante> listAlumVisiCarne;
     
     public Alumnovisitante getObjeAlumVisi() {
         return objeAlumVisi;
@@ -68,6 +77,22 @@ public class AlumnoVisitanteBean implements Serializable{
         this.listAlumVisiCarne = listAlumVisiCarne;
     }
 
+    public Visitante getObjeVisi() {
+        return objeVisi;
+    }
+
+    public void setObjeVisi(Visitante objeVisi) {
+        this.objeVisi = objeVisi;
+    }
+
+    public boolean isDisabled() {
+        return Disabled;
+    }
+
+    public void setDisabled(boolean Disabled) {
+        this.Disabled = Disabled;
+    }
+
     
     
     @PostConstruct
@@ -76,12 +101,14 @@ public class AlumnoVisitanteBean implements Serializable{
         this.limpForm();
         this.consTodo();
         this.consAlumVisi();
+        this.objeAlumVisi = new Alumnovisitante();
     }
     
     public void limpForm()
     {
         this.objeAlumVisi = new Alumnovisitante();
-        this.guardar = true;        
+        this.guardar = true;   
+        this.Disabled = true; 
     }
     
     public void consTodo()
@@ -113,6 +140,7 @@ public class AlumnoVisitanteBean implements Serializable{
         {
             this.objeAlumVisi = FCDEAlumVisi.find(codi);
             this.guardar = false;
+            this.Disabled=false;
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
                     String.format("%s %s", this.objeAlumVisi.getPareAlumVisi(), this.objeAlumVisi.getCarnAlum()) + "')");
             //por alguna razón, al consultar con cambia el select... asi que se hace manualmente....
@@ -127,7 +155,34 @@ public class AlumnoVisitanteBean implements Serializable{
             
         }
     }
-    
+    public void consPorDui()
+     {
+        RequestContext ctx = RequestContext.getCurrentInstance();
+        try
+        {   
+            Visitante objVis = FCDEVisi.findByDuiVisi(this.objeVisi.getDuiVisi());
+            if(objVis != null){
+                    if(objVis.getDuiVisi().equals(this.objeVisi.getDuiVisi())){
+                        this.objeVisi = objVis;
+                        ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante Encontrado!')");
+                }
+            }
+            else{
+                    this.Disabled = false;
+                    String dui = this.objeVisi.getDuiVisi();
+                    this.objeVisi = new Visitante();
+                    this.objeVisi.setDuiVisi(dui);
+                    ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante no encontrado, Registrarse por favor!')");
+                }
+            
+            
+        }
+        catch(Exception ex)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Datos No Consultados')");
+            ex.printStackTrace();
+        }
+    }
     
     public void guar()
     {
@@ -177,5 +232,40 @@ public class AlumnoVisitanteBean implements Serializable{
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
+    }
+    public void regiVisi(){
+        RequestContext ctx = RequestContext.getCurrentInstance();
+        FacesContext facsCtxt = FacesContext.getCurrentInstance();
+        try{
+            if(!Disabled){//si aun no está registrado
+                //Registramos Visitante
+                    this.objeVisi.setTipoVisi(1);
+                    FCDEVisi.create(this.objeVisi);
+                    //this.listAlumVisiCarne.add(this.objeVisi);
+            }else{
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Información Incorrecta')");
+            }
+        }catch(Exception e){
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al intenar registrarse')");
+                System.out.println("ERROR AL REGISTRARSE");
+                e.printStackTrace();
+            }
+        //ahora asignamos el alumno a ese visitante
+            
+        try{
+            objeAlumVisi.setCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
+            objeAlumVisi.setCodiVisi(objeVisi);
+            objeAlumVisi.setEstaAlumVisi(1);
+            //alumVisiBean.setObjeAlumVisi(objeAlumVisi);
+            //alumVisiBean.guar();
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Registro Realizado')");
+            //redireccionamos
+            //facsCtxt.getExternalContext().redirect(globalAppBean.getUrl("index.xhtml"));
+        }catch(Exception e){
+            System.out.println("ERROR AL ASIGNAR ALUMNO");
+            e.printStackTrace();
+        }
+                        
+        
     }
 }
