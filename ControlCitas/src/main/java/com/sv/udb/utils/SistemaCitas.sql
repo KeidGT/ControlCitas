@@ -71,6 +71,7 @@ CREATE TABLE Visitante_cita(
 codi_visi_cita INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- Identificador, codigo de registro
 codi_visi INT NOT NULL, -- Llave foránea para de visitante
 codi_cita INT NOT NULL, -- Llave foránea de cita
+carn_alum VARCHAR(10) NOT NULL,
 FOREIGN KEY (codi_visi) REFERENCES Visitante (codi_visi) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (codi_cita) REFERENCES Cita (codi_cita) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

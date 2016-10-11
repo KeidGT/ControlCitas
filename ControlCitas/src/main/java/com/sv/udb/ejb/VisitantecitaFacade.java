@@ -30,7 +30,6 @@ public class VisitantecitaFacade extends AbstractFacade<Visitantecita> implement
     public VisitantecitaFacade() {
         super(Visitantecita.class);
     }
-    
     @Override
     public List<Visitantecita> findByCodiVisi(Object codi) {
         TypedQuery<Visitantecita> q = getEntityManager().createNamedQuery("Visitantecita.findByCodiVisi", Visitantecita.class);        
@@ -38,5 +37,4 @@ public class VisitantecitaFacade extends AbstractFacade<Visitantecita> implement
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
-    
 }

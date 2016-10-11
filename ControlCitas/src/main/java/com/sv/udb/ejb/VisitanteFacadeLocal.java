@@ -27,9 +27,9 @@ public interface VisitanteFacadeLocal {
     List<Visitante> findAll();
 
     List<Visitante> findRange(int[] range);
-
-    Visitante findByDuiVisi(Object dui);
     
+    Visitante findByDuiVisi(Object dui);
+
     int count();
     
 }

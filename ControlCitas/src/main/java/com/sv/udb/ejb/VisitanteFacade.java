@@ -37,4 +37,5 @@ public class VisitanteFacade extends AbstractFacade<Visitante> implements Visita
         List resu = q.getResultList();
         return resu.isEmpty() ? null : (Visitante)resu.get(0);
     }
+    
 }
