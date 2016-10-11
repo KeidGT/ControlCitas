@@ -55,7 +55,7 @@ public class CitasBean implements Serializable{
     private boolean guardar;
     private Horariodisponible HorarioSeleccionado;
     private List<Horariodisponible> listHoraDisp;
-    private Visitante visitanteSeleccionado;
+    private Alumnovisitante alumVisiSelec;
     private String motivo;
     private Date fechaSolicitud;
 
@@ -75,14 +75,16 @@ public class CitasBean implements Serializable{
     public void setMotivo(String motivo) {
         this.motivo = motivo;
     }
-            
-    public Visitante getVisitanteSeleccionado() {
-        return visitanteSeleccionado;
+
+    public Alumnovisitante getAlumVisiSelec() {
+        return alumVisiSelec;
     }
 
-    public void setVisitanteSeleccionado(Visitante visitanteSeleccionado) {
-        this.visitanteSeleccionado = visitanteSeleccionado;
+    public void setAlumVisiSelec(Alumnovisitante alumVisiSelec) {
+        this.alumVisiSelec = alumVisiSelec;
     }
+            
+    
     
     public List<Horariodisponible> getListHoraDisp() {
         return listHoraDisp;
@@ -199,7 +201,8 @@ public class CitasBean implements Serializable{
             FCDECambCita.create(objeCambCita);
             Visitantecita objeVisiCita = new Visitantecita();
             objeVisiCita.setCodiCita(this.objeCita);
-            objeVisiCita.setCodiVisi(visitanteSeleccionado);
+            objeVisiCita.setCodiVisi(alumVisiSelec.getCodiVisi());
+            objeVisiCita.setCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
             FCDEVisiCita.create(objeVisiCita);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Guardado con éxito')");
             this.limpForm();

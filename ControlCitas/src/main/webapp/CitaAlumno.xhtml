@@ -133,9 +133,9 @@ and open the template in the editor.
                                         
                                         <div class="input-group col-xs-12">
                                             <h:outputLabel  for="visi" value="Visitante "/>
-                                            <h:selectOneMenu id="visi" value="#{citasBean.visitanteSeleccionado}" class="form-control select" pt:data-live-search="true">
+                                            <h:selectOneMenu id="visi" value="#{citasBean.alumVisiSelec}" class="form-control select" pt:data-live-search="true">
                                                 <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItems value="#{visitantesBean.listVisi}" var="lstVisi" itemLabel="#{lstVisi.nombVisi} #{lstVisi.apelVisi}" itemValue="#{lstVisi}"/>
+                                                <f:selectItems value="#{alumnoVisitanteBean.listAlumVisiCarne}" var="lstVisi" itemLabel="#{lstVisi.codiVisi.nombVisi} #{lstVisi.codiVisi.apelVisi}" itemValue="#{lstVisi}"/>
                                                 <f:converter converterId="PooConv"/>
                                             </h:selectOneMenu>
                                             <h:message for="usua" errorClass="field-error" />                                            

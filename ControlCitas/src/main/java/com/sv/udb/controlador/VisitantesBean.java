@@ -46,6 +46,7 @@ public class VisitantesBean implements Serializable{
     public Visitante getObjeVisi() {
         return objeVisi;
     }
+    
 
     public void setObjeVisi(Visitante objeVisi) {
         this.objeVisi = objeVisi;
@@ -81,8 +82,10 @@ public class VisitantesBean implements Serializable{
     public void limpForm()
     {
         this.objeVisi = new Visitante();
-        this.guardar = true;       
+        this.guardar = true;   
+        consTodo();
     }
+    
     
     public void consTodo()
     {
