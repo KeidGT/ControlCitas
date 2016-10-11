@@ -29,6 +29,9 @@ public interface AlumnovisitanteFacadeLocal {
     List<Alumnovisitante> findRange(int[] range);
 
     List<Alumnovisitante> findByCodiVisiCarnAlum(Object codiVisi, Object carnAlum);
+    
+    List<Alumnovisitante> findByCarnAlum(Object carnAlum);
+    
     int count();
     
 }

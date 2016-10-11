@@ -31,10 +31,10 @@ public class VisitanteFacade extends AbstractFacade<Visitante> implements Visita
         super(Visitante.class);
     }
     @Override
-    public List<Visitante> findByDuiVisi(Object dui) {
+    public Visitante findByDuiVisi(Object dui) {
         TypedQuery<Visitante> q = getEntityManager().createNamedQuery("Visitante.findByDuiVisi", Visitante.class);        
         q.setParameter("duiVisi", dui);
         List resu = q.getResultList();
-        return resu.isEmpty() ? null : resu;
+        return resu.isEmpty() ? null : (Visitante)resu.get(0);
     }
 }

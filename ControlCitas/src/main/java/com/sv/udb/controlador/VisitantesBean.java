@@ -5,6 +5,7 @@
  */
 package com.sv.udb.controlador;
 
+import com.sv.udb.ejb.AlumnovisitanteFacadeLocal;
 import com.sv.udb.ejb.VisitanteFacadeLocal;
 import com.sv.udb.modelo.Alumnovisitante;
 import com.sv.udb.modelo.Visitante;
@@ -34,6 +35,11 @@ public class VisitantesBean implements Serializable{
     @EJB
     private VisitanteFacadeLocal FCDEVisi;    
     private Visitante objeVisi;
+    
+    @EJB
+    private AlumnovisitanteFacadeLocal FCDEAlumVisi;    
+    private Alumnovisitante objeAlumVisi;
+    
     private List<Visitante> listVisi;
     private boolean guardar;
     
@@ -42,9 +48,7 @@ public class VisitantesBean implements Serializable{
     //variables para registro de nuevo visitante
     @Inject
     private GlobalAppBean globalAppBean;
-    private String carnAlum;
     private AlumnoVisitanteBean alumVisiBean;
-    private Alumnovisitante objeAlumVisi;
     public Visitante getObjeVisi() {
         return objeVisi;
     }
@@ -59,14 +63,6 @@ public class VisitantesBean implements Serializable{
 
     public boolean isGuardar() {
         return guardar;
-    }
-
-    public String getCarnAlum() {
-        return carnAlum;
-    }
-
-    public void setCarnAlum(String carnAlum) {
-        this.carnAlum = carnAlum;
     }
 
     public AlumnoVisitanteBean getAlumVisiBean() {
@@ -101,7 +97,6 @@ public class VisitantesBean implements Serializable{
     public void init()
     {
         this.limpForm();
-        this.consTodo();
         this.alumVisiBean = new AlumnoVisitanteBean();
         this.objeAlumVisi = new Alumnovisitante();
     }
@@ -129,14 +124,11 @@ public class VisitantesBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance();
         try
         {   
-            List<Visitante> lst = FCDEVisi.findByDuiVisi(this.objeVisi.getDuiVisi());
-            if(lst != null){
-                for(Visitante visi: lst){
-                    if(visi.getDuiVisi().equals(this.objeVisi.getDuiVisi())){
-                        this.objeVisi = visi;
+            Visitante objVis = FCDEVisi.findByDuiVisi(this.objeVisi.getDuiVisi());
+            if(objVis != null){
+                    if(objVis.getDuiVisi().equals(this.objeVisi.getDuiVisi())){
+                        this.objeVisi = objVis;
                         ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante Encontrado!')");
-                        break;
-                    }
                 }
             }
             else{
@@ -231,9 +223,9 @@ public class VisitantesBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance();
         FacesContext facsCtxt = FacesContext.getCurrentInstance();
         try{
-            if(true){//aqui deveriamos comparar los datos ingresados, con los que existen en el web service
+            if(!Disabled){//si aun no está registrado
                 //Registramos Visitante
-                    this.objeVisi.setTipoVisi(2);
+                    this.objeVisi.setTipoVisi(1);
                     FCDEVisi.create(this.objeVisi);
                     this.listVisi.add(this.objeVisi);
             }else{
@@ -244,25 +236,22 @@ public class VisitantesBean implements Serializable{
                 System.out.println("ERROR AL REGISTRARSE");
                 e.printStackTrace();
             }
-        finally
-        {
-            /*
-            try{
-                //asignamos alumno que se ingresó, al visitante
-                objeAlumVisi.setCarnAlum(carnAlum);
-                objeVisi.setCodiVisi(1);
-                objeAlumVisi.setCodiVisi(objeVisi);
-                objeAlumVisi.setEstaAlumVisi(1);
-                alumVisiBean.setObjeAlumVisi(objeAlumVisi);
-                alumVisiBean.guar();
-                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Registro Realizado')");
-                //redireccionamos
-                //facsCtxt.getExternalContext().redirect(globalAppBean.getUrl("index.xhtml"));
-            }catch(Exception e){
-                System.out.println("ERROR AL ASIGNAR ALUMNO");
-                e.printStackTrace();
-            }
-            */            
+        //ahora asignamos el alumno a ese visitante
+            
+        try{
+            objeAlumVisi.setCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
+            objeAlumVisi.setCodiVisi(objeVisi);
+            objeAlumVisi.setEstaAlumVisi(1);
+            alumVisiBean.setObjeAlumVisi(objeAlumVisi);
+            alumVisiBean.guar();
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Registro Realizado')");
+            //redireccionamos
+            //facsCtxt.getExternalContext().redirect(globalAppBean.getUrl("index.xhtml"));
+        }catch(Exception e){
+            System.out.println("ERROR AL ASIGNAR ALUMNO");
+            e.printStackTrace();
         }
+                        
+        
     }
 }

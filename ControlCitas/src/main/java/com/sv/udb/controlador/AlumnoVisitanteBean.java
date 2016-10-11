@@ -33,6 +33,7 @@ public class AlumnoVisitanteBean implements Serializable{
     private AlumnovisitanteFacadeLocal FCDEAlumVisi;    
     private Alumnovisitante objeAlumVisi;
     private List<Alumnovisitante> listAlumVisi;
+    private List<Alumnovisitante> listAlumVisiCarne;
     private boolean guardar;
     
     public Alumnovisitante getObjeAlumVisi() {
@@ -59,6 +60,14 @@ public class AlumnoVisitanteBean implements Serializable{
         this.FCDEAlumVisi = FCDEAlumVisi;
     }
 
+    public List<Alumnovisitante> getListAlumVisiCarne() {
+        return listAlumVisiCarne;
+    }
+
+    public void setListAlumVisiCarne(List<Alumnovisitante> listAlumVisiCarne) {
+        this.listAlumVisiCarne = listAlumVisiCarne;
+    }
+
     
     
     @PostConstruct
@@ -66,6 +75,7 @@ public class AlumnoVisitanteBean implements Serializable{
     {
         this.limpForm();
         this.consTodo();
+        this.consAlumVisi();
     }
     
     public void limpForm()
@@ -85,7 +95,16 @@ public class AlumnoVisitanteBean implements Serializable{
             ex.printStackTrace();
         }
     }
-    
+    public void consAlumVisi(){
+         try
+        {
+            this.listAlumVisiCarne = FCDEAlumVisi.findByCarnAlum(LoginBean.getCodiUsuaSesion());
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+     }
     public void cons()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -108,6 +127,7 @@ public class AlumnoVisitanteBean implements Serializable{
             
         }
     }
+    
     
     public void guar()
     {
