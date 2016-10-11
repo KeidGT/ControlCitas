@@ -6,9 +6,11 @@
 package com.sv.udb.ejb;
 
 import com.sv.udb.modelo.Visitantecita;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -27,6 +29,14 @@ public class VisitantecitaFacade extends AbstractFacade<Visitantecita> implement
 
     public VisitantecitaFacade() {
         super(Visitantecita.class);
+    }
+    
+    @Override
+    public List<Visitantecita> findByCodiVisi(Object codi) {
+        TypedQuery<Visitantecita> q = getEntityManager().createNamedQuery("Visitantecita.findByCodiVisi", Visitantecita.class);        
+        q.setParameter("codiUsua", codi);
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : resu;
     }
     
 }

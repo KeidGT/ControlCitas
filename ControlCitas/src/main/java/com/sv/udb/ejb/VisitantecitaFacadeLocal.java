@@ -27,6 +27,8 @@ public interface VisitantecitaFacadeLocal {
     List<Visitantecita> findAll();
 
     List<Visitantecita> findRange(int[] range);
+    
+    List<Visitantecita> findByCodiVisi(Object codi);
 
     int count();
     

@@ -6,6 +6,7 @@
 package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.VisitantecitaFacadeLocal;
+import com.sv.udb.modelo.Visitante;
 import com.sv.udb.modelo.Visitantecita;
 import java.io.Serializable;
 import java.util.List;
@@ -34,6 +35,26 @@ public class VisitanteCitaBean implements Serializable{
     private Visitantecita objeVisiCita;
     private List<Visitantecita> listVisiCita;
     private boolean guardar;
+    private Visitante objeVisi;
+    private List<Visitantecita> listVisiCitaVisi;
+
+    public Visitantecita getObjeVisiCita() {
+        return objeVisiCita;
+    }
+
+    public void setObjeVisiCita(Visitantecita objeVisiCita) {
+        this.objeVisiCita = objeVisiCita;
+    }
+
+    public Visitante getObjeVisi() {
+        return objeVisi;
+    }
+
+    public void setObjeVisi(Visitante objeVisi) {
+        this.objeVisi = objeVisi;
+    }
+    
+    
     
     public Visitantecita getobjeVisiCita() {
         return objeVisiCita;
@@ -56,6 +77,7 @@ public class VisitanteCitaBean implements Serializable{
     {
         this.limpForm();
         this.consTodo();
+        this.consPorVisi();
     }
     
     public void limpForm()
@@ -63,6 +85,19 @@ public class VisitanteCitaBean implements Serializable{
         this.objeVisiCita = new Visitantecita();
         this.guardar = true;        
     }
+    
+    public void consPorVisi()
+    {
+        try
+        {
+            this.listVisiCitaVisi = FCDEVisiCita.findByCodiVisi(this.objeVisi);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+    
     
     public void consTodo()
     {
