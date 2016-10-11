@@ -9,11 +9,13 @@ import com.sv.udb.ejb.AlumnovisitanteFacadeLocal;
 import com.sv.udb.ejb.CambiocitaFacadeLocal;
 import com.sv.udb.ejb.CitaFacadeLocal;
 import com.sv.udb.ejb.HorariodisponibleFacadeLocal;
+import com.sv.udb.ejb.VisitantecitaFacadeLocal;
 import com.sv.udb.modelo.Alumnovisitante;
 import com.sv.udb.modelo.Cambiocita;
 import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Horariodisponible;
 import com.sv.udb.modelo.Visitante;
+import com.sv.udb.modelo.Visitantecita;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -38,6 +40,8 @@ public class CitasBean implements Serializable{
     public CitasBean() {
         
     }
+    @EJB
+    private VisitantecitaFacadeLocal FCDEVisiCita;
     @EJB
     private CambiocitaFacadeLocal FCDECambCita;
     @EJB
@@ -80,8 +84,6 @@ public class CitasBean implements Serializable{
         this.visitanteSeleccionado = visitanteSeleccionado;
     }
     
-    
-
     public List<Horariodisponible> getListHoraDisp() {
         return listHoraDisp;
     }
@@ -187,6 +189,7 @@ public class CitasBean implements Serializable{
             objeCambCita.setCodiCita(this.objeCita);
             objeCambCita.setFechCambCita(new Date());
             objeCambCita.setFechInicCitaNuev(fechaSolicitud);
+            objeCambCita.setFechFinCitaNuev(fechaSolicitud);
             DateFormat df = new SimpleDateFormat("HH:mm:a");
             objeCambCita.setHoraCambCita(df.format(new Date()));
             objeCambCita.setHoraInicCitaNuev(this.getHorarioSeleccionado().getHoraInicHoraDisp());
@@ -194,6 +197,10 @@ public class CitasBean implements Serializable{
             objeCambCita.setMotiCambCita(this.motivo);
             objeCambCita.setEstaCambCita(0);
             FCDECambCita.create(objeCambCita);
+            Visitantecita objeVisiCita = new Visitantecita();
+            objeVisiCita.setCodiCita(this.objeCita);
+            objeVisiCita.setCodiVisi(visitanteSeleccionado);
+            FCDEVisiCita.create(objeVisiCita);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Guardado con éxito')");
             this.limpForm();
         }

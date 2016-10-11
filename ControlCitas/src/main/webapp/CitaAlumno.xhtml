@@ -53,7 +53,7 @@ and open the template in the editor.
                                         <h:commandLink id="btonNuev" class="btn btn-success">
                                             <p:ajax listener="#{citasBean.limpForm()}" update=":FormRegi" global="true" 
                                                     oncomplete="$('#ModaFormRegi').modal('show');"/>
-                                            <i class="fa fa-plus"/> Nuevo
+                                            <i class="fa fa-plus"/> Solicitar
                                         </h:commandLink>
                                     </h:form>
                                 </div>
@@ -105,7 +105,7 @@ and open the template in the editor.
                             <h:form id="FormRegi" class="form-horizontal">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
-                                    <h4 class="modal-title">Gestión de Horario Disponible</h4>
+                                    <h4 class="modal-title">Solicitar Cita</h4>
                                 </div>
                                 <div class="modal-body" style="padding-top: 2px;">
                                     <fieldset class="col-md-12">
@@ -165,7 +165,7 @@ and open the template in the editor.
                                                 </h:commandLink>
                                                 <h:commandLink id="btonGuar" class="btn btn-success" rendered="#{horarioDisponibleBean.guardar}">
                                                     <p:ajax listener="#{citasBean.guar()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" />
-                                                    <i class="fa fa-plus"/> Guardar
+                                                    <i class="fa fa-plus"/> Solicitar
                                                 </h:commandLink>
                                                 <h:commandLink id="btonNuev" class="btn btn-success" rendered="#{!horarioDisponibleBean.guardar}">
                                                     <p:ajax listener="#{horarioDisponibleBean.limpForm()}" process="@form" update="@form" oncomplete="INIT_OBJE_MODA();" />
