@@ -36,7 +36,6 @@ public class HorarioDisponibleBean implements Serializable{
     private Horariodisponible objeHoraDisp;
     private List<Horariodisponible> listHoraDisp;
     private boolean guardar;
-    private int codiUsua;
     
     public Horariodisponible getObjeHoraDisp() {
         return objeHoraDisp;
@@ -59,7 +58,6 @@ public class HorarioDisponibleBean implements Serializable{
     {
         this.limpForm();
         this.consTodo();
-        this.codiUsua = 1;
     }
     
     public void limpForm()
@@ -123,7 +121,7 @@ public class HorarioDisponibleBean implements Serializable{
         try
         {
             if(validar()){
-                this.objeHoraDisp.setCodiUsua(this.codiUsua);
+                this.objeHoraDisp.setCodiUsua(LoginBean.getCodiUsuaSesion());
                 this.listHoraDisp.remove(this.objeHoraDisp); //Limpia el objeto viejo
                 FCDEHoraDisp.edit(this.objeHoraDisp);
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");

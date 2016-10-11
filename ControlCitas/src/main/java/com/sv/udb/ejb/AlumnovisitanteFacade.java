@@ -6,9 +6,12 @@
 package com.sv.udb.ejb;
 
 import com.sv.udb.modelo.Alumnovisitante;
+import com.sv.udb.modelo.Horariodisponible;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -28,5 +31,12 @@ public class AlumnovisitanteFacade extends AbstractFacade<Alumnovisitante> imple
     public AlumnovisitanteFacade() {
         super(Alumnovisitante.class);
     }
-    
+    /*
+    @Override
+    public List<Alumnovisitante> findByCodiVisi(Object codi) {
+        TypedQuery<Horariodisponible> q = getEntityManager().createNamedQuery("Horariodisponible.findByCodiVisi", Horariodisponible.class);        
+        q.setParameter("codiVisi", codi);
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : resu;
+    }*/
 }
