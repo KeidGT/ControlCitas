@@ -133,7 +133,7 @@ and open the template in the editor.
                                         <div class="input-group col-xs-12">
                                             <h:outputLabel  for="seleParen" value="Parentesco: "/>
                                             <h:message for="seleParen" errorClass="field-error" />
-                                            <h:selectOneMenu id="seleParen" value="#{alumnoVisitanteBean.objeAlumVisi.pareAlumVisi}" class="form-control select" pt:data-live-search="true">
+                                            <h:selectOneMenu id="seleParen" value="#{alumnoVisitanteBean.objeAlumVisi.pareAlumVisi}" disabled="#{alumnoVisitanteBean.disabled}" class="form-control select" pt:data-live-search="true">
                                                 <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
                                                 <f:selectItem itemValue="1" itemLabel="Padre/Madre"/>
                                                 <f:selectItem itemValue="2" itemLabel="Tio/Tia"/>
@@ -146,7 +146,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="input-group col-xs-12" id="ParenDiv" style="display: none;">
                                             <h:outputLabel  for="pareAlum" value="Especificar Parentesco: "/>
-                                            <h:inputText  id="pareAlum" value="#{alumnoVisitanteBean.objeAlumVisi.espeAlumVisi}" class="form-control"/>
+                                            <h:inputText  id="pareAlum" value="#{alumnoVisitanteBean.objeAlumVisi.espeAlumVisi}" disabled="#{alumnoVisitanteBean.disabled}" class="form-control"/>
                                             <h:message for="pareAlum" errorClass="field-error" />
                                         </div>
                                     </fieldset>

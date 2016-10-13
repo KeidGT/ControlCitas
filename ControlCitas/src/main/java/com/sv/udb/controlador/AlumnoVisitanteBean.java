@@ -102,11 +102,13 @@ public class AlumnoVisitanteBean implements Serializable{
         this.consTodo();
         this.consAlumVisi();
         this.objeAlumVisi = new Alumnovisitante();
+        
     }
     
     public void limpForm()
     {
         this.objeAlumVisi = new Alumnovisitante();
+        this.objeVisi = new Visitante();
         this.guardar = true;   
         this.Disabled = true; 
     }
@@ -166,6 +168,7 @@ public class AlumnoVisitanteBean implements Serializable{
                     if(objVis.getDuiVisi().equals(this.objeVisi.getDuiVisi())){
                         this.objeVisi = objVis;
                         ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante Encontrado!')");
+                        ctx.execute("selectedItem("+this.objeAlumVisi.getPareAlumVisi()+")");
                 }
             }
             else{
