@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import org.apache.log4j.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -36,6 +37,7 @@ public class EventosBean implements Serializable{
     private Evento objeEven;
     private List<Evento> listEven;
     private boolean guardar;
+    private Logger logger = Logger.getLogger(EventosBean.class);
     
     public Evento getObjeEven() {
         return objeEven;
@@ -86,10 +88,12 @@ public class EventosBean implements Serializable{
         {
             this.objeEven = FCDEEven.find(codi);
             this.guardar = false;
+            logger.info("Se ha consultado el :" + this.objeEven.getNombEven());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " +this.objeEven.getNombEven()+ "')");
         }
         catch(Exception ex)
         {
+            logger.error("Error al consultar registro",ex);
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
     }
@@ -102,6 +106,7 @@ public class EventosBean implements Serializable{
             if(validar())
             {
                 FCDEEven.create(this.objeEven);
+                logger.info("Se ha guardado el evento: " + this.objeEven.getNombEven());
                 this.listEven.add(this.objeEven);
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
                 this.limpForm();
@@ -109,6 +114,7 @@ public class EventosBean implements Serializable{
         }
         catch(Exception ex)
         {
+            logger.error("Error al guardar: ", ex);
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar')");
         }
     }
@@ -123,12 +129,14 @@ public class EventosBean implements Serializable{
                 this.listEven.remove(this.objeEven); //Limpia el objeto viejo
                 FCDEEven.edit(this.objeEven);
                 this.listEven.add(this.objeEven); //Agrega el objeto modificado
+                logger.info("Se ha modificado el evento: "+this.objeEven.getNombEven());
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
                 this.limpForm();
             }
         }
         catch(Exception ex)
         {
+            logger.error("Error al modificar: ",ex);
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
     }
@@ -163,11 +171,13 @@ public class EventosBean implements Serializable{
         {
             FCDEEven.remove(this.objeEven);
             this.listEven.remove(this.objeEven);
+            logger.info("Se ha eliminado el evento: " + this.objeEven.getNombEven());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
             this.limpForm();
         }
         catch(Exception ex)
         {
+            logger.error("Error al eliminar: ", ex);
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
     }

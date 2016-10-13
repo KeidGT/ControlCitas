@@ -93,3 +93,14 @@ fech_exce_hora_disp DATE NOT NULL,
 razo_exce_hora_disp VARCHAR(100),
 FOREIGN KEY (codi_hora_disp) REFERENCES Horario_disponible (codi_hora_disp) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `applog` (
+  `DATED` datetime NOT NULL,
+  `LOGGER` varchar(50) NOT NULL,
+  `LEVEL` varchar(10) NOT NULL,
+  `MESSAGE` varchar(2000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+select * from evento
+select * from applog
