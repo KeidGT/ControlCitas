@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *Modelo controlador: Evento 
  */
 package com.sv.udb.modelo;
 
@@ -28,7 +26,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kevin
+ * @author Sistema de citas
+ * @version 1.0 13 de Octubre de 2016
  */
 @Entity
 @Table(name = "Evento", catalog = "sistemas_pilet", schema = "")
@@ -42,6 +41,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Evento.findByFechFinaEven", query = "SELECT e FROM Evento e WHERE e.fechFinaEven = :fechFinaEven"),
     @NamedQuery(name = "Evento.findByHoraInicEven", query = "SELECT e FROM Evento e WHERE e.horaInicEven = :horaInicEven"),
     @NamedQuery(name = "Evento.findByHoraFinaEven", query = "SELECT e FROM Evento e WHERE e.horaFinaEven = :horaFinaEven")})
+
+  /**
+   * Clase publica evento
+   */
 public class Evento implements Serializable {
 
     @OneToMany(mappedBy = "codiEven", fetch = FetchType.EAGER)
@@ -83,9 +86,17 @@ public class Evento implements Serializable {
     @Column(name = "hora_fina_even")
     private String horaFinaEven;
 
+    
+  /**
+   * Método constructor evento
+   */
     public Evento() {
     }
 
+  /**
+   * Método constructor
+   * registro
+   */
     public Evento(Integer codiEvent) {
         this.codiEvent = codiEvent;
     }

@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Modelo controlador Visitante
  */
 package com.sv.udb.modelo;
 
@@ -26,7 +24,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kevin
+ * @author Sistema de citas
+ * @version 1.0 13 de Octubre de 2016
  */
 @Entity
 @Table(name = "Visitante", catalog = "sistemas_pilet", schema = "")
@@ -40,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Visitante.findByCorrVisi", query = "SELECT v FROM Visitante v WHERE v.corrVisi = :corrVisi"),
     @NamedQuery(name = "Visitante.findByTeleVisi", query = "SELECT v FROM Visitante v WHERE v.teleVisi = :teleVisi"),
     @NamedQuery(name = "Visitante.findByTipoVisi", query = "SELECT v FROM Visitante v WHERE v.tipoVisi = :tipoVisi")})
+  /**
+   * Clase publica Visitante
+   */
 public class Visitante implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -73,10 +75,15 @@ public class Visitante implements Serializable {
     private List<Alumnovisitante> alumnovisitanteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiVisi", fetch = FetchType.EAGER)
     private List<Visitantecita> visitantecitaList;
-
+  /**
+   * Método constructor Visitante
+   */
     public Visitante() {
     }
-
+  /**
+   * Método constructor
+   *  registro de visitante
+   */
     public Visitante(Integer codiVisi) {
         this.codiVisi = codiVisi;
     }

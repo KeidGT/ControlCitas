@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Controlador Excepcionhorariodisponible
  */
 package com.sv.udb.controlador;
 
@@ -19,7 +17,8 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * @author REGISTRO
+ * @author Sistema de citas
+ * @version 1.0 13 de Octubre de 2016
  */
 @Named(value = "excepcionHorarioDisponiblesBean")
 @ViewScoped
@@ -59,7 +58,7 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
         this.limpForm();
         this.consTodo();
     }
-    
+    //Limpiando el formulario
     public void limpForm()
     {
         this.objeExceHoraDisp = new Excepcionhorariodisponible();
@@ -100,6 +99,9 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
             
         }
     }
+     /**
+     * Obteniendo los dias de la semana
+     */ 
     private int getDay(String dia){
         int ndia = 0;
         String dias[] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes"};
@@ -108,6 +110,11 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
         }
         return ndia;
     }
+         /**
+     * Validando
+     * Objeto del tipo excepcion horarios disponibles     
+     * @since incluido desde la version 1.0
+     */ 
     private boolean validar(){
         boolean val = false;
         RequestContext ctx = RequestContext.getCurrentInstance();
@@ -121,6 +128,11 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
             }
         return val;
     }
+         /**
+     * Método que guarda un objeto del tipo excepcion horario en la base de datos
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */ 
     public void guar()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -140,7 +152,11 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar')");
         }
     }
-    
+     /**
+     * Método que modifica un objeto del tipo excepcion horario en la base de datos
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */ 
     public void modi()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -161,7 +177,11 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
     }
-    
+    /**
+     * Método que elmina un objeto del tipo excepcion horario en la base de datos
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */   
     public void elim()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
