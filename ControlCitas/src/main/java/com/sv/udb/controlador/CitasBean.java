@@ -43,9 +43,7 @@ public class CitasBean implements Serializable{
     @EJB
     private VisitantecitaFacadeLocal FCDEVisiCita;
     @EJB
-    private CambiocitaFacadeLocal FCDECambCita;
-    @EJB
-    private AlumnovisitanteFacadeLocal FCDEAlumVisi; 
+    private CambiocitaFacadeLocal FCDECambCita; 
     @EJB
     private HorariodisponibleFacadeLocal FCDEHoraDisp;
     @EJB
@@ -53,19 +51,30 @@ public class CitasBean implements Serializable{
     private Cita objeCita;
     private List<Cita> listCita;
     private boolean guardar;
-    private Horariodisponible HorarioSeleccionado;
+    private Horariodisponible horaSeleCita;
     private List<Horariodisponible> listHoraDisp;
     private Alumnovisitante alumVisiSelec;
     private String motivo;
-    private Date fechaSolicitud;
-
-    public Date getFechaSolicitud() {
-        return fechaSolicitud;
+    private Date fechSoliCita;
+    private List<Visitantecita> listVisiCitaAlum;
+    
+    public List<Visitantecita> getListVisiCitaAlum() {
+        return listVisiCitaAlum;
     }
 
-    public void setFechaSolicitud(Date fechaSolicitud) {
-        this.fechaSolicitud = fechaSolicitud;
+    public void setListVisiCitaVisi(List<Visitantecita> listVisiCitaAlum) {
+        this.listVisiCitaAlum = listVisiCitaAlum;
     }
+
+    public Date getFechSoliCita() {
+        return fechSoliCita;
+    }
+
+    public void setFechSoliCita(Date fechSoliCita) {
+        this.fechSoliCita = fechSoliCita;
+    }
+
+    
     
     
     public String getMotivo() {
@@ -93,14 +102,16 @@ public class CitasBean implements Serializable{
     public void setListHoraDisp(List<Horariodisponible> listHoraDisp) {
         this.listHoraDisp = listHoraDisp;
     }
-    
-    public Horariodisponible getHorarioSeleccionado() {
-        return HorarioSeleccionado;
+
+    public Horariodisponible getHoraSeleCita() {
+        return horaSeleCita;
     }
 
-    public void setHorarioSeleccionado(Horariodisponible HorarioSeleccionado) {
-        this.HorarioSeleccionado = HorarioSeleccionado;
+    public void setHoraSeleCita(Horariodisponible horaSeleCita) {
+        this.horaSeleCita = horaSeleCita;
     }
+    
+    
     
         
     public Cita getObjeCita() {
@@ -131,9 +142,23 @@ public class CitasBean implements Serializable{
     public void limpForm()
     {
         this.objeCita = new Cita();
-        this.guardar = true;   
+        this.motivo=null;
+        this.fechSoliCita=null;
+        this.guardar = true; 
+        consCitaPorAlum();
     }
     
+    public void consCitaPorAlum()
+    {
+        try
+        {
+            this.listVisiCitaAlum = FCDEVisiCita.findByCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }    
     
     public void consHorarios()
     {
@@ -185,17 +210,18 @@ public class CitasBean implements Serializable{
             this.objeCita.setTipoVisi(2);
             this.objeCita.setTipoDura(2);
             this.objeCita.setEstaCita(1);
+            this.objeCita.setDescCita(this.motivo);
             FCDECita.create(this.objeCita);            
             this.listCita.add(this.objeCita);
             Cambiocita objeCambCita = new Cambiocita();
             objeCambCita.setCodiCita(this.objeCita);
             objeCambCita.setFechCambCita(new Date());
-            objeCambCita.setFechInicCitaNuev(fechaSolicitud);
-            objeCambCita.setFechFinCitaNuev(fechaSolicitud);
+            objeCambCita.setFechInicCitaNuev(fechSoliCita);
+            objeCambCita.setFechFinCitaNuev(fechSoliCita);
             DateFormat df = new SimpleDateFormat("HH:mm:a");
             objeCambCita.setHoraCambCita(df.format(new Date()));
-            objeCambCita.setHoraInicCitaNuev(this.getHorarioSeleccionado().getHoraInicHoraDisp());
-            objeCambCita.setHoraFinCitaNuev(this.getHorarioSeleccionado().getHoraFinaHoraDisp());
+            objeCambCita.setHoraInicCitaNuev(this.getHoraSeleCita().getHoraInicHoraDisp());
+            objeCambCita.setHoraFinCitaNuev(this.getHoraSeleCita().getHoraFinaHoraDisp());
             objeCambCita.setMotiCambCita(this.motivo);
             objeCambCita.setEstaCambCita(0);
             FCDECambCita.create(objeCambCita);
@@ -254,8 +280,8 @@ public class CitasBean implements Serializable{
     private boolean valiDato(){
         boolean val = false;
         RequestContext ctx = RequestContext.getCurrentInstance();
-            int diaHoraDisp = getDay(this.HorarioSeleccionado.getDiaHoraDisp());
-            int diaExceHoraDisp = this.fechaSolicitud.getDay();
+            int diaHoraDisp = getDay(this.horaSeleCita.getDiaHoraDisp());
+            int diaExceHoraDisp = this.fechSoliCita.getDay();
             if(diaHoraDisp == diaExceHoraDisp){
                 
                 val = true;

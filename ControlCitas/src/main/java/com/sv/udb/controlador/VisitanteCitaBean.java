@@ -36,7 +36,7 @@ public class VisitanteCitaBean implements Serializable{
     private List<Visitantecita> listVisiCita;
     private boolean guardar;
     private Visitante objeVisi;
-    private List<Visitantecita> listVisiCitaVisi;
+    
 
     public List<Visitantecita> getListVisiCita() {
         return listVisiCita;
@@ -46,13 +46,7 @@ public class VisitanteCitaBean implements Serializable{
         this.listVisiCita = listVisiCita;
     }
 
-    public List<Visitantecita> getListVisiCitaVisi() {
-        return listVisiCitaVisi;
-    }
-
-    public void setListVisiCitaVisi(List<Visitantecita> listVisiCitaVisi) {
-        this.listVisiCitaVisi = listVisiCitaVisi;
-    }
+    
 
     
     
@@ -95,7 +89,6 @@ public class VisitanteCitaBean implements Serializable{
     {
         this.limpForm();
         this.consTodo();
-        this.consPorVisi();
     }
     
     public void limpForm()
@@ -104,17 +97,7 @@ public class VisitanteCitaBean implements Serializable{
         this.guardar = true;        
     }
     
-    public void consPorVisi()
-    {
-        try
-        {
-            this.listVisiCitaVisi = FCDEVisiCita.findByCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
+    
     
     
     public void consTodo()
@@ -194,9 +177,9 @@ public class VisitanteCitaBean implements Serializable{
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
             this.limpForm();
         }
-        catch(Exception ex)
+        catch(Exception ex) 
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
-    }
+    }   
 }
