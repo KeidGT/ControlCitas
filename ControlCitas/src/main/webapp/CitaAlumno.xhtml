@@ -114,7 +114,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="input-group col-xs-12">
                                             <h:outputLabel  for="hora" value="Horario disponible "/>
-                                            <h:selectOneMenu id="hora" value="#{citasBean.horarioSeleccionado}" class="form-control select">
+                                            <h:selectOneMenu id="hora" value="#{citasBean.horarioSeleccionado}" class="form-control select" pt:data-live-search="true">
                                                 <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
                                                 <f:selectItems value="#{citasBean.listHoraDisp}" var="lstHora" itemLabel="#{lstHora.diaHoraDisp} (#{lstHora.horaInicHoraDisp} - #{lstHora.horaFinaHoraDisp})" itemValue="#{lstHora}"/>
                                                 <f:converter converterId="PooConv"/>
