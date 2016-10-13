@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Controlador eventos
  */
 package com.sv.udb.controlador;
 
@@ -21,7 +19,8 @@ import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author REGISTRO
+ * @author Sistema de citas
+ * @version 1.0 13 de Octubre de 2016
  */
 @Named(value = "eventosBean")
 @ViewScoped
@@ -61,7 +60,7 @@ public class EventosBean implements Serializable{
         this.limpForm();
         this.consTodo();
     }
-    
+    //Limpiando el formulario
     public void limpForm()
     {
         this.objeEven = new Evento();
@@ -82,11 +81,12 @@ public class EventosBean implements Serializable{
     
     public void cons()
     {
-        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        //Capturo el contexto de la página
+        RequestContext ctx = RequestContext.getCurrentInstance(); 
         int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiObjePara"));
         try
         {
-            this.objeEven = FCDEEven.find(codi);
+            this.objeEven = FCDEEven.find(codi); //Encontrando el codigo
             this.guardar = false;
             logger.info("Se ha consultado el :" + this.objeEven.getNombEven());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " +this.objeEven.getNombEven()+ "')");
@@ -97,7 +97,11 @@ public class EventosBean implements Serializable{
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
     }
-    
+     /**
+     * Método que guarda un objeto del tipo evento en la base de datos
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */   
     public void guar()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -119,6 +123,11 @@ public class EventosBean implements Serializable{
         }
     }
     
+     /**
+     * Método que modifica un objeto del tipo evento en la base de datos
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */       
     public void modi()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -141,6 +150,12 @@ public class EventosBean implements Serializable{
         }
     }
     
+     /**
+     * Método boleano para validar ls fecha y hora
+     * Para que no se pueda colocar una fecha u hora antes de la actual.
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */  
     private boolean validar()
     {
         RequestContext ctx = RequestContext.getCurrentInstance();
@@ -163,7 +178,12 @@ public class EventosBean implements Serializable{
             return false;
         }
     }
-    
+  
+     /**
+     * Método que elimina un objeto del tipo evento en la base de datos
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */    
     public void elim()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página

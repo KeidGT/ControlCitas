@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+*Modelo controlador Horariodisponible
  */
 package com.sv.udb.modelo;
 
@@ -26,7 +24,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Kevin
+ * @author Sistema de citas
+ * @version 1.0 13 de Octubre de 2016
  */
 @Entity
 @Table(name = "Horario_disponible", catalog = "sistemas_pilet", schema = "")
@@ -40,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Horariodisponible.findByHoraFinaHoraDisp", query = "SELECT h FROM Horariodisponible h WHERE h.horaFinaHoraDisp = :horaFinaHoraDisp"),
     @NamedQuery(name = "Horariodisponible.findByAnioHoraDisp", query = "SELECT h FROM Horariodisponible h WHERE h.anioHoraDisp = :anioHoraDisp"),
     @NamedQuery(name = "Horariodisponible.findByEstaHoraDisp", query = "SELECT h FROM Horariodisponible h WHERE h.estaHoraDisp = :estaHoraDisp")})
+  /**
+   * Clase publica Horariodisponible
+   */
 public class Horariodisponible implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -78,10 +80,15 @@ public class Horariodisponible implements Serializable {
     private int estaHoraDisp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiHoraDisp", fetch = FetchType.EAGER)
     private List<Excepcionhorariodisponible> excepcionhorariodisponibleList;
-
+  /**
+   * Método constructor Horariodisponible
+   */
     public Horariodisponible() {
     }
-
+  /**
+   * Método constructor
+   * registro para el horario disponible
+   */
     public Horariodisponible(Integer codiHoraDisp) {
         this.codiHoraDisp = codiHoraDisp;
     }

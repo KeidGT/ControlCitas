@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Modelo controlador de excepcion horario disponible
  */
 package com.sv.udb.modelo;
 
@@ -27,7 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Kevin
+ * @author Sistema de citas
+ * @version 1.0 13 de Octubre de 2016
  */
 @Entity
 @Table(name = "Excepcion_horario_disponible", catalog = "sistemas_pilet", schema = "")
@@ -37,6 +36,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Excepcionhorariodisponible.findByCodiExceHoraDisp", query = "SELECT e FROM Excepcionhorariodisponible e WHERE e.codiExceHoraDisp = :codiExceHoraDisp"),
     @NamedQuery(name = "Excepcionhorariodisponible.findByFechExceHoraDisp", query = "SELECT e FROM Excepcionhorariodisponible e WHERE e.fechExceHoraDisp = :fechExceHoraDisp"),
     @NamedQuery(name = "Excepcionhorariodisponible.findByRazoExceHoraDisp", query = "SELECT e FROM Excepcionhorariodisponible e WHERE e.razoExceHoraDisp = :razoExceHoraDisp")})
+  /**
+   * Clase publica Excepcionhorariodisponible
+   */
 public class Excepcionhorariodisponible implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,10 +58,15 @@ public class Excepcionhorariodisponible implements Serializable {
     @JoinColumn(name = "codi_hora_disp", referencedColumnName = "codi_hora_disp")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Horariodisponible codiHoraDisp;
-
+  /**
+   * Método constructor Excepcionhorariodisponible
+   */
     public Excepcionhorariodisponible() {
     }
-
+  /**
+   * Método constructor
+   *  registro de la excepcion del horario disponible
+   */
     public Excepcionhorariodisponible(Integer codiExceHoraDisp) {
         this.codiExceHoraDisp = codiExceHoraDisp;
     }

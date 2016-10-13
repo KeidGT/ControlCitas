@@ -21,7 +21,8 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * @author REGISTRO
+ * @author Sistema de citas
+ * @version 1.0 13 de Octubre de 2016
  */
 @Named(value = "horarioDisponibleBean")
 @ViewScoped
@@ -71,7 +72,7 @@ public class HorarioDisponibleBean implements Serializable{
         this.consPorUsua();
         this.consTodo();
     }
-    
+    //Limpiar el formulario
     public void limpForm()
     {
         this.objeHoraDisp = new Horariodisponible();
@@ -122,7 +123,11 @@ public class HorarioDisponibleBean implements Serializable{
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
     }
-    
+     /**
+     * Método que guarda un objeto del tipo horario disponible en la base de datos
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */ 
     public void guar()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -143,7 +148,12 @@ public class HorarioDisponibleBean implements Serializable{
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar')");
         }
     }
-    
+     /**
+     * Método que modifica un objeto del tipo horario disponible en la base de datos
+     * objeHoraDisp Objeto del tipo horario disponible
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */     
     public void modi()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -164,7 +174,12 @@ public class HorarioDisponibleBean implements Serializable{
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
     }
-    
+     /**
+     * Método que elimina un objeto del tipo horario disponible en la base de datos
+     *  Objeto del tipo horario disponible
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */ 
     public void elim()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -182,6 +197,12 @@ public class HorarioDisponibleBean implements Serializable{
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
     }
+         /**
+     * Método que valida la fecha y hora del tipo horario disponible en la base de datos
+     * objeHoraDisp Objeto del tipo horario disponible para obtener fechas
+     * @exception Error al realizar la operacion         
+     * @since incluido desde la version 1.0
+     */ 
     private boolean validar(){
         boolean val = false;
         RequestContext ctx = RequestContext.getCurrentInstance();

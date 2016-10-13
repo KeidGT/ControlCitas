@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Cambiocita.findAll", query = "SELECT c FROM Cambiocita c"),
     @NamedQuery(name = "Cambiocita.findByCodiCambCita", query = "SELECT c FROM Cambiocita c WHERE c.codiCambCita = :codiCambCita"),
+    @NamedQuery(name = "Cambiocita.findByCodiCita", query = "SELECT c FROM Cambiocita c WHERE c.codiCita = :codiCita"),
     @NamedQuery(name = "Cambiocita.findByFechCambCita", query = "SELECT c FROM Cambiocita c WHERE c.fechCambCita = :fechCambCita"),
     @NamedQuery(name = "Cambiocita.findByHoraCambCita", query = "SELECT c FROM Cambiocita c WHERE c.horaCambCita = :horaCambCita"),
     @NamedQuery(name = "Cambiocita.findByFechInicCitaNuev", query = "SELECT c FROM Cambiocita c WHERE c.fechInicCitaNuev = :fechInicCitaNuev"),

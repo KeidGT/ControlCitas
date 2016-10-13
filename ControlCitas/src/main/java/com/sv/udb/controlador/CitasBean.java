@@ -57,6 +57,7 @@ public class CitasBean implements Serializable{
     private String motivo;
     private Date fechSoliCita;
     private List<Visitantecita> listVisiCitaAlum;
+    private boolean Disable;
     
     public List<Visitantecita> getListVisiCitaAlum() {
         return listVisiCitaAlum;
@@ -129,6 +130,16 @@ public class CitasBean implements Serializable{
     public boolean isGuardar() {
         return guardar;
     }
+
+    public boolean isDisable() {
+        return Disable;
+    }
+
+    public void setDisable(boolean Disable) {
+        this.Disable = Disable;
+    }
+    
+    
     
     @PostConstruct
     public void init()
@@ -146,6 +157,7 @@ public class CitasBean implements Serializable{
         this.fechSoliCita=null;
         this.guardar = true; 
         consCitaPorAlum();
+       this.Disable = true;
     }
     
     public void consCitaPorAlum()
@@ -232,6 +244,23 @@ public class CitasBean implements Serializable{
             FCDEVisiCita.create(objeVisiCita);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Guardado con éxito')");
             this.limpForm();
+        }
+    }
+    
+    public void confCita(){
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        
+        try
+        {
+            objeCita = FCDECita.find(objeCita.getCodiCita());
+            objeCita.setEstaCita(2);
+            FCDECita.edit(objeCita);
+            this.limpForm();
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Confirmada'); $('#ModaFormRegi').modal('hide');");
+        }
+        catch(Exception ex)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
     }
     
