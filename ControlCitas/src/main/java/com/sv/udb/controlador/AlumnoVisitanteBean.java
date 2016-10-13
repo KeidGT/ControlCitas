@@ -43,6 +43,8 @@ public class AlumnoVisitanteBean implements Serializable{
     private VisitanteFacadeLocal FCDEVisi;    
     private Visitante objeVisi;
     private boolean Disabled;
+    private boolean sele;
+    private boolean veri;
     private List<Alumnovisitante> listAlumVisiCarne;
     
     public Alumnovisitante getObjeAlumVisi() {
@@ -93,6 +95,22 @@ public class AlumnoVisitanteBean implements Serializable{
         this.Disabled = Disabled;
     }
 
+    public boolean isSele() {
+        return sele;
+    }
+
+    public void setSele(boolean regis) {
+        this.sele = regis;
+    }
+
+    public boolean isVeri() {
+        return veri;
+    }
+
+    public void setVeri(boolean veri) {
+        this.veri = veri;
+    }
+    
     
     
     @PostConstruct
@@ -111,6 +129,8 @@ public class AlumnoVisitanteBean implements Serializable{
         this.objeVisi = new Visitante();
         this.guardar = true;   
         this.Disabled = true; 
+        this.sele = true;
+        this.veri = true;
     }
     
     public void consTodo()
@@ -169,6 +189,7 @@ public class AlumnoVisitanteBean implements Serializable{
                         this.objeVisi = objVis;
                         ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante Encontrado!')");
                         ctx.execute("selectedItem("+this.objeAlumVisi.getPareAlumVisi()+")");
+                        
                 }
             }
             else{
@@ -178,6 +199,8 @@ public class AlumnoVisitanteBean implements Serializable{
                     this.objeVisi.setDuiVisi(dui);
                     ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante no encontrado, Registrarse por favor!')");
                 }
+            sele = false;
+            veri = false;
             
             
         }
