@@ -150,7 +150,7 @@ public class ExcepcionHorarioDisponibleBean implements Serializable{
               this.listExceHoraDisp.remove(this.objeExceHoraDisp); //Limpia el objeto viejo
               FCDEExceHoraDisp.edit(this.objeExceHoraDisp);
               this.listExceHoraDisp.add(this.objeExceHoraDisp); //Agrega el objeto modificado
-              logger.info("Se ha modificado una excepcion horario: " + this.objeExceHoraDisp.getCodiHoraDisp()+ " fecha: " + this.objeExceHoraDisp.getFechExceHoraDisp());
+              logger.info("Se ha modificado una excepcion horario");
               ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
               this.limpForm(); 
             }

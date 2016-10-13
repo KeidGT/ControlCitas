@@ -5,7 +5,7 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
-        <property name="javax.persistence.validation.mode" value="AUTO" />
+      <property name="javax.persistence.validation.mode" value="AUTO"/>
     </properties>
   </persistence-unit>
 </persistence>
