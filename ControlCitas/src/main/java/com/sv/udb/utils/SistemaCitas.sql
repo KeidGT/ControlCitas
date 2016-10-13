@@ -97,7 +97,7 @@ FOREIGN KEY (codi_hora_disp) REFERENCES Horario_disponible (codi_hora_disp) ON D
 
 CREATE TABLE `applog` (
   `DATED` datetime NOT NULL,
-  `LOGGER` varchar(50) NOT NULL,
+  `LOGGER` varchar(1000) NOT NULL,
   `LEVEL` varchar(10) NOT NULL,
   `MESSAGE` varchar(2000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
