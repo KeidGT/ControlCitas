@@ -57,7 +57,7 @@ and open the template in the editor.
                                         </h:commandLink>
                                     </h:form>
                                 </div>
-                                <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{horarioDisponibleBean.listHoraDisp}"
+                                <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{VisitantecitaCitaBean.listVisiCitaVisi}"
                                         var="fila" class="boottable" pt:data-toolbar="#toolTablRegi"
                                         styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
                                         pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
@@ -68,28 +68,20 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
                                    <f:facet name="header">Código</f:facet>
-                                   <h:outputText value="#{fila.codiHoraDisp}"/>
+                                   <h:outputText value="#{fila.codiCita.codiCita}"/>
                                </h:column>
-                               <h:column pt:data-sortable="true" pt:data-field="nomb">
-                                   <f:facet name="header">Año Disponible</f:facet>
-                                   <h:outputText value="#{fila.anioHoraDisp}"/>   
+                               <h:column pt:data-sortable="true" pt:data-field="carn">
+                                   <f:facet name="header">Alumno</f:facet>
+                                   <h:outputText value="#{fila.carnAlum}"/>   
                                </h:column>
-                               <h:column pt:data-sortable="true" pt:data-field="dui">
-                                   <f:facet name="header">Dia</f:facet>
-                                   <h:outputText value="#{fila.diaHoraDisp}"/>   
+                               <h:column pt:data-sortable="true" pt:data-field="visi">
+                                   <f:facet name="header">Visitante</f:facet>
+                                   <h:outputText value="#{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}"/>   
                                </h:column>
-                               <h:column pt:data-sortable="true">
-                                   <f:facet name="header">Hora Inic.</f:facet>
-                                   <h:outputText value="#{fila.horaInicHoraDisp}">
-                                       <f:convertDateTime pattern="hh:mm a" timeZone="GMT-6"/>
-                                   </h:outputText>
-                               </h:column>
-                                <h:column pt:data-sortable="true">
-                                   <f:facet name="header">Hora Fin</f:facet>
-                                   <h:outputText value="#{fila.horaFinaHoraDisp}">
-                                       <f:convertDateTime pattern="hh:mm a" timeZone="GMT-6"/>
-                                   </h:outputText>
-                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="esta">
+                                   <f:facet name="header">Estado</f:facet>
+                                   <h:outputText value="Solicitada"/>   
+                               </h:column>     
                             </h:dataTable>
                             </h:panelGroup>
                         </div>
@@ -160,7 +152,7 @@ and open the template in the editor.
                                         <div class="input-group-btn right" style="padding-top: 5px;">
                                             <div class="btn-group">
                                                 <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
-                                                    <p:ajax listener="#{horarioDisponibleBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                                    <p:ajax listener="#{citasBean.limpForm()}" process="@form" update="@form" global="true"/>
                                                     <i class="fa fa-mail-forward"/> Cerrar
                                                 </h:commandLink>
                                                 <h:commandLink id="btonGuar" class="btn btn-success" rendered="#{horarioDisponibleBean.guardar}">

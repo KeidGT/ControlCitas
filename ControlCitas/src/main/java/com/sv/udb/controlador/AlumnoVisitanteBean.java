@@ -139,6 +139,7 @@ public class AlumnoVisitanteBean implements Serializable{
         try
         {
             this.objeAlumVisi = FCDEAlumVisi.find(codi);
+            this.objeVisi = objeAlumVisi.getCodiVisi();
             this.guardar = false;
             this.Disabled=false;
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
@@ -250,7 +251,7 @@ public class AlumnoVisitanteBean implements Serializable{
                 System.out.println("ERROR AL REGISTRARSE");
                 e.printStackTrace();
             }
-        //ahora asignamos el alumno a ese visitante
+        /*
             
         try{
             objeAlumVisi.setCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
@@ -265,7 +266,7 @@ public class AlumnoVisitanteBean implements Serializable{
             System.out.println("ERROR AL ASIGNAR ALUMNO");
             e.printStackTrace();
         }
-                        
+            */            
         
     }
 }

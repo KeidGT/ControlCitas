@@ -38,6 +38,24 @@ public class VisitanteCitaBean implements Serializable{
     private Visitante objeVisi;
     private List<Visitantecita> listVisiCitaVisi;
 
+    public List<Visitantecita> getListVisiCita() {
+        return listVisiCita;
+    }
+
+    public void setListVisiCita(List<Visitantecita> listVisiCita) {
+        this.listVisiCita = listVisiCita;
+    }
+
+    public List<Visitantecita> getListVisiCitaVisi() {
+        return listVisiCitaVisi;
+    }
+
+    public void setListVisiCitaVisi(List<Visitantecita> listVisiCitaVisi) {
+        this.listVisiCitaVisi = listVisiCitaVisi;
+    }
+
+    
+    
     public Visitantecita getObjeVisiCita() {
         return objeVisiCita;
     }
@@ -90,7 +108,7 @@ public class VisitanteCitaBean implements Serializable{
     {
         try
         {
-            this.listVisiCitaVisi = FCDEVisiCita.findByCodiVisi(this.objeVisi);
+            this.listVisiCitaVisi = FCDEVisiCita.findByCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
         }
         catch(Exception ex)
         {

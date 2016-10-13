@@ -75,6 +75,7 @@ public class HorarioDisponibleBean implements Serializable{
         this.objeHoraDisp = new Horariodisponible();
         this.guardar = true; 
         consTodo();
+        consPorUsua();
     }
     
     public void consPorUsua()

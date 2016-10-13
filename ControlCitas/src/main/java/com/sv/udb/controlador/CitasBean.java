@@ -131,7 +131,7 @@ public class CitasBean implements Serializable{
     public void limpForm()
     {
         this.objeCita = new Cita();
-        this.guardar = true;        
+        this.guardar = true;   
     }
     
     
