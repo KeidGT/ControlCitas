@@ -79,7 +79,10 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="esta">
                                    <f:facet name="header">Estado</f:facet>
-                                   <h:outputText value="Solicitada"/>   
+                                   <h:panelGroup class="label label-info" rendered="#{fila.codiCita.estaCita eq '1'}">
+                                       <i class="fa fa-calendar-o"/> Solicitada</h:panelGroup>
+                                   <h:panelGroup class="label label-success" rendered="#{fila.codiCita.estaCita eq '2'}">
+                                       <i class="fa fa-calendar-o"/> Programada</h:panelGroup>  
                                </h:column>     
                             </h:dataTable>
                             </h:panelGroup>
