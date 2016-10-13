@@ -18,6 +18,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -43,6 +44,7 @@ public class VisitantesBean implements Serializable{
     @Inject
     private GlobalAppBean globalAppBean;
     private AlumnoVisitanteBean alumVisiBean;
+    private Logger logger = Logger.getLogger(VisitantesBean.class);
     public Visitante getObjeVisi() {
         return objeVisi;
     }
@@ -107,11 +109,13 @@ public class VisitantesBean implements Serializable{
         {
             this.objeVisi = FCDEVisi.find(codi);
             this.guardar = false;
+            logger.info("Se ha consultado el visitante: " + this.objeVisi.getNombVisi());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
                     String.format("%s %s", this.objeVisi.getNombVisi(), this.objeVisi.getApelVisi()) + "')");
         }
         catch(Exception ex)
         {
+            logger.error("Error al consultar registro",ex);
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
         finally
@@ -127,11 +131,13 @@ public class VisitantesBean implements Serializable{
         {
             FCDEVisi.create(this.objeVisi);
             this.listVisi.add(this.objeVisi);
+            logger.info("Se ha guardado un visitante: " + this.objeVisi.getNombVisi());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
             this.limpForm();
         }
         catch(Exception ex)
         {
+            logger.error("Error al guardar: ", ex);
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar')");
         }
     }
@@ -144,11 +150,13 @@ public class VisitantesBean implements Serializable{
             this.listVisi.remove(this.objeVisi); //Limpia el objeto viejo
             FCDEVisi.edit(this.objeVisi);
             this.listVisi.add(this.objeVisi); //Agrega el objeto modificado
+            logger.info("Se ha modificado un visitante: "+this.objeVisi.getNombVisi());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
             this.limpForm();
         }
         catch(Exception ex)
         {
+            logger.error("Error al modificar: ",ex);
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
     }
@@ -160,11 +168,13 @@ public class VisitantesBean implements Serializable{
         {
             FCDEVisi.remove(this.objeVisi);
             this.listVisi.remove(this.objeVisi);
+            logger.info("Se ha eliminado un visitante: " + this.objeVisi.getNombVisi());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
             this.limpForm();
         }
         catch(Exception ex)
         {
+            logger.error("Error al eliminar: ", ex);
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
     }
