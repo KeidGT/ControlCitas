@@ -28,6 +28,8 @@ public interface CitaFacadeLocal {
 
     List<Cita> findRange(int[] range);
 
+    List<Cita> findByCodiUsua(Object codi);
+    
     int count();
     
 }

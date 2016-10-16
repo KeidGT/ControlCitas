@@ -29,6 +29,8 @@ public interface VisitantecitaFacadeLocal {
     List<Visitantecita> findRange(int[] range);
     
     List<Visitantecita> findByCarnAlum(String codi);
+    
+    List<Visitantecita> findByCodiUsua(Object codi);
 
     int count();
     

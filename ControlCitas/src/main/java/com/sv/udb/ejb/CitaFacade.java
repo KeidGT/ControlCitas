@@ -6,9 +6,11 @@
 package com.sv.udb.ejb;
 
 import com.sv.udb.modelo.Cita;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -28,5 +30,11 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
     public CitaFacade() {
         super(Cita.class);
     }
-    
+    @Override
+    public List<Cita> findByCodiUsua(Object codi) {
+        TypedQuery<Cita> q = getEntityManager().createNamedQuery("Cita.findByCodiUsua", Cita.class);        
+        q.setParameter("codiUsua", String.valueOf(codi));
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : resu;
+    }
 }

@@ -37,4 +37,11 @@ public class VisitantecitaFacade extends AbstractFacade<Visitantecita> implement
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
+    @Override
+    public List<Visitantecita> findByCodiUsua(Object codi) {
+        TypedQuery<Visitantecita> q = getEntityManager().createNamedQuery("Visitantecita.findByCodiUsua", Visitantecita.class);        
+        q.setParameter("codiUsua", Integer.parseInt(String.valueOf(codi)));
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : resu;
+    }
 }

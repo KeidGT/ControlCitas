@@ -57,6 +57,7 @@ public class CitasBean implements Serializable{
     private String motivo;
     private Date fechSoliCita;
     private List<Visitantecita> listVisiCitaAlum;
+    private List<Visitantecita> listVisiCitaUsua;
     private boolean Disable;
     
     public List<Visitantecita> getListVisiCitaAlum() {
@@ -138,6 +139,11 @@ public class CitasBean implements Serializable{
     public void setDisable(boolean Disable) {
         this.Disable = Disable;
     }
+
+    public List<Visitantecita> getListVisiCitaUsua() {
+        return listVisiCitaUsua;
+    }
+
     
     
     
@@ -157,6 +163,7 @@ public class CitasBean implements Serializable{
         this.fechSoliCita=null;
         this.guardar = true; 
         consCitaPorAlum();
+        consCitaUsua();
        this.Disable = true;
     }
     
@@ -171,7 +178,17 @@ public class CitasBean implements Serializable{
             ex.printStackTrace();
         }
     }    
-    
+    public void consCitaUsua()
+    {
+        try
+        {
+            this.listVisiCitaUsua = FCDEVisiCita.findByCodiUsua(String.valueOf(LoginBean.getCodiUsuaSesion()));
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
     public void consHorarios()
     {
         try
