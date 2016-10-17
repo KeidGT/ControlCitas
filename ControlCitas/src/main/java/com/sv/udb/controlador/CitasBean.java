@@ -221,8 +221,7 @@ public class CitasBean implements Serializable{
         {
             this.objeCita = FCDECita.find(codi);
             this.guardar = false;
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
-                    String.format("%s %s", this.objeCita.getFechLlegCita(), this.objeCita.getFechSaliCita()) + "')");
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Consultada')");
         }
         catch(Exception ex)
         {
@@ -336,5 +335,6 @@ public class CitasBean implements Serializable{
             }
         return val;
     }
+    
     
 }

@@ -6,7 +6,6 @@
 package com.sv.udb.modelo;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -22,8 +21,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -47,11 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cita.findByDescCita", query = "SELECT c FROM Cita c WHERE c.descCita = :descCita"),
     @NamedQuery(name = "Cita.findByEstaCita", query = "SELECT c FROM Cita c WHERE c.estaCita = :estaCita"),
     @NamedQuery(name = "Cita.findByNombGrupCita", query = "SELECT c FROM Cita c WHERE c.nombGrupCita = :nombGrupCita"),
-    @NamedQuery(name = "Cita.findByCantGrupCita", query = "SELECT c FROM Cita c WHERE c.cantGrupCita = :cantGrupCita"),
-    @NamedQuery(name = "Cita.findByFechLlegCita", query = "SELECT c FROM Cita c WHERE c.fechLlegCita = :fechLlegCita"),
-    @NamedQuery(name = "Cita.findByHoraLlegCita", query = "SELECT c FROM Cita c WHERE c.horaLlegCita = :horaLlegCita"),
-    @NamedQuery(name = "Cita.findByFechSaliCita", query = "SELECT c FROM Cita c WHERE c.fechSaliCita = :fechSaliCita"),
-    @NamedQuery(name = "Cita.findByHoraSaliCita", query = "SELECT c FROM Cita c WHERE c.horaSaliCita = :horaSaliCita")})
+    @NamedQuery(name = "Cita.findByCantGrupCita", query = "SELECT c FROM Cita c WHERE c.cantGrupCita = :cantGrupCita")})
 public class Cita implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -84,23 +77,9 @@ public class Cita implements Serializable {
     private String nombGrupCita;
     @Column(name = "cant_grup_cita")
     private Integer cantGrupCita;
-    @Column(name = "fech_lleg_cita")
-    @Temporal(TemporalType.DATE)
-    private Date fechLlegCita;
-    @Size(max = 8)
-    @Column(name = "hora_lleg_cita")
-    private String horaLlegCita;
-    @Column(name = "fech_sali_cita")
-    @Temporal(TemporalType.DATE)
-    private Date fechSaliCita;
-    @Size(max = 8)
-    @Column(name = "hora_sali_cita")
-    private String horaSaliCita;
     @JoinColumn(name = "codi_even", referencedColumnName = "codi_event")
     @ManyToOne(fetch = FetchType.EAGER)
     private Evento codiEven;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiCita", fetch = FetchType.EAGER)
-    private List<Cambiocita> cambiocitaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiCita", fetch = FetchType.EAGER)
     private List<Visitantecita> visitantecitaList;
 
@@ -197,53 +176,12 @@ public class Cita implements Serializable {
         this.cantGrupCita = cantGrupCita;
     }
 
-    public Date getFechLlegCita() {
-        return fechLlegCita;
-    }
-
-    public void setFechLlegCita(Date fechLlegCita) {
-        this.fechLlegCita = fechLlegCita;
-    }
-
-    public String getHoraLlegCita() {
-        return horaLlegCita;
-    }
-
-    public void setHoraLlegCita(String horaLlegCita) {
-        this.horaLlegCita = horaLlegCita;
-    }
-
-    public Date getFechSaliCita() {
-        return fechSaliCita;
-    }
-
-    public void setFechSaliCita(Date fechSaliCita) {
-        this.fechSaliCita = fechSaliCita;
-    }
-
-    public String getHoraSaliCita() {
-        return horaSaliCita;
-    }
-
-    public void setHoraSaliCita(String horaSaliCita) {
-        this.horaSaliCita = horaSaliCita;
-    }
-
     public Evento getCodiEven() {
         return codiEven;
     }
 
     public void setCodiEven(Evento codiEven) {
         this.codiEven = codiEven;
-    }
-
-    @XmlTransient
-    public List<Cambiocita> getCambiocitaList() {
-        return cambiocitaList;
-    }
-
-    public void setCambiocitaList(List<Cambiocita> cambiocitaList) {
-        this.cambiocitaList = cambiocitaList;
     }
 
     @XmlTransient

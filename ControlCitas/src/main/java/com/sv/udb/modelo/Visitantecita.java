@@ -6,6 +6,7 @@
 package com.sv.udb.modelo;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,8 +35,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Visitantecita.findAll", query = "SELECT v FROM Visitantecita v"),
     @NamedQuery(name = "Visitantecita.findByCodiVisiCita", query = "SELECT v FROM Visitantecita v WHERE v.codiVisiCita = :codiVisiCita"),
-    @NamedQuery(name = "Visitantecita.findByCodiUsua", query = "SELECT v FROM Visitantecita v WHERE v.codiCita.codiUsua = :codiUsua"),
-    @NamedQuery(name = "Visitantecita.findByCarnAlum", query = "SELECT v FROM Visitantecita v WHERE v.carnAlum = :carnAlum")})
+    @NamedQuery(name = "Visitantecita.findByCarnAlum", query = "SELECT v FROM Visitantecita v WHERE v.carnAlum = :carnAlum"),
+    @NamedQuery(name = "Visitantecita.findByFechLlegCita", query = "SELECT v FROM Visitantecita v WHERE v.fechLlegCita = :fechLlegCita"),
+    @NamedQuery(name = "Visitantecita.findByHoraLlegCita", query = "SELECT v FROM Visitantecita v WHERE v.horaLlegCita = :horaLlegCita"),
+    @NamedQuery(name = "Visitantecita.findByFechSaliCita", query = "SELECT v FROM Visitantecita v WHERE v.fechSaliCita = :fechSaliCita"),
+    @NamedQuery(name = "Visitantecita.findByHoraSaliCita", query = "SELECT v FROM Visitantecita v WHERE v.horaSaliCita = :horaSaliCita"),
+    @NamedQuery(name = "Visitantecita.findByEstaVisi", query = "SELECT v FROM Visitantecita v WHERE v.estaVisi = :estaVisi")})
 public class Visitantecita implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,6 +54,22 @@ public class Visitantecita implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "carn_alum")
     private String carnAlum;
+    @Column(name = "fech_lleg_cita")
+    @Temporal(TemporalType.DATE)
+    private Date fechLlegCita;
+    @Size(max = 8)
+    @Column(name = "hora_lleg_cita")
+    private String horaLlegCita;
+    @Column(name = "fech_sali_cita")
+    @Temporal(TemporalType.DATE)
+    private Date fechSaliCita;
+    @Size(max = 8)
+    @Column(name = "hora_sali_cita")
+    private String horaSaliCita;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "esta_visi")
+    private int estaVisi;
     @JoinColumn(name = "codi_visi", referencedColumnName = "codi_visi")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Visitante codiVisi;
@@ -61,9 +84,10 @@ public class Visitantecita implements Serializable {
         this.codiVisiCita = codiVisiCita;
     }
 
-    public Visitantecita(Integer codiVisiCita, String carnAlum) {
+    public Visitantecita(Integer codiVisiCita, String carnAlum, int estaVisi) {
         this.codiVisiCita = codiVisiCita;
         this.carnAlum = carnAlum;
+        this.estaVisi = estaVisi;
     }
 
     public Integer getCodiVisiCita() {
@@ -80,6 +104,46 @@ public class Visitantecita implements Serializable {
 
     public void setCarnAlum(String carnAlum) {
         this.carnAlum = carnAlum;
+    }
+
+    public Date getFechLlegCita() {
+        return fechLlegCita;
+    }
+
+    public void setFechLlegCita(Date fechLlegCita) {
+        this.fechLlegCita = fechLlegCita;
+    }
+
+    public String getHoraLlegCita() {
+        return horaLlegCita;
+    }
+
+    public void setHoraLlegCita(String horaLlegCita) {
+        this.horaLlegCita = horaLlegCita;
+    }
+
+    public Date getFechSaliCita() {
+        return fechSaliCita;
+    }
+
+    public void setFechSaliCita(Date fechSaliCita) {
+        this.fechSaliCita = fechSaliCita;
+    }
+
+    public String getHoraSaliCita() {
+        return horaSaliCita;
+    }
+
+    public void setHoraSaliCita(String horaSaliCita) {
+        this.horaSaliCita = horaSaliCita;
+    }
+
+    public int getEstaVisi() {
+        return estaVisi;
+    }
+
+    public void setEstaVisi(int estaVisi) {
+        this.estaVisi = estaVisi;
     }
 
     public Visitante getCodiVisi() {

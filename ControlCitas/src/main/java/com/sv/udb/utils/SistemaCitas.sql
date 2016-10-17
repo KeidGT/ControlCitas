@@ -46,10 +46,6 @@ desc_cita VARCHAR(500), -- Describir motivo de cita
 esta_cita INT NOT NULL,-- Especificar si la cita sigue vigente o se ha dado de baja
 nomb_grup_cita varchar(100),
 cant_grup_cita int,
-fech_lleg_cita DATE,
-hora_lleg_cita VARCHAR(8),
-fech_sali_cita DATE,
-hora_sali_cita VARCHAR(8),
 FOREIGN KEY (codi_even) REFERENCES Evento (codi_event) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -72,6 +68,11 @@ codi_visi_cita INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- Identificador, codigo
 codi_visi INT NOT NULL, -- Llave foránea para de visitante
 codi_cita INT NOT NULL, -- Llave foránea de cita
 carn_alum VARCHAR(10) NOT NULL,
+fech_lleg_cita DATE,
+hora_lleg_cita VARCHAR(8),
+fech_sali_cita DATE,
+hora_sali_cita VARCHAR(8),
+esta_visi int not null, -- estado del visitante en la visitante   
 FOREIGN KEY (codi_visi) REFERENCES Visitante (codi_visi) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (codi_cita) REFERENCES Cita (codi_cita) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
@@ -102,5 +103,5 @@ CREATE TABLE `applog` (
   `MESSAGE` varchar(2000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-select * from evento
-select * from applog
+
+-- visitante_cita, cita

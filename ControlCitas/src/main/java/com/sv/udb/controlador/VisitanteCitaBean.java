@@ -122,7 +122,7 @@ public class VisitanteCitaBean implements Serializable{
             this.guardar = false;
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
                     String.format("%s %s %s %s", this.objeVisiCita.getCodiVisi().getNombVisi(),
-                            this.objeVisiCita.getCodiVisi().getApelVisi(),"el", this.objeVisiCita.getCodiCita().getFechLlegCita()) + "')");
+                            this.objeVisiCita.getCodiVisi().getApelVisi(),"en", this.objeVisiCita.getCodiCita().getCodiLugar()) + "')");
         }
         catch(Exception ex)
         {
