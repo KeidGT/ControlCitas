@@ -10,7 +10,9 @@ import com.sv.udb.ejb.VisitanteFacadeLocal;
 import com.sv.udb.modelo.Alumnovisitante;
 import com.sv.udb.modelo.Visitante;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -44,7 +46,7 @@ public class AlumnoVisitanteBean implements Serializable{
     private Visitante objeVisi;
     private boolean Disabled;
     private boolean contForm;
-    private List<Alumnovisitante> listAlumVisiCarne;
+    private List<Alumnovisitante> listAlumVisiCarne = new ArrayList<Alumnovisitante>();
     
     public Alumnovisitante getObjeAlumVisi() {
         return objeAlumVisi;
@@ -207,6 +209,8 @@ public class AlumnoVisitanteBean implements Serializable{
         try
         {
             FCDEAlumVisi.create(this.objeAlumVisi);
+            
+            
             this.listAlumVisi.add(this.objeAlumVisi);
             this.listAlumVisiCarne.add(this.objeAlumVisi);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
