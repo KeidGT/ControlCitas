@@ -37,7 +37,7 @@ public class AlumnoVisitanteBean implements Serializable{
     private AlumnovisitanteFacadeLocal FCDEAlumVisi;    
     private Alumnovisitante objeAlumVisi;
         
-    private List<Alumnovisitante> listAlumVisi;
+    private List<Alumnovisitante> listAlumVisi =new ArrayList<Alumnovisitante>();
     private boolean guardar;
     
     // Variables para registrarse como visitante representante alumno
@@ -212,7 +212,6 @@ public class AlumnoVisitanteBean implements Serializable{
             
             
             this.listAlumVisi.add(this.objeAlumVisi);
-            this.listAlumVisiCarne.add(this.objeAlumVisi);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
             this.limpForm();
         }
