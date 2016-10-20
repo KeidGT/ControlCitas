@@ -155,6 +155,10 @@ public class CitasBean implements Serializable{
         this.consHorarios();
     }
     
+    public String consFech(Integer codi)
+    {
+        return "jhola" + codi;
+    }
     
     public void limpForm()
     {

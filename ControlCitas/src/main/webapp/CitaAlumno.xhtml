@@ -83,6 +83,10 @@ and open the template in the editor.
                                        <i class="fa fa-calendar-o"/> Solicitada</h:panelGroup>
                                    <h:panelGroup class="label label-success" rendered="#{fila.codiCita.estaCita eq '2'}">
                                        <i class="fa fa-calendar-o"/> Programada</h:panelGroup>   
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="visi">
+                                   <f:facet name="header">Test</f:facet>
+                                   <h:outputText value="#{citasBean.consFech(fila.codiCita.codiCita)}"/>   
                                </h:column>     
                             </h:dataTable>
                             </h:panelGroup>
