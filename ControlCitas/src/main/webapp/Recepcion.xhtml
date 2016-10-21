@@ -13,22 +13,25 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="WEB-INF/resources/fragmentos/comun.xhtml">
         <!-- Título de la página -->
-        <ui:param name="pageTitl" value="Citas"/>
-        <ui:param name="pageNomb" value="Citas"/>
-        <ui:param name="pageDesc" value="Citas"/>
+        <ui:param name="pageTitl" value="Eventos"/>
+        <ui:param name="pageNomb" value="Eventos"/>
+        <ui:param name="pageDesc" value="Mantenimiento de Eventos"/>
         <!-- Activar el link del menú -->
         <ui:param name="actiMenuVisi" value="active"/>
-        <ui:param name="actiMenuVisiDocePers" value="active"/>
-        <ui:param name="actiCitaUsua" value="active"/>
+        <ui:param name="actiMenuVisiRece" value="active"/>
+        <ui:param name="actiRece" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
         <!--Plugins Selector de Fecha-->
         <h:outputStylesheet library="css" name="datepicker3.css"/>
         <h:outputScript library="js" name="bootstrap-datepicker.js"/>
         <h:outputScript library="js" name="bootstrap-datepicker.es.js"/>
-         <!--Plugins Selector de Hora-->
+        <!--Plugins Selector de Hora-->
         <h:outputStylesheet library="css" name="bootstrap-timepicker.min.css"/>
         <h:outputScript library="js" name="bootstrap-timepicker.js"/>
+        <!--Plugins Selector de Hora-->
+        <h:outputStylesheet library="css" name="bootstrap-timepicker.min.css"/>
+        <h:outputScript library="js" name="bootstrap-timepicker.min.js"/>
         <!--Plugins Select-->
         <h:outputStylesheet library="css" name="bootstrap-select.css"/>
         <h:outputScript library="js" name="bootstrap-select.js"/>
@@ -47,17 +50,17 @@ and open the template in the editor.
                                     <h:form>
                                         
                                         <p:remoteCommand name="consObje" actionListener="#{citasBean.cons()}" update=":FormRegi" 
-                                                         oncomplete="$('#ModaFormRegi').modal('show'); INIT_OBJE_MODA();" global="true"/>
-                                        <p:remoteCommand name="elimObje" actionListener="#{horarioDisponibleBean.elim()}" update=":FormRegi :ContRegi" 
+                                                         oncomplete="$('#ModaFormRegi').modal('show');" global="true"/>
+                                        <p:remoteCommand name="elimObje" actionListener="#{citasBean.elim()}" update=":FormRegi :ContRegi" 
                                                          oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" global="true"/>
                                         <h:commandLink id="btonNuev" class="btn btn-success">
                                             <p:ajax listener="#{citasBean.limpForm()}" update=":FormRegi" global="true" 
-                                                    oncomplete="$('#ModaFormRegi').modal('show'); INIT_OBJE_MODA;"/>
-                                            <i class="fa fa-plus"/> Solicitar
+                                                    oncomplete="$('#ModaFormRegi').modal('show');"/>
+                                            <i class="fa fa-plus"/> Nuevo
                                         </h:commandLink>
                                     </h:form>
                                 </div>
-                                <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{citasBean.listVisiCitaUsua}"
+                                <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{citasBean.listEven}"
                                         var="fila" class="boottable" pt:data-toolbar="#toolTablRegi"
                                         styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
                                         pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
@@ -68,23 +71,24 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
                                    <f:facet name="header">Código</f:facet>
-                                   <h:outputText value="#{fila.codiCita.codiCita}"/>
+                                   <h:outputText value="#{fila.codiEvent}"/>
                                </h:column>
-                               <h:column pt:data-sortable="true" pt:data-field="carn">
-                                   <f:facet name="header">Alumno</f:facet>
-                                   <h:outputText value="#{fila.carnAlum}"/>   
+                               <h:column pt:data-sortable="true" pt:data-field="nomb">
+                                   <f:facet name="header">Nombre de Evento</f:facet>
+                                   <h:outputText value="#{fila.nombEven}"/>   
                                </h:column>
-                               <h:column pt:data-sortable="true" pt:data-field="visi">
-                                   <f:facet name="header">Visitante</f:facet>
-                                   <h:outputText value="#{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}"/>   
+                               <h:column pt:data-sortable="true" pt:data-field="dui">
+                                   <f:facet name="header">Inicia</f:facet>
+                                   <h:outputText value="#{fila.fechInicEven}">
+                                       <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-6"/>
+                                   </h:outputText>   
                                </h:column>
-                               <h:column pt:data-sortable="true" pt:data-field="esta">
-                                   <f:facet name="header">Estado</f:facet>
-                                   <h:panelGroup class="label label-info" rendered="#{fila.codiCita.estaCita eq '1'}">
-                                       <i class="fa fa-calendar-o"/> Solicitada</h:panelGroup>
-                                   <h:panelGroup class="label label-success" rendered="#{fila.codiCita.estaCita eq '2'}">
-                                       <i class="fa fa-calendar-o"/> Programada</h:panelGroup>  
-                               </h:column>     
+                               <h:column pt:data-sortable="true">
+                                  <f:facet name="header">Termina</f:facet>
+                                  <h:outputText value="#{fila.fechFinaEven}">
+                                      <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-6"/>
+                                  </h:outputText> 
+                               </h:column>
                             </h:dataTable>
                             </h:panelGroup>
                         </div>
@@ -100,23 +104,14 @@ and open the template in the editor.
                             <h:form id="FormRegi" class="form-horizontal">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
-                                    <h4 class="modal-title">Confurmar Cita</h4>
+                                    <h4 class="modal-title">Gestión de Eventos</h4>
                                 </div>
                                 <div class="modal-body" style="padding-top: 2px;">
-                                        <h:inputHidden id="codi" value="#{citasBean.objeCita.codiCita}" />
-                                        <h3 class="modal-title">¿Desea confirmar esta cita?</h3>
+                                    
                                 </div>
                                 <div class="modal-footer">
                                         <div class="input-group-btn right" style="padding-top: 5px;">
                                             <div class="btn-group">
-                                                <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
-                                                    <p:ajax listener="#{citasBean.limpForm()}" process="@form" update="@form" global="true"/>
-                                                    <i class="fa fa-mail-forward"/> Cerrar
-                                                </h:commandLink>
-                                                <h:commandLink id="btonGuar" class="btn btn-success">
-                                                    <p:ajax listener="#{citasBean.confCita()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" />
-                                                    <i class="fa fa-plus"/> Confirmar
-                                                </h:commandLink>
                                             </div>
                                         </div>
                                 </div>

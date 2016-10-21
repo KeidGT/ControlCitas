@@ -8,11 +8,13 @@ package com.sv.udb.controlador;
 import com.sv.udb.ejb.CambiocitaFacadeLocal;
 import com.sv.udb.ejb.CitaFacadeLocal;
 import com.sv.udb.ejb.HorariodisponibleFacadeLocal;
+import com.sv.udb.ejb.VisitanteFacadeLocal;
 import com.sv.udb.ejb.VisitantecitaFacadeLocal;
 import com.sv.udb.modelo.Alumnovisitante;
 import com.sv.udb.modelo.Cambiocita;
 import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Horariodisponible;
+import com.sv.udb.modelo.Visitante;
 import com.sv.udb.modelo.Visitantecita;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -45,7 +47,7 @@ public class CitasBean implements Serializable{
     @EJB
     private HorariodisponibleFacadeLocal FCDEHoraDisp;
     @EJB
-    private CitaFacadeLocal FCDECita;    
+    private CitaFacadeLocal FCDECita;
     private Cita objeCita;
     private List<Cita> listCita;
     private boolean guardar;
@@ -338,5 +340,74 @@ public class CitasBean implements Serializable{
         return val;
     }
     
+    
+    
+    /*SECCIÓN DESTINADA A LA PROGRAMACIÓN DE REGISTRO DE VISITAS (CITAS DE TIPO 2), PARA LLEVAR CONTROL DE VISITANTES*/
+    
+    
+    
+    @EJB
+    private VisitanteFacadeLocal FCDEVisi; 
+    private Visitante objeVisi;
+    private boolean Disabled;
+    private List<Visitante> listVisiDent;
+    public boolean isDisabled() {
+        return Disabled;
+    }
+
+    public void setDisabled(boolean Disabled) {
+        this.Disabled = Disabled;
+    }
+
+    public List<Visitante> getListVisiDent() {
+        return listVisiDent;
+    }
+
+    public Visitante getObjeVisi() {
+        return objeVisi;
+    }
+
+    public void setObjeVisi(Visitante objeVisi) {
+        this.objeVisi = objeVisi;
+    }
+    
+    
+    private boolean consVisiDui(){
+        boolean resp = false;
+        RequestContext ctx = RequestContext.getCurrentInstance();
+        try
+        {   
+            Visitante objVis = FCDEVisi.findByDuiVisi(this.objeVisi.getDuiVisi());
+            if(objVis != null){
+                    if(objVis.getDuiVisi().equals(this.objeVisi.getDuiVisi())){
+                        this.objeVisi = objVis;
+                        ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante Encontrado!')");
+                        resp = true;
+                }
+                
+            }
+        }
+        catch(Exception ex)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Datos No Consultados')");
+            ex.printStackTrace();
+        }
+        return resp;
+    }
+    
+    public void regiIngrVisi(){
+        RequestContext ctx = RequestContext.getCurrentInstance();
+        //Si el visitante no esta registrado, debe registrarse...
+        if(!consVisiDui()){
+            this.Disabled = false;
+            String dui = this.objeVisi.getDuiVisi();
+            this.objeVisi = new Visitante();
+            this.objeVisi.setDuiVisi(dui);
+            ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante no encontrado, Registrar Visitante!')");
+        }
+    }
+    
+    
+    /*SECCIÓN TERMINADA DE VISITAS (CITAS DE TIPO 2), PARA LLEVAR CONTROL DE VISITANTES*/
     
 }
