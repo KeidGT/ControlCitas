@@ -35,13 +35,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Visitantecita.findAll", query = "SELECT v FROM Visitantecita v"),
     @NamedQuery(name = "Visitantecita.findByCodiVisiCita", query = "SELECT v FROM Visitantecita v WHERE v.codiVisiCita = :codiVisiCita"),
-    @NamedQuery(name = "Visitantecita.findByCarnAlum", query = "SELECT v FROM Visitantecita v WHERE v.carnAlum = :carnAlum"),
-    @NamedQuery(name = "Visitantecita.findByCodiUsua", query = "SELECT v FROM Visitantecita v WHERE v.codiCita.codiUsua = :codiUsua"),
     @NamedQuery(name = "Visitantecita.findByFechLlegCita", query = "SELECT v FROM Visitantecita v WHERE v.fechLlegCita = :fechLlegCita"),
     @NamedQuery(name = "Visitantecita.findByHoraLlegCita", query = "SELECT v FROM Visitantecita v WHERE v.horaLlegCita = :horaLlegCita"),
     @NamedQuery(name = "Visitantecita.findByFechSaliCita", query = "SELECT v FROM Visitantecita v WHERE v.fechSaliCita = :fechSaliCita"),
     @NamedQuery(name = "Visitantecita.findByHoraSaliCita", query = "SELECT v FROM Visitantecita v WHERE v.horaSaliCita = :horaSaliCita"),
-    @NamedQuery(name = "Visitantecita.findByEstaVisi", query = "SELECT v FROM Visitantecita v WHERE v.estaVisi = :estaVisi")})
+    @NamedQuery(name = "Visitantecita.findByEstaVisi", query = "SELECT v FROM Visitantecita v WHERE v.estaVisi = :estaVisi"),
+    //CUSTOM QUERYS
+    @NamedQuery(name = "Visitantecita.findByCodiCita", query = "SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita"),
+    @NamedQuery(name = "Visitantecita.findByCarnAlum", query = "SELECT v FROM Visitantecita v WHERE v.carnAlum = :carnAlum"),
+    @NamedQuery(name = "Visitantecita.findByCodiUsua", query = "SELECT v FROM Visitantecita v WHERE v.codiCita.codiUsua = :codiUsua")})
 public class Visitantecita implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -38,7 +38,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Visitante.findByApelVisi", query = "SELECT v FROM Visitante v WHERE v.apelVisi = :apelVisi"),
     @NamedQuery(name = "Visitante.findByCorrVisi", query = "SELECT v FROM Visitante v WHERE v.corrVisi = :corrVisi"),
     @NamedQuery(name = "Visitante.findByTeleVisi", query = "SELECT v FROM Visitante v WHERE v.teleVisi = :teleVisi"),
-    @NamedQuery(name = "Visitante.findByTipoVisi", query = "SELECT v FROM Visitante v WHERE v.tipoVisi = :tipoVisi")})
+    @NamedQuery(name = "Visitante.findByTipoVisi", query = "SELECT v FROM Visitante v WHERE v.tipoVisi = :tipoVisi"),
+    //CUSTOM QUERY
+    @NamedQuery(name = "Visitante.findByCita", query = "SELECT v FROM Visitante v, Visitantecita vc WHERE v.codiVisi = vc.codiVisi.codiVisi and vc.codiCita.codiCita = :codiCita"),
+@NamedQuery(name = "Visitante.findByCarnAlum", query = "SELECT v FROM Visitante v, Alumnovisitante ac WHERE v.codiVisi = ac.codiVisi.codiVisi and ac.carnAlum = :carnAlum")})
   /**
    * Clase publica Visitante
    */

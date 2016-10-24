@@ -6,6 +6,7 @@
 package com.sv.udb.ejb;
 
 import com.sv.udb.modelo.Cambiocita;
+import com.sv.udb.modelo.Cita;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,7 +30,8 @@ public interface CambiocitaFacadeLocal {
     List<Cambiocita> findRange(int[] range);
     
     Cambiocita findByCodiCita(Object codi);
-
+    
+    Cambiocita findByCita(Cita codi);
     int count();
     
 }

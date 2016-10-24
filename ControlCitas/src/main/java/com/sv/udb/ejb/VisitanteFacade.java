@@ -5,6 +5,7 @@
  */
 package com.sv.udb.ejb;
 
+import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Visitante;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -36,6 +37,20 @@ public class VisitanteFacade extends AbstractFacade<Visitante> implements Visita
         q.setParameter("duiVisi", dui);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : (Visitante)resu.get(0);
+    }
+    @Override
+    public List<Visitante> findByCita(Cita codiCita) {
+        TypedQuery<Visitante> q = getEntityManager().createNamedQuery("Visitante.findByCita", Visitante.class);        
+        q.setParameter("codiCita", codiCita.getCodiCita());
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : resu;
+    }
+    @Override
+    public List<Visitante> findByCarnAlum(String carnAlum) {
+        TypedQuery<Visitante> q = getEntityManager().createNamedQuery("Visitante.findByCarnAlum", Visitante.class);        
+        q.setParameter("carnAlum", carnAlum);
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : resu;
     }
     
 }

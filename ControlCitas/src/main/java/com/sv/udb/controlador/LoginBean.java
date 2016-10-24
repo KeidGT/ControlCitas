@@ -35,7 +35,7 @@ public class LoginBean implements Serializable {
     private String cont;
     private String imagPerf;
     private int codiUsua;
-    private static int codiUsuaSesion=20130732;
+    private static int codiUsuaSesion=1;//20130732;
 
     
     

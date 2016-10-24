@@ -34,6 +34,7 @@ and open the template in the editor.
         <h:outputScript library="js" name="bootstrap-select.js"/>
         <!--Plugins custom-->
             <h:outputScript library="js" name="custom/mantenimientos.js"/>
+            <h:outputScript library="js" name="custom/Citas.js"/>
         </ui:define>
         <!-- Elementos propios del boby -->
         <ui:define name="body">
@@ -46,15 +47,16 @@ and open the template in the editor.
                                 <div id="toolTablRegi">
                                     <h:form>
                                         
-                                        <p:remoteCommand name="consObje" actionListener="#{citasBean.cons()}" update=":FormRegi" 
-                                                         oncomplete="$('#ModaFormRegi').modal('show'); INIT_OBJE_MODA();" global="true"/>
+                                        <p:remoteCommand name="consObje" actionListener="#{citasBean.consCitaUsua()}" update=":FormRegi" 
+                                                         oncomplete="$('#ModaFormRegi').modal('show'); INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true"/>
                                         <p:remoteCommand name="elimObje" actionListener="#{horarioDisponibleBean.elim()}" update=":FormRegi :ContRegi" 
-                                                         oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" global="true"/>
+                                                         oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true"/>
                                         <h:commandLink id="btonNuev" class="btn btn-success">
                                             <p:ajax listener="#{citasBean.limpForm()}" update=":FormRegi" global="true" 
-                                                    oncomplete="$('#ModaFormRegi').modal('show'); INIT_OBJE_MODA;"/>
+                                                    oncomplete="$('#ModaFormRegi').modal('show'); INIT_OBJE_MODA; INIT_OBJE_CITA();"/>
                                             <i class="fa fa-plus"/> Solicitar
                                         </h:commandLink>
+                                        
                                     </h:form>
                                 </div>
                                 <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{citasBean.listVisiCitaUsua}"
@@ -78,12 +80,34 @@ and open the template in the editor.
                                    <f:facet name="header">Visitante</f:facet>
                                    <h:outputText value="#{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}"/>   
                                </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="fech">
+                                   <f:facet name="header">Fecha</f:facet>
+                                   <h:outputText value="#{citasBean.consCambCita(fila.codiCita).fechInicCitaNuev}">
+                                       <f:convertDateTime pattern="dd/MM/yyyy (EEEEE)" />
+                                   </h:outputText>   
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="hora">
+                                   <f:facet name="header">Hora </f:facet>
+                                   <h:outputText value="#{citasBean.consCambCita(fila.codiCita).horaInicCitaNuev} - #{citasBean.consCambCita(fila.codiCita).horaFinCitaNuev}"/>
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="moti">
+                                   <f:facet name="header">Motivo </f:facet>
+                                   <h:outputText value="#{fila.codiCita.descCita}"/>
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="desc">
+                                   <f:facet name="header">Ultima Descripción </f:facet>
+                                   <h:outputText value="#{citasBean.consCambCita(fila.codiCita).motiCambCita}"/>
+                               </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="esta">
                                    <f:facet name="header">Estado</f:facet>
                                    <h:panelGroup class="label label-info" rendered="#{fila.codiCita.estaCita eq '1'}">
                                        <i class="fa fa-calendar-o"/> Solicitada</h:panelGroup>
                                    <h:panelGroup class="label label-success" rendered="#{fila.codiCita.estaCita eq '2'}">
-                                       <i class="fa fa-calendar-o"/> Programada</h:panelGroup>  
+                                       <i class="fa fa-calendar-o"/> Programada</h:panelGroup> 
+                                   <h:panelGroup class="label label-warning" rendered="#{fila.codiCita.estaCita eq '3'}">
+                                       <i class="fa fa-calendar-o"/> Solicitada</h:panelGroup> 
+                                   <h:panelGroup class="label label-danger" rendered="#{fila.codiCita.estaCita eq '4'}">
+                                       <i class="fa fa-calendar-o"/> Declinada</h:panelGroup> 
                                </h:column>     
                             </h:dataTable>
                             </h:panelGroup>
@@ -98,13 +122,51 @@ and open the template in the editor.
                         <!-- Modal content-->
                         <div class="modal-content">
                             <h:form id="FormRegi" class="form-horizontal">
+                                <p:remoteCommand name="agregarSelect" actionListener="#{citasBean.guarVisiCita()}" process="@this" update="@form :ContRegi" 
+                                                 oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" global="true" immediate="false" />
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
-                                    <h4 class="modal-title">Confurmar Cita</h4>
+                                    <h4 class="modal-title">¿Confirmar esta cita?</h4>
                                 </div>
                                 <div class="modal-body" style="padding-top: 2px;">
-                                        <h:inputHidden id="codi" value="#{citasBean.objeCita.codiCita}" />
-                                        <h3 class="modal-title">¿Desea confirmar esta cita?</h3>
+                                    <h:inputHidden id="codi" value="#{citasBean.objeCita.codiCita}" />
+                                    <h:panelGroup>
+                                        <div class="input-group col-xs-12">
+                                            <h:outputLabel  for="alum" value="Alumno "/>
+                                            <h:selectOneMenu id="alum" value="#{citasBean.objeVisiCita.carnAlum}" class="form-control select" pt:data-live-search="true">
+                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                <f:selectItem itemValue="20130670" itemLabel="Kevin Guevara"/>
+                                                <f:selectItem itemValue="20130650" itemLabel="Alvin Baires"/>
+                                                <f:selectItem itemValue="20135414" itemLabel="Vanessa Urrutia"/>
+                                                <f:selectItem itemValue="20141592" itemLabel="Keneth Vasquez"/>
+                                                <p:ajax listener="#{citasBean.consVisiAlum()}" process="@this" oncomplete="INIT_OBJE_MODA(); INIT_OBJE_CITA();" update="@form :FormRegi"  />
+                                            </h:selectOneMenu>
+                                            <h:message for="alum" errorClass="field-error" />
+                                        </div>
+                                        <div class="input-group col-xs-12">
+                                            <h:outputLabel  for="hora" value="Visitante "/>
+                                            <h:selectOneMenu id="hora" value="#{citasBean.objeVisi}" class="form-control select" pt:data-live-search="true">
+                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                <f:selectItems value="#{citasBean.listVisi}" var="lstVisi" itemLabel="#{lstVisi.nombVisi} #{lstVisi.apelVisi}" itemValue="#{lstVisi}"/>
+                                                <f:converter converterId="PooConv"/>
+                                            </h:selectOneMenu>
+                                            <h:message for="hora" errorClass="field-error" />
+                                        </div>
+                                        <div class="input-group col-xs-12">
+                                            <h:outputLink id="btonAgreVisi" class="btn btn-info"  value="#" pt:data-placement="left"
+                                                        pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-plus"
+                                                        pt:data-btn-ok-class="btn-info btn-xs" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
+                                                        pt:data-btn-cancel-class="btn-default btn-xs" pt:data-title="¿Agregar Visitante?"
+                                                        pt:data-on-confirm="agregarSelect"><!--data-on-confirm = nombre del comando remoto de eliminar (sin paréntesis)-->
+                                                <i class="fa fa-plus"/> Agregar Visitante
+                                            </h:outputLink>
+                                        </div>
+                                    </h:panelGroup>
+                                    <div class="input-group col-xs-12">
+                                        <h:outputLabel  for="descCita" value="Descripción: "/>
+                                        <h:inputTextarea  id="descCita" value="#{citasBean.objeCambCita.motiCambCita}" class="form-control"/>
+                                        <h:message for="descCita" errorClass="field-error" />
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                         <div class="input-group-btn right" style="padding-top: 5px;">
@@ -114,7 +176,7 @@ and open the template in the editor.
                                                     <i class="fa fa-mail-forward"/> Cerrar
                                                 </h:commandLink>
                                                 <h:commandLink id="btonGuar" class="btn btn-success">
-                                                    <p:ajax listener="#{citasBean.confCita()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" />
+                                                    <p:ajax listener="#{citasBean.confCita()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
                                                     <i class="fa fa-plus"/> Confirmar
                                                 </h:commandLink>
                                             </div>
