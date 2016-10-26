@@ -7,6 +7,7 @@ package com.sv.udb.ejb;
 
 import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Visitante;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -50,7 +51,7 @@ public class VisitanteFacade extends AbstractFacade<Visitante> implements Visita
         TypedQuery<Visitante> q = getEntityManager().createNamedQuery("Visitante.findByCarnAlum", Visitante.class);        
         q.setParameter("carnAlum", carnAlum);
         List resu = q.getResultList();
-        return resu.isEmpty() ? null : resu;
+        return resu.isEmpty() ? new ArrayList<Visitante>() : resu;
     }
     
 }

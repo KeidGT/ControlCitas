@@ -49,7 +49,7 @@ and open the template in the editor.
                                         
                                         <p:remoteCommand name="consObje" actionListener="#{citasBean.consCitaUsua()}" update=":FormRegi" 
                                                          oncomplete="$('#ModaFormRegi').modal('show'); INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true"/>
-                                        <p:remoteCommand name="elimObje" actionListener="#{horarioDisponibleBean.elim()}" update=":FormRegi :ContRegi" 
+                                        <p:remoteCommand name="elimObje" actionListener="#{citasBean.elim()}" update=":FormRegi :ContRegi" 
                                                          oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true"/>
                                         <h:commandLink id="btonNuev" class="btn btn-success">
                                             <p:ajax listener="#{citasBean.limpForm()}" update=":FormRegi" global="true" 
@@ -90,6 +90,10 @@ and open the template in the editor.
                                    <f:facet name="header">Hora </f:facet>
                                    <h:outputText value="#{citasBean.consCambCita(fila.codiCita).horaInicCitaNuev} - #{citasBean.consCambCita(fila.codiCita).horaFinCitaNuev}"/>
                                </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="luga">
+                                   <f:facet name="header">Lugar </f:facet>
+                                   <h:outputText value="#{fila.codiCita.codiLugar} (CodigoLugar)"/>
+                               </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="moti">
                                    <f:facet name="header">Motivo </f:facet>
                                    <h:outputText value="#{fila.codiCita.descCita}"/>
@@ -122,18 +126,18 @@ and open the template in the editor.
                         <!-- Modal content-->
                         <div class="modal-content">
                             <h:form id="FormRegi" class="form-horizontal">
-                                <p:remoteCommand name="agregarSelect" actionListener="#{citasBean.guarVisiCita()}" process="@this" update="@form :ContRegi" 
-                                                 oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" global="true" immediate="false" />
+                                <p:remoteCommand name="agregarSelect" actionListener="#{citasBean.guarVisiCita()}" process="@this,cmbVisi" update="@form :ContRegi" 
+                                                 oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true" immediate="false" />
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
                                     <h4 class="modal-title">¿Confirmar esta cita?</h4>
                                 </div>
                                 <div class="modal-body" style="padding-top: 2px;">
                                     <h:inputHidden id="codi" value="#{citasBean.objeCita.codiCita}" />
-                                    <h:panelGroup>
+                                    <h:panelGroup rendered="#{citasBean.solicitar}">
                                         <div class="input-group col-xs-12">
                                             <h:outputLabel  for="alum" value="Alumno "/>
-                                            <h:selectOneMenu id="alum" value="#{citasBean.objeVisiCita.carnAlum}" class="form-control select" pt:data-live-search="true">
+                                            <h:selectOneMenu id="alum" value="#{citasBean.carnAlum}" class="form-control select" pt:data-live-search="true">
                                                 <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
                                                 <f:selectItem itemValue="20130670" itemLabel="Kevin Guevara"/>
                                                 <f:selectItem itemValue="20130650" itemLabel="Alvin Baires"/>
@@ -144,27 +148,86 @@ and open the template in the editor.
                                             <h:message for="alum" errorClass="field-error" />
                                         </div>
                                         <div class="input-group col-xs-12">
-                                            <h:outputLabel  for="hora" value="Visitante "/>
-                                            <h:selectOneMenu id="hora" value="#{citasBean.objeVisi}" class="form-control select" pt:data-live-search="true">
+                                            <h:outputLabel  for="cmbVisi" value="Visitante "/>
+                                            <h:selectOneMenu id="cmbVisi" value="#{citasBean.objeVisi}" class="form-control select" pt:data-live-search="true">
                                                 <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
                                                 <f:selectItems value="#{citasBean.listVisi}" var="lstVisi" itemLabel="#{lstVisi.nombVisi} #{lstVisi.apelVisi}" itemValue="#{lstVisi}"/>
                                                 <f:converter converterId="PooConv"/>
                                             </h:selectOneMenu>
-                                            <h:message for="hora" errorClass="field-error" />
+                                            <h:message for="cmbVisi" errorClass="field-error" />
                                         </div>
+                                        <br/>
                                         <div class="input-group col-xs-12">
                                             <h:outputLink id="btonAgreVisi" class="btn btn-info"  value="#" pt:data-placement="left"
                                                         pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-plus"
                                                         pt:data-btn-ok-class="btn-info btn-xs" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
                                                         pt:data-btn-cancel-class="btn-default btn-xs" pt:data-title="¿Agregar Visitante?"
                                                         pt:data-on-confirm="agregarSelect"><!--data-on-confirm = nombre del comando remoto de eliminar (sin paréntesis)-->
-                                                <i class="fa fa-plus"/> Agregar Visitante
+                                                <i class="fa fa-plus"/> Agregar Visitante a Esta Cita
                                             </h:outputLink>
+                                        </div>
+                                        <br/>
+                                        <hr/>
+                                    </h:panelGroup>
+                                    <style>.espacio{margin-left: 20px;}</style>
+                                    <div class="input-group col-xs-12">
+                                        <h:outputLabel  for="rbEvento" value="Lugar ó Evento: "/>
+                                        <h:selectOneRadio id="rbEvento" value="#{citasBean.evento}" >
+                                            <f:selectItem class="radio radio-info" itemValue="false" itemLabel=" Lugar "/>
+                                            <f:selectItem class="radio radio-info espacio" itemValue="true" itemLabel=" Evento "/>
+                                            <p:ajax  process="@this" update="@form" global="true" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();"/>
+                                        </h:selectOneRadio>
+                                        <h:message for="rbEvento" errorClass="field-error" />
+                                    </div>
+                                    <h:panelGroup rendered="#{!citasBean.evento}">
+                                        <div class="input-group col-xs-12">
+                                            <h:outputLabel  for="lugaCita" value="Lugar: "/>
+                                            <h:selectOneMenu id="lugaCita" value="#{citasBean.objeCita.codiLugar}" class="form-control select" pt:data-live-search="true">
+                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                <f:selectItem itemValue="1" itemLabel="Salón de Usos Multiples"/>
+                                                <f:selectItem itemValue="2" itemLabel="Biblioteca"/>
+                                                <f:selectItem itemValue="3" itemLabel="Salón Don Bosco 1"/>
+                                                <f:selectItem itemValue="4" itemLabel="Salón Don Bosco 2"/>
+                                                <f:selectItem itemValue="5" itemLabel="Pabellón 1"/>
+                                                <f:selectItem itemValue="6" itemLabel="Pabellón 2"/>
+                                                <f:selectItem itemValue="7" itemLabel="Pabellón 3"/>
+                                                <f:selectItem itemValue="8" itemLabel="Pabellón 4"/>
+                                            </h:selectOneMenu>
+                                            <h:message for="lugaCita" errorClass="field-error" />
+                                        </div>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{citasBean.evento}">
+                                        <div class="input-group col-xs-12">
+                                            <h:outputLabel  for="evenCita" value="Evento: "/>
+                                            <h:message for="evenCita" errorClass="field-error" />
+                                            <h:selectOneMenu id="evenCita" value="#{citasBean.objeCita.codiEven}" class="form-control select" pt:data-live-search="true">
+                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                <f:selectItems value="#{eventosBean.listEven}" var="lst" itemLabel="#{lst.nombEven}" itemValue="#{lst}"/>
+                                                <f:converter converterId="PooConv"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{citasBean.solicitar || citasBean.reprogramar}">
+                                        <div class="input-group col-xs-12">
+                                            <h:outputLabel  for="hora" value="Horario disponible "/>
+                                            <h:selectOneMenu id="hora" value="#{citasBean.horaSeleCita}" class="form-control select" pt:data-live-search="true">
+                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                <f:selectItems value="#{citasBean.listHoraDispUsua}" var="lstHora" itemLabel="#{lstHora.diaHoraDisp} (#{lstHora.horaInicHoraDisp} - #{lstHora.horaFinaHoraDisp})" itemValue="#{lstHora}"/>
+                                                <f:converter converterId="PooConv"/>
+                                            </h:selectOneMenu>
+                                            <h:message for="hora" errorClass="field-error" />
+                                        </div>
+                                        <div class="input-group col-xs-12">
+                                            <h:outputLabel  for="fech" value="Fecha: "/>
+                                            <h:inputText id="fech" value="#{citasBean.fechSoliCita}" class="form-control datepicker">
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </h:inputText> 
+                                            <h:message for="fech" errorClass="field-error" />
                                         </div>
                                     </h:panelGroup>
                                     <div class="input-group col-xs-12">
                                         <h:outputLabel  for="descCita" value="Descripción: "/>
-                                        <h:inputTextarea  id="descCita" value="#{citasBean.objeCambCita.motiCambCita}" class="form-control"/>
+                                        <h:inputTextarea  id="descCita" value="#{citasBean.motivo}" class="form-control"/>
                                         <h:message for="descCita" errorClass="field-error" />
                                     </div>
                                 </div>
@@ -175,7 +238,7 @@ and open the template in the editor.
                                                     <p:ajax listener="#{citasBean.limpForm()}" process="@form" update="@form" global="true"/>
                                                     <i class="fa fa-mail-forward"/> Cerrar
                                                 </h:commandLink>
-                                                <h:commandLink id="btonGuar" class="btn btn-success">
+                                                <h:commandLink id="btonConfCita" class="btn btn-success" rendered="#{citasBean.confirmar}">
                                                     <p:ajax listener="#{citasBean.confCita()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
                                                     <i class="fa fa-plus"/> Confirmar
                                                 </h:commandLink>
