@@ -77,6 +77,22 @@ public class CitasBean implements Serializable{
     private boolean reprogramar;
     private boolean evento;
     
+    //Switch para formularios
+    private boolean switFormCita=true;
+
+    public boolean getSwitFormCita() {
+        return switFormCita;
+    }
+
+    public void setSwitFormCita(boolean switFormCita) {
+        this.switFormCita = switFormCita;
+    }
+    
+    public void toggSwitFormCita()
+    {
+        this.switFormCita = !this.switFormCita;
+    }
+    
     public CitasBean() {
         
     }
@@ -339,7 +355,7 @@ public class CitasBean implements Serializable{
             objeVisiCita.setCodiVisi(alumVisiSelec.getCodiVisi());
             objeVisiCita.setCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
             FCDEVisiCita.create(objeVisiCita);
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Guardado con éxito')");
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Se ha solicitado la cita, espere por la respuesta.')");
             this.limpForm();
         }
     }
@@ -392,10 +408,17 @@ public class CitasBean implements Serializable{
             int diaHoraDisp = getDay(this.horaSeleCita.getDiaHoraDisp());
             int diaExceHoraDisp = this.fechSoliCita.getDay();
             if(diaHoraDisp == diaExceHoraDisp){
-                
-                val = true;
+                if(this.fechSoliCita.after(new Date()))
+                {
+                    val = true;
+                }
+                else
+                {
+                    val = false;
+                    ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Fecha ya ha pasado');");
+                }
             }else{
-                ctx.execute("setMessage('MESS_INFO', 'Atención', 'Fecha Inválida para el Horario Seleccionado');");
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Fecha Inválida para el Horario Seleccionado');");
             }
         return val;
     }

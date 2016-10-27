@@ -22,6 +22,7 @@ and open the template in the editor.
         <ui:param name="actiCitaUsua" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
+            <h:outputScript library="js" name="custom/slid.js"/>
         <!--Plugins Selector de Fecha-->
         <h:outputStylesheet library="css" name="datepicker3.css"/>
         <h:outputScript library="js" name="bootstrap-datepicker.js"/>
@@ -132,7 +133,8 @@ and open the template in the editor.
                                     <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
                                     <h4 class="modal-title">¿Confirmar esta cita?</h4>
                                 </div>
-                                <div class="modal-body" style="padding-top: 2px;">
+                                <ui:fragment id="FragForm" rendered="#{citasBean.switFormCita}">    
+                                    <div class="modal-body" style="padding-top: 2px;">                                    
                                     <h:inputHidden id="codi" value="#{citasBean.objeCita.codiCita}" />
                                     <h:panelGroup rendered="#{citasBean.solicitar}">
                                         <div class="input-group col-xs-12">
@@ -165,6 +167,11 @@ and open the template in the editor.
                                                         pt:data-on-confirm="agregarSelect"><!--data-on-confirm = nombre del comando remoto de eliminar (sin paréntesis)-->
                                                 <i class="fa fa-plus"/> Agregar Visitante a Esta Cita
                                             </h:outputLink>
+                                            
+                                            <h:commandLink id="btonMostBusc" class="btn btn-default btn-sm">
+                                                <p:ajax listener="#{citasBean.toggSwitFormCita()}" process="@this" update="@form" global="true"/>
+                                                <i class="fa fa-search"/> Buscar ...
+                                            </h:commandLink>
                                         </div>
                                         <br/>
                                         <hr/>
@@ -245,6 +252,20 @@ and open the template in the editor.
                                             </div>
                                         </div>
                                 </div>
+                                </ui:fragment>
+                                <ui:fragment id="FragBusc" rendered="#{!citasBean.switFormCita}">
+                                    <div class="modal-body" style="padding-top: 2px;">                                    
+                                        Body
+                                    </div>
+                                    <div class="modal-footer">
+                                        Footer
+                                        <h:commandLink id="btonMostForm" class="btn btn-default btn-sm">
+                                                <p:ajax listener="#{citasBean.toggSwitFormCita()}" process="@this" update="@form" global="true"/>
+                                                <i class="fa fa-search"/> Volver al formulario ...
+                                            </h:commandLink>
+                                    </div>
+                                </ui:fragment>
+                                
                             </h:form>
                         </div>
                     </div>
