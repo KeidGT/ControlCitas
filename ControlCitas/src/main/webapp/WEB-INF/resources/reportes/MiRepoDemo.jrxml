@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MiRepoDemo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b4a42e3d-5495-43d8-a869-ef87ab6c37ba">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT * FROM alumnos;]]>
+	</queryString>
+	<field name="codi_alum" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nomb_alum" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apel_alum" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fech_naci_alum" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mail_alum" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tele_alum" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dire_alum" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="gene_alum" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="35" width="572" height="20" uuid="1c8c8b68-25e2-4ca3-974a-e44c06006a24"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte de ejempo"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="81" height="20" uuid="9fb28d8a-05e5-448f-bf78-f807f6f28100"/>
+				<text><![CDATA[nomb_alum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="0" width="81" height="20" uuid="a802f38b-f56f-4871-b047-840dab43c2d2"/>
+				<text><![CDATA[apel_alum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="0" width="81" height="20" uuid="832cea69-d311-4c8c-b0c9-75568c8f0165"/>
+				<text><![CDATA[fech_naci_alum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="243" y="0" width="81" height="20" uuid="f28ad11f-6d24-46ea-86ba-02bc20f1de66"/>
+				<text><![CDATA[mail_alum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="0" width="81" height="20" uuid="da769ef8-52d4-41ae-af9a-8ef223a8eca7"/>
+				<text><![CDATA[dire_alum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="0" width="81" height="20" uuid="8e80563b-80b3-4c95-9f36-e13d9dfe29a5"/>
+				<text><![CDATA[tele_alum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="486" y="0" width="81" height="20" uuid="065ba2e1-50e6-4846-b93a-53792662cb09"/>
+				<text><![CDATA[gene_alum]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="81" height="20" uuid="533e0974-ea50-4996-90c6-99a89c7e0c62"/>
+				<textFieldExpression><![CDATA[$F{nomb_alum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="0" width="81" height="20" uuid="b790ccc4-f009-46c9-b776-3afe05dcf31a"/>
+				<textFieldExpression><![CDATA[$F{apel_alum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="0" width="81" height="20" uuid="403e4e52-1504-4535-93e9-497473666deb"/>
+				<textFieldExpression><![CDATA[$F{fech_naci_alum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="243" y="0" width="81" height="20" uuid="f17b4b0b-5819-4cff-aa4e-31a705b9c8cf"/>
+				<textFieldExpression><![CDATA[$F{mail_alum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="324" y="0" width="81" height="20" uuid="3bbcf0e0-7db3-4c3b-823b-d0ec017331b4"/>
+				<textFieldExpression><![CDATA[$F{dire_alum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="0" width="81" height="20" uuid="a037893b-0ba0-4684-b1ad-979cf2737352"/>
+				<textFieldExpression><![CDATA[$F{tele_alum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="486" y="0" width="81" height="20" uuid="7f112933-2d49-44de-93cb-1f8b7abd7009"/>
+				<textFieldExpression><![CDATA[$F{gene_alum}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

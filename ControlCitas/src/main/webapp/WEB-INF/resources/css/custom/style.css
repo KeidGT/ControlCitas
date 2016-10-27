@@ -1,84 +1,90 @@
-/*SECCION DE LOS COMPONENTES DE PRIMEFACES*/
-.ui-widget-header{
-   background: #3C8DBC !important;
-    color: #fff !important;
-    font-weight: bold !important;
-    margin: 0px !important;
+.full-width{
+    width: 100%;
 }
-.ui-datepicker{
-    padding: 0px !important;
+.material-box{
+    border: none;
+    border-radius: 2px;
+    box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.34);
 }
-.ui-slider .ui-slider-handle{
-    background: #444f54 !important;
-    outline:0px !important;
+.box-header{
+    background: #444f54;
+    color: #fff;
+    border-radius: 3px 3px 0px 0px;
+    border-top: 1.5px solid #2e373a;
+    box-shadow: inset 0px 1.5px 0px 0px #758991,
+                2px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
 }
-.ui-inputfield {
-    background:rgba(255,255,255,0.2);
-    border-color:transparent !important;
-    border-radius:0 !important;
-    box-shadow:none !important;
-    border-color:#d2d6de !important;
-    box-shadow:none !important;
-    width: 100% !important;
-    margin: 0px !important;
-    height: 36px !important;
-    z-index: auto;
+.box-body{
+    background: #fff;
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.3);
+    border-radius: 0px;
+    font-weight: bold;
 }
-.ui-inputfield:focus, .ui-inputfield:active{
-    border-color:rgba(0,0,0,0.1) !important;
-    background:rgba(255,255,255,0.9) !important;
-    border-color:#3c8dbc !important;
-    box-shadow:none !important;
+.confirm-button{
+    background: #009688;
+    color: #fff;
 }
-.ui-inputfield::-moz-placeholder{
-    color:#ccc !important;
-    opacity:1 !important;
+.cancel-button{
+    background: #E7E7E7;
+    color: #384247;
 }
-.ui-inputfield:-ms-input-placeholder, .ui-inputfield::-webkit-input-placeholde{
-    color:#ccc !important;
+.update-button{
+    background: #367FA9;
+    color: #FFF;
 }
-.ui-inputfield:not(select){
-    -webkit-appearance:none !important;
-    -moz-appearance:none !important;
-    appearance:none !important;
+.delete-button{
+    background: #b71c1c;
+    color: #FFF;
 }
-.ui-datepicker{
-    
+.confirm-button, .cancel-button, .delete-button, .update-button{
+    font-weight: bold;
+    border-radius: 0px;
+    border: 0px;
+    width: 100%;
 }
-.ui-datepicker table tbody{
-    padding-left: 10px !important;
+.medium-button{
+    width: 48%;
+    margin: 1%;
 }
-.ui-datepicker table tbody tr td{
-    border: 1px solid !important;
-    border-color:#d2d6de !important;
-    text-align: left !important;
-    color: #000 !important;
-}
-.ui-datepicker table tbody tr td:hover{
-    background:#d2d6de !important;
-}
-.ui-datepicker .ui-datepicker-calendar .ui-state-default{
-    color: #000 !important;
-}
-.ui-datepicker-next-hover, .ui-datepicker-prev-hover{
-    box-shadow: none  !important;
-    
+.confirm-button:hover{
+    background: #fff;
+    box-shadow: inset 1px 1px 0px 0px #009688,
+                inset -1px -1px 0px 0px #009688;
+    color: #009688;
 } 
-.main-header{
-    z-index: 900 !important;
+.cancel-button:hover{
+    background: #fff;
+    box-shadow: inset 1px 1px 0px 0px #384247,
+                inset -1px -1px 0px 0px #384247;
+    color: #384247;
 }
-.fade{
-    z-index: 999 !important;
+.update-button:hover{
+    background: #fff;
+    box-shadow: inset 1px 1px 0px 0px #0086b6,
+                inset -1px -1px 0px 0px #0086b6;
+    color: #0086b6;
 }
-.modal{
-    z-index: 1000 !important;
+.delete-button:hover, .delete-button:active{
+    background: #fff;
+    box-shadow: inset 1px 1px 0px 0px #b71c1c,
+                inset -1px -1px 0px 0px #b71c1c;
+    color: #b71c1c;
 }
-.modal-dialog{
-    z-index: 1001 !important;
+.hidden{
+    display: none;
 }
-.modal-content{
-    z-index: 1002 !important;
+.r-row{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 30px;
+    padding: 0px;
+    margin-left: 1%;
 }
-.RegDiv{
-    margin-right: 0px;
+.r-col6{
+    width: 46.8%;
+    margin-left: 1%;
+    margin-right: 1%;
+    display: inline-block;
+    overflow: hidden;
 }
