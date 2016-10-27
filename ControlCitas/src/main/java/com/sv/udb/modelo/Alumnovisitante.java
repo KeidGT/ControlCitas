@@ -30,13 +30,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Alumno_visitante", catalog = "sistemas_pilet", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Alumnovisitante.findAll", query = "SELECT a FROM Alumnovisitante a"),
+    @NamedQuery(name = "Alumnovisitante.findAll", query = "SELECT a FROM Alumnovisitante a ORDER BY a.codiVisi desc, a.carnAlum desc"),
     @NamedQuery(name = "Alumnovisitante.findByCodiAlumVisi", query = "SELECT a FROM Alumnovisitante a WHERE a.codiAlumVisi = :codiAlumVisi"),
     @NamedQuery(name = "Alumnovisitante.findByCarnAlum", query = "SELECT a FROM Alumnovisitante a WHERE a.carnAlum = :carnAlum"),
     @NamedQuery(name = "Alumnovisitante.findByCodiVisiCarnAlum", query = "SELECT a FROM Alumnovisitante a WHERE a.codiVisi = :codiVisi and a.carnAlum = :carnAlum"),
     @NamedQuery(name = "Alumnovisitante.findByPareAlumVisi", query = "SELECT a FROM Alumnovisitante a WHERE a.pareAlumVisi = :pareAlumVisi"),
     @NamedQuery(name = "Alumnovisitante.findByEspeAlumVisi", query = "SELECT a FROM Alumnovisitante a WHERE a.espeAlumVisi = :espeAlumVisi"),
-    @NamedQuery(name = "Alumnovisitante.findByEstaAlumVisi", query = "SELECT a FROM Alumnovisitante a WHERE a.estaAlumVisi = :estaAlumVisi")})
+    @NamedQuery(name = "Alumnovisitante.findByEstaAlumVisi", query = "SELECT a FROM Alumnovisitante a WHERE a.estaAlumVisi = :estaAlumVisi"),
+    //PERSONALIZADAS
+    @NamedQuery(name = "Alumnovisitante.findByCita", query = "SELECT a FROM Alumnovisitante a, Visitantecita vs  WHERE a.codiVisi = vs.codiVisi and vs.codiCita = :codiCita")
+    })
 public class Alumnovisitante implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -127,55 +127,26 @@ and open the template in the editor.
                         <!-- Modal content-->
                         <div class="modal-content">
                             <h:form id="FormRegi" class="form-horizontal">
-                                <p:remoteCommand name="agregarSelect" actionListener="#{citasBean.guarVisiCita()}" process="@this,cmbVisi" update="@form :ContRegi" 
-                                                 oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true" immediate="false" />
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
                                     <h4 class="modal-title">¿Confirmar esta cita?</h4>
                                 </div>
                                 <ui:fragment id="FragForm" rendered="#{citasBean.switFormCita}">    
                                     <div class="modal-body" style="padding-top: 2px;">                                    
-                                    <h:inputHidden id="codi" value="#{citasBean.objeCita.codiCita}" />
-                                    <h:panelGroup rendered="#{citasBean.solicitar}">
-                                        <div class="input-group col-xs-12">
-                                            <h:outputLabel  for="alum" value="Alumno "/>
-                                            <h:selectOneMenu id="alum" value="#{citasBean.carnAlum}" class="form-control select" pt:data-live-search="true">
-                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItem itemValue="20130670" itemLabel="Kevin Guevara"/>
-                                                <f:selectItem itemValue="20130650" itemLabel="Alvin Baires"/>
-                                                <f:selectItem itemValue="20135414" itemLabel="Vanessa Urrutia"/>
-                                                <f:selectItem itemValue="20141592" itemLabel="Keneth Vasquez"/>
-                                                <p:ajax listener="#{citasBean.consVisiAlum()}" process="@this" oncomplete="INIT_OBJE_MODA(); INIT_OBJE_CITA();" update="@form :FormRegi"  />
-                                            </h:selectOneMenu>
-                                            <h:message for="alum" errorClass="field-error" />
-                                        </div>
-                                        <div class="input-group col-xs-12">
-                                            <h:outputLabel  for="cmbVisi" value="Visitante "/>
-                                            <h:selectOneMenu id="cmbVisi" value="#{citasBean.objeVisi}" class="form-control select" pt:data-live-search="true">
-                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItems value="#{citasBean.listVisi}" var="lstVisi" itemLabel="#{lstVisi.nombVisi} #{lstVisi.apelVisi}" itemValue="#{lstVisi}"/>
-                                                <f:converter converterId="PooConv"/>
-                                            </h:selectOneMenu>
-                                            <h:message for="cmbVisi" errorClass="field-error" />
-                                        </div>
-                                        <br/>
-                                        <div class="input-group col-xs-12">
-                                            <h:outputLink id="btonAgreVisi" class="btn btn-info"  value="#" pt:data-placement="left"
-                                                        pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-plus"
-                                                        pt:data-btn-ok-class="btn-info btn-xs" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
-                                                        pt:data-btn-cancel-class="btn-default btn-xs" pt:data-title="¿Agregar Visitante?"
-                                                        pt:data-on-confirm="agregarSelect"><!--data-on-confirm = nombre del comando remoto de eliminar (sin paréntesis)-->
-                                                <i class="fa fa-plus"/> Agregar Visitante a Esta Cita
-                                            </h:outputLink>
-                                            
+                                        <h:inputHidden id="codi" value="#{citasBean.objeCita.codiCita}" />
+                                        <h:panelGroup rendered="#{citasBean.solicitar}">
+
+
+
                                             <h:commandLink id="btonMostBusc" class="btn btn-default btn-sm">
                                                 <p:ajax listener="#{citasBean.toggSwitFormCita()}" process="@this" update="@form" global="true"/>
                                                 <i class="fa fa-search"/> Buscar ...
                                             </h:commandLink>
-                                        </div>
-                                        <br/>
-                                        <hr/>
-                                    </h:panelGroup>
+
+                                            <br/>
+                                            <hr/>
+                                        </h:panelGroup>
+                                    
                                     <style>.espacio{margin-left: 20px;}</style>
                                     <div class="input-group col-xs-12">
                                         <h:outputLabel  for="rbEvento" value="Lugar ó Evento: "/>
@@ -255,7 +226,55 @@ and open the template in the editor.
                                 </ui:fragment>
                                 <ui:fragment id="FragBusc" rendered="#{!citasBean.switFormCita}">
                                     <div class="modal-body" style="padding-top: 2px;">                                    
-                                        Body
+                                        <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{alumnosBean.consTodoAlum()}"
+                                            var="fila" class="boottable" pt:data-toolbar="#toolTablRegi"
+                                            styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
+                                            pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
+                                            pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
+                                            pt:data-click-to-select="true"  pt:data-select-item-name="radio"
+                                            pt:data-single-select="true">                                
+                                            <h:column pt:data-field="state" pt:data-checkbox="true">
+                                            </h:column>
+                                            <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
+                                                <f:facet name="header">Carnet</f:facet>
+                                                <h:outputText value="#{fila.carnAlum}"/>
+                                            </h:column>
+                                            <h:column pt:data-sortable="true" pt:data-field="nomb">
+                                                <f:facet name="header">Nombre</f:facet>
+                                                <h:outputText value="#{fila.nombAlum}"/>   
+                                            </h:column>
+                                            <h:column pt:data-sortable="true" pt:data-field="apel">
+                                                <f:facet name="header">Apellido</f:facet>
+                                                <h:outputText value="#{fila.apelAlum}"/>   
+                                            </h:column>
+                                            <h:column pt:data-sortable="true" pt:data-field="carn">
+                                                <f:facet name="header">Nivel</f:facet>
+                                                <h:outputText value="#{fila.nivAlum}"/>   
+                                            </h:column>
+                                            <h:column pt:data-sortable="true" pt:data-field="espe">
+                                                <f:facet name="header">Epecialidad</f:facet>
+                                                <h:outputText value="#{fila.espeAulm}"/>   
+                                            </h:column>
+                                            <h:column pt:data-sortable="true" pt:data-field="grupa">
+                                                <f:facet name="header">Grupo Académico</f:facet>
+                                                <h:outputText value="#{fila.grupAcad}"/>   
+                                            </h:column>
+                                            <h:column pt:data-sortable="true" pt:data-field="grupt">
+                                                <f:facet name="header">Grupo Técnico</f:facet>
+                                                <h:outputText value="#{fila.grupTecn}"/>   
+                                            </h:column>
+                                                 
+                                        </h:dataTable>
+                                        
+                                        <div class="input-group col-xs-12">
+                                            <h:outputLabel  for="cmbVisi" value="Visitante "/>
+                                            <h:selectOneMenu id="cmbVisi" value="#{citasBean.objeVisi}" class="form-control select" pt:data-live-search="true">
+                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                <f:selectItems value="#{citasBean.listVisi}" var="lstVisi" itemLabel="#{lstVisi.nombVisi} #{lstVisi.apelVisi}" itemValue="#{lstVisi}"/>
+                                                <f:converter converterId="PooConv"/>
+                                            </h:selectOneMenu>
+                                            <h:message for="cmbVisi" errorClass="field-error" />
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         Footer

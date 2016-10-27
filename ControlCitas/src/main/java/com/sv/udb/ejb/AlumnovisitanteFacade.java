@@ -6,6 +6,7 @@
 package com.sv.udb.ejb;
 
 import com.sv.udb.modelo.Alumnovisitante;
+import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Horariodisponible;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -44,6 +45,13 @@ public class AlumnovisitanteFacade extends AbstractFacade<Alumnovisitante> imple
     public List<Alumnovisitante> findByCarnAlum(Object carnAlum) {
         TypedQuery<Alumnovisitante> q = getEntityManager().createNamedQuery("Alumnovisitante.findByCarnAlum", Alumnovisitante.class);        
         q.setParameter("carnAlum", String.valueOf(carnAlum));
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : resu;
+    }
+    @Override
+    public List<Alumnovisitante> findByCita(Cita codiCita) {
+        TypedQuery<Alumnovisitante> q = getEntityManager().createNamedQuery("Alumnovisitante.findByCita", Alumnovisitante.class);        
+        q.setParameter("codiCita", codiCita);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }

@@ -6,6 +6,7 @@
 package com.sv.udb.ejb;
 
 import com.sv.udb.modelo.Alumnovisitante;
+import com.sv.udb.modelo.Cita;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -31,6 +32,8 @@ public interface AlumnovisitanteFacadeLocal {
     List<Alumnovisitante> findByCodiVisiCarnAlum(Object codiVisi, Object carnAlum);
     
     List<Alumnovisitante> findByCarnAlum(Object carnAlum);
+    
+    List<Alumnovisitante> findByCita(Cita carnAlum);
     
     int count();
     
