@@ -106,7 +106,7 @@ and open the template in the editor.
                                             <h:message for="dui" errorClass="field-error" />
                                         </div>
                                         <h:commandLink id="btonVeri" class="btn btn-success" rendered="#{alumnoVisitanteBean.contForm}">
-                                            <p:ajax listener="#{alumnoVisitanteBean.consPorDui()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" />
+                                            <p:ajax listener="#{alumnoVisitanteBean.consPorDui()}" process="@this,dui" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_FORM();" />
                                             <i class="fa fa-plus"/> Verificar
                                         </h:commandLink>
                                         <h:panelGroup>
@@ -122,7 +122,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="input-group col-xs-12">
                                                 <h:outputLabel  for="tel" value="Teléfono: "/>
-                                                <p:inputMask id="tel" value="#{alumnoVisitanteBean.objeVisi.teleVisi}" disabled="#{alumnoVisitanteBean.disabled}" mask="9999-9999"/>
+                                                <p:inputMask id="tel" value="#{alumnoVisitanteBean.objeVisi.teleVisi}" disabled="#{alumnoVisitanteBean.disabled}" mask="9999-9999" class="form-control"/>
                                                 <h:message for="tel" errorClass="field-error" />
                                             </div>
                                             <div class="input-group col-xs-12">

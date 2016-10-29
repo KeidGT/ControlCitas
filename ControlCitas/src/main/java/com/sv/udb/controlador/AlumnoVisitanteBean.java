@@ -37,7 +37,7 @@ public class AlumnoVisitanteBean implements Serializable{
     private AlumnovisitanteFacadeLocal FCDEAlumVisi;    
     private Alumnovisitante objeAlumVisi;
         
-    private List<Alumnovisitante> listAlumVisi =new ArrayList<Alumnovisitante>();
+    private List<Alumnovisitante> listAlumVisi;
     private boolean guardar;
     
     // Variables para registrarse como visitante representante alumno
@@ -46,7 +46,8 @@ public class AlumnoVisitanteBean implements Serializable{
     private Visitante objeVisi;
     private boolean Disabled;
     private boolean contForm;
-    private List<Alumnovisitante> listAlumVisiCarne = new ArrayList<Alumnovisitante>();
+    private List<Alumnovisitante> listAlumVisiCarne;
+    
     
     public Alumnovisitante getObjeAlumVisi() {
         return objeAlumVisi;
@@ -123,6 +124,8 @@ public class AlumnoVisitanteBean implements Serializable{
         this.guardar = true;   
         this.Disabled = true; 
         this.contForm = true;
+        this.listAlumVisiCarne  = new ArrayList<Alumnovisitante>();
+        this.listAlumVisi  = new ArrayList<Alumnovisitante>();
     }
     
     public void consTodo()

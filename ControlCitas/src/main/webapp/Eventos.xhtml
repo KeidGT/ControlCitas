@@ -110,19 +110,13 @@ and open the template in the editor.
                                     <fieldset class="col-md-12">
                                         <h:inputHidden id="codi" value="#{eventosBean.objeEven.codiEvent}" />
 			                            <div class="input-group col-xs-12">
-			                                <h:outputLabel  for="dia" value="Lugar: "/>
-			                                <h:selectOneMenu id="dia" value="#{eventosBean.objeEven.codiLuga}" class="form-control select" pt:data-live-search="true">
-			                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-			                                    <f:selectItem itemValue="1" itemLabel="Salón de Usos Multiples"/>
-			                                    <f:selectItem itemValue="2" itemLabel="Biblioteca"/>
-			                                    <f:selectItem itemValue="3" itemLabel="Salón Don Bosco 1"/>
-			                                    <f:selectItem itemValue="4" itemLabel="Salón Don Bosco 2"/>
-			                                    <f:selectItem itemValue="5" itemLabel="Pabellón 1"/>
-			                                    <f:selectItem itemValue="6" itemLabel="Pabellón 2"/>
-			                                    <f:selectItem itemValue="7" itemLabel="Pabellón 3"/>
-			                                    <f:selectItem itemValue="8" itemLabel="Pabellón 4"/>
-			                                </h:selectOneMenu>
-			                                <h:message for="dia" errorClass="field-error" />
+			                                <h:outputLabel  for="luga" value="Lugar: "/>
+			                                <h:selectOneMenu id="luga" value="#{citasBean.objeCita.codiUbi}" class="form-control select" pt:data-live-search="true">
+                                                            <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                            <f:selectItems value="#{ubicacionesBean.listUbic}" var="lst" itemLabel="#{lst.nombUbi}" itemValue="#{lst}"/>
+                                                            <f:converter converterId="PooConv"/>
+                                                        </h:selectOneMenu>
+			                                <h:message for="luga" errorClass="field-error" />
 			                            </div>
 			                            <div class="input-group col-xs-12">
 			                                <h:outputLabel  for="nombEven" value="Nombre de Evento: "/>
