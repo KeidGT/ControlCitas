@@ -6,9 +6,7 @@
 package com.sv.udb.modelo;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,12 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,7 +32,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Cita.findAll", query = "SELECT c FROM Cita c"),
     @NamedQuery(name = "Cita.findByCodiCita", query = "SELECT c FROM Cita c WHERE c.codiCita = :codiCita"),
-    @NamedQuery(name = "Cita.findByCodiLugar", query = "SELECT c FROM Cita c WHERE c.codiLugar = :codiLugar"),
     @NamedQuery(name = "Cita.findByCodiUsua", query = "SELECT c FROM Cita c WHERE c.codiUsua = :codiUsua"),
     @NamedQuery(name = "Cita.findByTipoCita", query = "SELECT c FROM Cita c WHERE c.tipoCita = :tipoCita"),
     @NamedQuery(name = "Cita.findByTipoVisi", query = "SELECT c FROM Cita c WHERE c.tipoVisi = :tipoVisi"),
@@ -53,8 +48,6 @@ public class Cita implements Serializable {
     @Basic(optional = false)
     @Column(name = "codi_cita")
     private Integer codiCita;
-    @Column(name = "codi_lugar")
-    private Integer codiLugar;
     @Column(name = "codi_usua")
     private Integer codiUsua;
     @Basic(optional = false)
@@ -80,8 +73,9 @@ public class Cita implements Serializable {
     @JoinColumn(name = "codi_even", referencedColumnName = "codi_event")
     @ManyToOne(fetch = FetchType.EAGER)
     private Evento codiEven;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiCita", fetch = FetchType.EAGER)
-    private List<Visitantecita> visitantecitaList;
+    @JoinColumn(name = "codi_ubi", referencedColumnName = "codi_ubi")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Ubicaciones codiUbi;
 
     public Cita() {
     }
@@ -102,14 +96,6 @@ public class Cita implements Serializable {
 
     public void setCodiCita(Integer codiCita) {
         this.codiCita = codiCita;
-    }
-
-    public Integer getCodiLugar() {
-        return codiLugar;
-    }
-
-    public void setCodiLugar(Integer codiLugar) {
-        this.codiLugar = codiLugar;
     }
 
     public Integer getCodiUsua() {
@@ -184,13 +170,12 @@ public class Cita implements Serializable {
         this.codiEven = codiEven;
     }
 
-    @XmlTransient
-    public List<Visitantecita> getVisitantecitaList() {
-        return visitantecitaList;
+    public Ubicaciones getCodiUbi() {
+        return codiUbi;
     }
 
-    public void setVisitantecitaList(List<Visitantecita> visitantecitaList) {
-        this.visitantecitaList = visitantecitaList;
+    public void setCodiUbi(Ubicaciones codiUbi) {
+        this.codiUbi = codiUbi;
     }
 
     @Override

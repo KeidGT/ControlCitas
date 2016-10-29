@@ -36,7 +36,7 @@ public class CambiocitaFacade extends AbstractFacade<Cambiocita> implements Camb
     
     @Override
     public Cambiocita findByCodiCita(Object codi) {
-        TypedQuery<Cambiocita> q = getEntityManager().createNamedQuery("Cambiocita.findByCodiCita", Cambiocita.class);        
+        TypedQuery<Cambiocita> q = (TypedQuery<Cambiocita>) getEntityManager().createQuery("SELECT c FROM Cambiocita c WHERE c.codiCita = :codiCita ORDER BY c.fechCambCita desc, c.horaCambCita desc");    
         q.setParameter("codiCita", String.valueOf(codi));
         List resu = q.getResultList();
         return resu.isEmpty() ? null : (Cambiocita)resu.get(0);
@@ -44,7 +44,7 @@ public class CambiocitaFacade extends AbstractFacade<Cambiocita> implements Camb
     
     @Override
     public Cambiocita findByCita(Cita codi) {
-        TypedQuery<Cambiocita> q = getEntityManager().createNamedQuery("Cambiocita.findByCodiCita", Cambiocita.class);      
+        TypedQuery<Cambiocita> q = (TypedQuery<Cambiocita>) getEntityManager().createQuery("SELECT c FROM Cambiocita c WHERE c.codiCita = :codiCita ORDER BY c.fechCambCita desc, c.horaCambCita desc");     
         q.setParameter("codiCita", codi);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : (Cambiocita)resu.get(0);

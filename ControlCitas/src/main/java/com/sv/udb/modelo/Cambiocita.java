@@ -35,7 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Cambiocita.findAll", query = "SELECT c FROM Cambiocita c"),
     @NamedQuery(name = "Cambiocita.findByCodiCambCita", query = "SELECT c FROM Cambiocita c WHERE c.codiCambCita = :codiCambCita"),
-    @NamedQuery(name = "Cambiocita.findByCodiCita", query = "SELECT c FROM Cambiocita c WHERE c.codiCita = :codiCita ORDER BY c.fechCambCita desc, c.horaCambCita desc"),
     @NamedQuery(name = "Cambiocita.findByFechCambCita", query = "SELECT c FROM Cambiocita c WHERE c.fechCambCita = :fechCambCita"),
     @NamedQuery(name = "Cambiocita.findByHoraCambCita", query = "SELECT c FROM Cambiocita c WHERE c.horaCambCita = :horaCambCita"),
     @NamedQuery(name = "Cambiocita.findByFechInicCitaNuev", query = "SELECT c FROM Cambiocita c WHERE c.fechInicCitaNuev = :fechInicCitaNuev"),
@@ -43,7 +42,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Cambiocita.findByFechFinCitaNuev", query = "SELECT c FROM Cambiocita c WHERE c.fechFinCitaNuev = :fechFinCitaNuev"),
     @NamedQuery(name = "Cambiocita.findByHoraFinCitaNuev", query = "SELECT c FROM Cambiocita c WHERE c.horaFinCitaNuev = :horaFinCitaNuev"),
     @NamedQuery(name = "Cambiocita.findByMotiCambCita", query = "SELECT c FROM Cambiocita c WHERE c.motiCambCita = :motiCambCita"),
-    @NamedQuery(name = "Cambiocita.findByEstaCambCita", query = "SELECT c FROM Cambiocita c WHERE c.estaCambCita = :estaCambCita")})
+    @NamedQuery(name = "Cambiocita.findByEstaCambCita", query = "SELECT c FROM Cambiocita c WHERE c.estaCambCita = :estaCambCita"),
+    //CUSTOM
+    @NamedQuery(name = "Cambiocita.findByCodiCita", query = "SELECT c FROM Cambiocita c WHERE c.codiCita = :codiCita ORDER BY c.fechCambCita desc, c.horaCambCita desc")})
 public class Cambiocita implements Serializable {
 
     private static final long serialVersionUID = 1L;

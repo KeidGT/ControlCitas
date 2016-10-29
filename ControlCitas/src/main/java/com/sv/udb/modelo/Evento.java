@@ -1,5 +1,7 @@
 /*
- *Modelo controlador: Evento 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.sv.udb.modelo;
 
@@ -13,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,8 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Sistema de citas
- * @version 1.0 13 de Octubre de 2016
+ * @author Kevin
  */
 @Entity
 @Table(name = "Evento", catalog = "sistemas_pilet", schema = "")
@@ -35,20 +38,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Evento.findAll", query = "SELECT e FROM Evento e"),
     @NamedQuery(name = "Evento.findByCodiEvent", query = "SELECT e FROM Evento e WHERE e.codiEvent = :codiEvent"),
-    @NamedQuery(name = "Evento.findByCodiLuga", query = "SELECT e FROM Evento e WHERE e.codiLuga = :codiLuga"),
     @NamedQuery(name = "Evento.findByNombEven", query = "SELECT e FROM Evento e WHERE e.nombEven = :nombEven"),
     @NamedQuery(name = "Evento.findByFechInicEven", query = "SELECT e FROM Evento e WHERE e.fechInicEven = :fechInicEven"),
     @NamedQuery(name = "Evento.findByFechFinaEven", query = "SELECT e FROM Evento e WHERE e.fechFinaEven = :fechFinaEven"),
     @NamedQuery(name = "Evento.findByHoraInicEven", query = "SELECT e FROM Evento e WHERE e.horaInicEven = :horaInicEven"),
     @NamedQuery(name = "Evento.findByHoraFinaEven", query = "SELECT e FROM Evento e WHERE e.horaFinaEven = :horaFinaEven")})
-
-  /**
-   * Clase publica evento
-   */
 public class Evento implements Serializable {
-
-    @OneToMany(mappedBy = "codiEven", fetch = FetchType.EAGER)
-    private List<Cita> citaList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,10 +51,6 @@ public class Evento implements Serializable {
     @Basic(optional = false)
     @Column(name = "codi_event")
     private Integer codiEvent;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "codi_luga")
-    private int codiLuga;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -85,25 +76,21 @@ public class Evento implements Serializable {
     @Size(min = 1, max = 8)
     @Column(name = "hora_fina_even")
     private String horaFinaEven;
+    @OneToMany(mappedBy = "codiEven", fetch = FetchType.EAGER)
+    private List<Cita> citaList;
+    @JoinColumn(name = "codi_ubi", referencedColumnName = "codi_ubi")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Ubicaciones codiUbi;
 
-    
-  /**
-   * Método constructor evento
-   */
     public Evento() {
     }
 
-  /**
-   * Método constructor
-   * registro
-   */
     public Evento(Integer codiEvent) {
         this.codiEvent = codiEvent;
     }
 
-    public Evento(Integer codiEvent, int codiLuga, String nombEven, Date fechInicEven, Date fechFinaEven, String horaInicEven, String horaFinaEven) {
+    public Evento(Integer codiEvent, String nombEven, Date fechInicEven, Date fechFinaEven, String horaInicEven, String horaFinaEven) {
         this.codiEvent = codiEvent;
-        this.codiLuga = codiLuga;
         this.nombEven = nombEven;
         this.fechInicEven = fechInicEven;
         this.fechFinaEven = fechFinaEven;
@@ -117,14 +104,6 @@ public class Evento implements Serializable {
 
     public void setCodiEvent(Integer codiEvent) {
         this.codiEvent = codiEvent;
-    }
-
-    public int getCodiLuga() {
-        return codiLuga;
-    }
-
-    public void setCodiLuga(int codiLuga) {
-        this.codiLuga = codiLuga;
     }
 
     public String getNombEven() {
@@ -167,6 +146,23 @@ public class Evento implements Serializable {
         this.horaFinaEven = horaFinaEven;
     }
 
+    @XmlTransient
+    public List<Cita> getCitaList() {
+        return citaList;
+    }
+
+    public void setCitaList(List<Cita> citaList) {
+        this.citaList = citaList;
+    }
+
+    public Ubicaciones getCodiUbi() {
+        return codiUbi;
+    }
+
+    public void setCodiUbi(Ubicaciones codiUbi) {
+        this.codiUbi = codiUbi;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -190,15 +186,6 @@ public class Evento implements Serializable {
     @Override
     public String toString() {
         return "com.sv.udb.modelo.Evento[ codiEvent=" + codiEvent + " ]";
-    }
-
-    @XmlTransient
-    public List<Cita> getCitaList() {
-        return citaList;
-    }
-
-    public void setCitaList(List<Cita> citaList) {
-        this.citaList = citaList;
     }
     
 }

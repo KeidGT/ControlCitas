@@ -34,21 +34,21 @@ public class VisitanteFacade extends AbstractFacade<Visitante> implements Visita
     }
     @Override
     public Visitante findByDuiVisi(Object dui) {
-        TypedQuery<Visitante> q = getEntityManager().createNamedQuery("Visitante.findByDuiVisi", Visitante.class);        
+        TypedQuery<Visitante> q = (TypedQuery<Visitante>) getEntityManager().createQuery("SELECT v FROM Visitante v WHERE v.duiVisi = :duiVisi");     
         q.setParameter("duiVisi", dui);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : (Visitante)resu.get(0);
     }
     @Override
     public List<Visitante> findByCita(Cita codiCita) {
-        TypedQuery<Visitante> q = getEntityManager().createNamedQuery("Visitante.findByCita", Visitante.class);        
+        TypedQuery<Visitante> q = (TypedQuery<Visitante>) getEntityManager().createQuery("SELECT v FROM Visitante v, Visitantecita vc WHERE v.codiVisi = vc.codiVisi.codiVisi and vc.codiCita.codiCita = :codiCita");    
         q.setParameter("codiCita", codiCita.getCodiCita());
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
     @Override
     public List<Visitante> findByCarnAlum(String carnAlum) {
-        TypedQuery<Visitante> q = getEntityManager().createNamedQuery("Visitante.findByCarnAlum", Visitante.class);        
+        TypedQuery<Visitante> q = (TypedQuery<Visitante>) getEntityManager().createQuery("SELECT v FROM Visitante v, Alumnovisitante ac WHERE v.codiVisi = ac.codiVisi.codiVisi and ac.carnAlum = :carnAlum");       
         q.setParameter("carnAlum", carnAlum);
         List resu = q.getResultList();
         return resu.isEmpty() ? new ArrayList<Visitante>() : resu;
