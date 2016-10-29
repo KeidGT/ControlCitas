@@ -75,7 +75,6 @@ public class CitasBean implements Serializable{
     private boolean confirmar;
     private boolean solicitar;
     private boolean reprogramar;
-    private boolean evento;
     
     //Switch para formularios
     private boolean switFormCita=true;
@@ -226,14 +225,6 @@ public class CitasBean implements Serializable{
         this.reprogramar = reprogramar;
     }
 
-    public boolean isEvento() {
-        return evento;
-    }
-
-    public void setEvento(boolean evento) {
-        this.evento = evento;
-    }
-
     public List<Horariodisponible> getListHoraDispUsua() {
         return listHoraDispUsua;
     }
@@ -273,7 +264,6 @@ public class CitasBean implements Serializable{
         this.confirmar = false;
         this.reprogramar = false;
         this.solicitar = true;
-        this.evento =false;
     }
     
     public void consCitaPorAlum()
@@ -565,7 +555,7 @@ public class CitasBean implements Serializable{
             limpForm();
             this.objeCita = FCDECita.find(codi);//consultamos la cita
             this.objeCambCita = consCambCita(this.objeCita);//consultamos el ultimo cambio de cita
-            motivo = objeCambCita.getMotiCambCita();
+            //motivo = objeCambCita.getMotiCambCita();
             consVisiCita();//consultamos todos los visitantes de la cita
             this.guardar = false;
             estAcci();
@@ -618,7 +608,6 @@ public class CitasBean implements Serializable{
             objeCambCita.setFechCambCita(new Date());
             DateFormat df = new SimpleDateFormat("HH:mm:a");
             objeCambCita.setHoraCambCita(df.format(new Date()));
-            if(evento)objeCita.setCodiUbic(objeCita.getCodiEven().getCodiUbic());
             FCDECita.edit(objeCita);
             FCDECambCita.create(objeCambCita);
             this.limpForm();

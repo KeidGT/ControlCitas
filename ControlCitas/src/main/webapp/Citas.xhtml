@@ -93,7 +93,7 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="luga">
                                    <f:facet name="header">Lugar </f:facet>
-                                   <h:outputText value="#{fila.codiCita.codiUbi.nombUbi}"/>
+                                   <h:outputText value="#{fila.codiCita.codiUbic.nombUbic}"/>
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="moti">
                                    <f:facet name="header">Motivo </f:facet>
@@ -115,6 +115,45 @@ and open the template in the editor.
                                        <i class="fa fa-calendar-o"/> Declinada</h:panelGroup> 
                                </h:column>     
                             </h:dataTable>
+                            <h:dataTable pt:data-id="TablAlum" id="TablAlum" value="#{alumnosBean.consTodoAlum()}"
+                                        var="fila" class="boottable" pt:data-toolbar="#toolTablAlum"
+                                        styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
+                                        pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
+                                        pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
+                                        pt:data-click-to-select="true"  pt:data-select-item-name="radio"
+                                        pt:data-single-select="true">                                
+                                        <h:column pt:data-field="state" pt:data-checkbox="true">
+                                        </h:column>
+                                        <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
+                                            <f:facet name="header">Carnet</f:facet>
+                                            <h:outputText value="#{fila.carnAlum}"/>
+                                        </h:column>
+                                        <h:column pt:data-sortable="true" pt:data-field="nomb">
+                                            <f:facet name="header">Nombre</f:facet>
+                                            <h:outputText value="#{fila.nombAlum}"/>   
+                                        </h:column>
+                                        <h:column pt:data-sortable="true" pt:data-field="apel">
+                                            <f:facet name="header">Apellido</f:facet>
+                                            <h:outputText value="#{fila.apelAlum}"/>   
+                                        </h:column>
+                                        <h:column pt:data-sortable="true" pt:data-field="carn">
+                                            <f:facet name="header">Nivel</f:facet>
+                                            <h:outputText value="#{fila.nivAlum}"/>   
+                                        </h:column>
+                                        <h:column pt:data-sortable="true" pt:data-field="espe">
+                                            <f:facet name="header">Epecialidad</f:facet>
+                                            <h:outputText value="#{fila.espeAulm}"/>   
+                                        </h:column>
+                                        <h:column pt:data-sortable="true" pt:data-field="grupa">
+                                            <f:facet name="header">Grupo Académico</f:facet>
+                                            <h:outputText value="#{fila.grupAcad}"/>   
+                                        </h:column>
+                                        <h:column pt:data-sortable="true" pt:data-field="grupt">
+                                            <f:facet name="header">Grupo Técnico</f:facet>
+                                            <h:outputText value="#{fila.grupTecn}"/>   
+                                        </h:column>
+
+                            </h:dataTable>
                             </h:panelGroup>
                         </div>
                     </div>
@@ -135,130 +174,68 @@ and open the template in the editor.
                                     <div class="modal-body" style="padding-top: 2px;">                                    
                                         <h:inputHidden id="codi" value="#{citasBean.objeCita.codiCita}" />
                                         <h:panelGroup rendered="#{citasBean.solicitar}">
-
-
-
+                                            <ui:insert name="tableAlum">
+            
+                                            </ui:insert>
                                             <h:commandLink id="btonMostBusc" class="btn btn-default btn-sm">
-                                                <p:ajax listener="#{citasBean.toggSwitFormCita()}" process="@this" update="@form" global="true"/>
-                                                <i class="fa fa-search"/> Buscar ...
+                                                <p:ajax listener="#{citasBean.toggSwitFormCita()}" process="@this" update="@form" global="true" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();"/>
+                                                <i class="fa fa-search"/> Agregar Visitantes a esta cita ...
                                             </h:commandLink>
-
                                             <br/>
+                                            
                                             <hr/>
                                         </h:panelGroup>
-                                    
-                                    <style>.espacio{margin-left: 20px;}</style>
-                                    <div class="input-group col-xs-12">
-                                        <h:outputLabel  for="rbEvento" value="Lugar ó Evento: "/>
-                                        <h:selectOneRadio id="rbEvento" value="#{citasBean.evento}" >
-                                            <f:selectItem class="radio radio-info" itemValue="false" itemLabel=" Lugar "/>
-                                            <f:selectItem class="radio radio-info espacio" itemValue="true" itemLabel=" Evento "/>
-                                            <p:ajax  process="@this" update="@form" global="true" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();"/>
-                                        </h:selectOneRadio>
-                                        <h:message for="rbEvento" errorClass="field-error" />
-                                    </div>
-                                    <h:panelGroup rendered="#{!citasBean.evento}">
                                         <div class="input-group col-xs-12">
-                                            <h:outputLabel  for="ubiCita" value="Ubicación "/>
-                                            <h:selectOneMenu id="ubiCita" value="#{citasBean.objeCita.codiUbi}" class="form-control select" pt:data-live-search="true">
+                                            <h:outputLabel  for="ubicCita" value="Ubicación "/>
+                                            <h:selectOneMenu id="ubicCita" value="#{citasBean.objeCita.codiUbic}" class="form-control select" pt:data-live-search="true">
                                                 <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItems value="#{ubicacionesBean.listUbic}" var="lst" itemLabel="#{lst.nombUbi}" itemValue="#{lst}"/>
+                                                <f:selectItems value="#{ubicacionesBean.listUbic}" var="lst" itemLabel="#{lst.nombUbic}" itemValue="#{lst}"/>
                                                 <f:converter converterId="PooConv"/>
                                             </h:selectOneMenu>
-                                            <h:message for="ubiCita" errorClass="field-error" />
+                                            <h:message for="ubicCita" errorClass="field-error" />
                                         </div>
-                                    </h:panelGroup>
-                                    <h:panelGroup rendered="#{citasBean.evento}">
-                                        <div class="input-group col-xs-12">
-                                            <h:outputLabel  for="evenCita" value="Evento: "/>
-                                            <h:message for="evenCita" errorClass="field-error" />
-                                            <h:selectOneMenu id="evenCita" value="#{citasBean.objeCita.codiEven}" class="form-control select" pt:data-live-search="true">
-                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItems value="#{eventosBean.listEven}" var="lst" itemLabel="#{lst.nombEven}" itemValue="#{lst}"/>
-                                                <f:converter converterId="PooConv"/>
-                                            </h:selectOneMenu>
-                                        </div>
-                                    </h:panelGroup>
-                                    <h:panelGroup rendered="#{citasBean.solicitar || citasBean.reprogramar}">
-                                        <div class="input-group col-xs-12">
-                                            <h:outputLabel  for="hora" value="Horario disponible "/>
-                                            <h:selectOneMenu id="hora" value="#{citasBean.horaSeleCita}" class="form-control select" pt:data-live-search="true">
-                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItems value="#{citasBean.listHoraDispUsua}" var="lstHora" itemLabel="#{lstHora.diaHoraDisp} (#{lstHora.horaInicHoraDisp} - #{lstHora.horaFinaHoraDisp})" itemValue="#{lstHora}"/>
-                                                <f:converter converterId="PooConv"/>
-                                            </h:selectOneMenu>
-                                            <h:message for="hora" errorClass="field-error" />
-                                        </div>
-                                        <div class="input-group col-xs-12">
-                                            <h:outputLabel  for="fech" value="Fecha: "/>
-                                            <h:inputText id="fech" value="#{citasBean.fechSoliCita}" class="form-control datepicker">
-                                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                                            </h:inputText> 
-                                            <h:message for="fech" errorClass="field-error" />
-                                        </div>
-                                    </h:panelGroup>
-                                    <div class="input-group col-xs-12">
-                                        <h:outputLabel  for="descCita" value="Descripción: "/>
-                                        <h:inputTextarea  id="descCita" value="#{citasBean.motivo}" class="form-control"/>
-                                        <h:message for="descCita" errorClass="field-error" />
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                        <div class="input-group-btn right" style="padding-top: 5px;">
-                                            <div class="btn-group">
-                                                <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
-                                                    <p:ajax listener="#{citasBean.limpForm()}" process="@form" update="@form" global="true"/>
-                                                    <i class="fa fa-mail-forward"/> Cerrar
-                                                </h:commandLink>
-                                                <h:commandLink id="btonConfCita" class="btn btn-success" rendered="#{citasBean.confirmar}">
-                                                    <p:ajax listener="#{citasBean.confCita()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
-                                                    <i class="fa fa-plus"/> Confirmar
-                                                </h:commandLink>
+                                        <h:panelGroup rendered="#{citasBean.solicitar || citasBean.reprogramar}">
+                                            <div class="input-group col-xs-12">
+                                                <h:outputLabel  for="hora" value="Horario disponible "/>
+                                                <h:selectOneMenu id="hora" value="#{citasBean.horaSeleCita}" class="form-control select" pt:data-live-search="true">
+                                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                    <f:selectItems value="#{citasBean.listHoraDispUsua}" var="lstHora" itemLabel="#{lstHora.diaHoraDisp} (#{lstHora.horaInicHoraDisp} - #{lstHora.horaFinaHoraDisp})" itemValue="#{lstHora}"/>
+                                                    <f:converter converterId="PooConv"/>
+                                                </h:selectOneMenu>
+                                                <h:message for="hora" errorClass="field-error" />
                                             </div>
+                                            <div class="input-group col-xs-12">
+                                                <h:outputLabel  for="fech" value="Fecha: "/>
+                                                <h:inputText id="fech" value="#{citasBean.fechSoliCita}" class="form-control datepicker">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                </h:inputText> 
+                                                <h:message for="fech" errorClass="field-error" />
+                                            </div>
+                                        </h:panelGroup>
+                                        <div class="input-group col-xs-12">
+                                            <h:outputLabel  for="descCita" value="Descripción: "/>
+                                            <h:inputTextarea  id="descCita" value="#{citasBean.motivo}" class="form-control"/>
+                                            <h:message for="descCita" errorClass="field-error" />
                                         </div>
-                                </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                            <div class="input-group-btn right" style="padding-top: 5px;">
+                                                <div class="btn-group">
+                                                    <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
+                                                        <p:ajax listener="#{citasBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                                        <i class="fa fa-mail-forward"/> Cerrar
+                                                    </h:commandLink>
+                                                    <h:commandLink id="btonConfCita" class="btn btn-success" rendered="#{citasBean.confirmar}">
+                                                        <p:ajax listener="#{citasBean.confCita()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
+                                                        <i class="fa fa-plus"/> Confirmar
+                                                    </h:commandLink>
+                                                </div>
+                                            </div>
+                                    </div>
                                 </ui:fragment>
                                 <ui:fragment id="FragBusc" rendered="#{!citasBean.switFormCita}">
                                     <div class="modal-body" style="padding-top: 2px;">                                    
-                                        <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{alumnosBean.consTodoAlum()}"
-                                            var="fila" class="boottable" pt:data-toolbar="#toolTablRegi"
-                                            styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
-                                            pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
-                                            pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
-                                            pt:data-click-to-select="true"  pt:data-select-item-name="radio"
-                                            pt:data-single-select="true">                                
-                                            <h:column pt:data-field="state" pt:data-checkbox="true">
-                                            </h:column>
-                                            <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
-                                                <f:facet name="header">Carnet</f:facet>
-                                                <h:outputText value="#{fila.carnAlum}"/>
-                                            </h:column>
-                                            <h:column pt:data-sortable="true" pt:data-field="nomb">
-                                                <f:facet name="header">Nombre</f:facet>
-                                                <h:outputText value="#{fila.nombAlum}"/>   
-                                            </h:column>
-                                            <h:column pt:data-sortable="true" pt:data-field="apel">
-                                                <f:facet name="header">Apellido</f:facet>
-                                                <h:outputText value="#{fila.apelAlum}"/>   
-                                            </h:column>
-                                            <h:column pt:data-sortable="true" pt:data-field="carn">
-                                                <f:facet name="header">Nivel</f:facet>
-                                                <h:outputText value="#{fila.nivAlum}"/>   
-                                            </h:column>
-                                            <h:column pt:data-sortable="true" pt:data-field="espe">
-                                                <f:facet name="header">Epecialidad</f:facet>
-                                                <h:outputText value="#{fila.espeAulm}"/>   
-                                            </h:column>
-                                            <h:column pt:data-sortable="true" pt:data-field="grupa">
-                                                <f:facet name="header">Grupo Académico</f:facet>
-                                                <h:outputText value="#{fila.grupAcad}"/>   
-                                            </h:column>
-                                            <h:column pt:data-sortable="true" pt:data-field="grupt">
-                                                <f:facet name="header">Grupo Técnico</f:facet>
-                                                <h:outputText value="#{fila.grupTecn}"/>   
-                                            </h:column>
-                                                 
-                                        </h:dataTable>
+                                        
                                         
                                         <div class="input-group col-xs-12">
                                             <h:outputLabel  for="cmbVisi" value="Visitante "/>

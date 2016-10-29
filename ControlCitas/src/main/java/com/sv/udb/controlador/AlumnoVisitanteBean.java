@@ -77,10 +77,6 @@ public class AlumnoVisitanteBean implements Serializable{
         return listAlumVisiCarne;
     }
 
-    public void setListAlumVisiCarne(List<Alumnovisitante> listAlumVisiCarne) {
-        this.listAlumVisiCarne = listAlumVisiCarne;
-    }
-
     public Visitante getObjeVisi() {
         return objeVisi;
     }
@@ -111,10 +107,10 @@ public class AlumnoVisitanteBean implements Serializable{
     public void init()
     {
         this.limpForm();
+        this.listAlumVisiCarne  = new ArrayList<Alumnovisitante>();
+        this.listAlumVisi  = new ArrayList<Alumnovisitante>();
         this.consTodo();
         this.consAlumVisi();
-        this.objeAlumVisi = new Alumnovisitante();
-        
     }
     
     public void limpForm()
@@ -124,8 +120,6 @@ public class AlumnoVisitanteBean implements Serializable{
         this.guardar = true;   
         this.Disabled = true; 
         this.contForm = true;
-        this.listAlumVisiCarne  = new ArrayList<Alumnovisitante>();
-        this.listAlumVisi  = new ArrayList<Alumnovisitante>();
     }
     
     public void consTodo()
@@ -212,8 +206,6 @@ public class AlumnoVisitanteBean implements Serializable{
         try
         {
             FCDEAlumVisi.create(this.objeAlumVisi);
-            
-            
             this.listAlumVisi.add(this.objeAlumVisi);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
             this.limpForm();
@@ -249,6 +241,7 @@ public class AlumnoVisitanteBean implements Serializable{
         {
             FCDEAlumVisi.remove(this.objeAlumVisi);
             this.listAlumVisi.remove(this.objeAlumVisi);
+            this.listAlumVisiCarne.remove(this.objeAlumVisi);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
             this.limpForm();
         }
@@ -265,7 +258,6 @@ public class AlumnoVisitanteBean implements Serializable{
                 //Registramos Visitante
                     this.objeVisi.setTipoVisi(1);
                     FCDEVisi.create(this.objeVisi);
-                    //this.listAlumVisiCarne.add(this.objeVisi);
             }
         }catch(Exception e){
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al intenar registrarse')");
@@ -281,6 +273,7 @@ public class AlumnoVisitanteBean implements Serializable{
             //System.out.println("CODIGO VISI: "+objeVisi.getCodiVisi()+" NOMBRE VISI: "+objeVisi.getNombVisi());
             objeAlumVisi.setCodiVisi(objeVisi);
             objeAlumVisi.setEstaAlumVisi(1);
+            this.listAlumVisiCarne.add(this.objeAlumVisi);
             this.guar();
         }catch(Exception e){
             System.out.println("ERROR AL ASIGNAR ALUMNO");
