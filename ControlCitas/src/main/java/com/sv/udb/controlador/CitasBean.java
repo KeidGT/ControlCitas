@@ -618,7 +618,7 @@ public class CitasBean implements Serializable{
             objeCambCita.setFechCambCita(new Date());
             DateFormat df = new SimpleDateFormat("HH:mm:a");
             objeCambCita.setHoraCambCita(df.format(new Date()));
-            if(evento)objeCita.setCodiUbi(objeCita.getCodiEven().getCodiUbi());
+            if(evento)objeCita.setCodiUbic(objeCita.getCodiEven().getCodiUbic());
             FCDECita.edit(objeCita);
             FCDECambCita.create(objeCambCita);
             this.limpForm();

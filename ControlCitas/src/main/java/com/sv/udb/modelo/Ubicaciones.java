@@ -33,8 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Ubicaciones.findAll", query = "SELECT u FROM Ubicaciones u"),
-    @NamedQuery(name = "Ubicaciones.findByCodiUbi", query = "SELECT u FROM Ubicaciones u WHERE u.codiUbi = :codiUbi"),
-    @NamedQuery(name = "Ubicaciones.findByNombUbi", query = "SELECT u FROM Ubicaciones u WHERE u.nombUbi = :nombUbi"),
+    @NamedQuery(name = "Ubicaciones.findByCodiUbic", query = "SELECT u FROM Ubicaciones u WHERE u.codiUbic = :codiUbic"),
+    @NamedQuery(name = "Ubicaciones.findByNombUbic", query = "SELECT u FROM Ubicaciones u WHERE u.nombUbic = :nombUbic"),
     @NamedQuery(name = "Ubicaciones.findByDispEvent", query = "SELECT u FROM Ubicaciones u WHERE u.dispEvent = :dispEvent"),
     @NamedQuery(name = "Ubicaciones.findByDispCita", query = "SELECT u FROM Ubicaciones u WHERE u.dispCita = :dispCita"),
     @NamedQuery(name = "Ubicaciones.findByEstaUbic", query = "SELECT u FROM Ubicaciones u WHERE u.estaUbic = :estaUbic")})
@@ -44,13 +44,13 @@ public class Ubicaciones implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "codi_ubi")
-    private Integer codiUbi;
+    @Column(name = "codi_ubic")
+    private Integer codiUbic;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "nomb_ubi")
-    private String nombUbi;
+    @Column(name = "nomb_ubic")
+    private String nombUbic;
     @Basic(optional = false)
     @NotNull
     @Column(name = "disp_event")
@@ -63,40 +63,40 @@ public class Ubicaciones implements Serializable {
     @NotNull
     @Column(name = "esta_ubic")
     private boolean estaUbic;
-    @OneToMany(mappedBy = "codiUbi", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "codiUbic", fetch = FetchType.EAGER)
     private List<Cita> citaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiUbi", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiUbic", fetch = FetchType.EAGER)
     private List<Evento> eventoList;
 
     public Ubicaciones() {
     }
 
-    public Ubicaciones(Integer codiUbi) {
-        this.codiUbi = codiUbi;
+    public Ubicaciones(Integer codiUbic) {
+        this.codiUbic = codiUbic;
     }
 
-    public Ubicaciones(Integer codiUbi, String nombUbi, int dispEvent, int dispCita, boolean estaUbic) {
-        this.codiUbi = codiUbi;
-        this.nombUbi = nombUbi;
+    public Ubicaciones(Integer codiUbic, String nombUbic, int dispEvent, int dispCita, boolean estaUbic) {
+        this.codiUbic = codiUbic;
+        this.nombUbic = nombUbic;
         this.dispEvent = dispEvent;
         this.dispCita = dispCita;
         this.estaUbic = estaUbic;
     }
 
-    public Integer getCodiUbi() {
-        return codiUbi;
+    public Integer getCodiUbic() {
+        return codiUbic;
     }
 
-    public void setCodiUbi(Integer codiUbi) {
-        this.codiUbi = codiUbi;
+    public void setCodiUbic(Integer codiUbic) {
+        this.codiUbic = codiUbic;
     }
 
-    public String getNombUbi() {
-        return nombUbi;
+    public String getNombUbic() {
+        return nombUbic;
     }
 
-    public void setNombUbi(String nombUbi) {
-        this.nombUbi = nombUbi;
+    public void setNombUbic(String nombUbic) {
+        this.nombUbic = nombUbic;
     }
 
     public int getDispEvent() {
@@ -144,7 +144,7 @@ public class Ubicaciones implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codiUbi != null ? codiUbi.hashCode() : 0);
+        hash += (codiUbic != null ? codiUbic.hashCode() : 0);
         return hash;
     }
 
@@ -155,7 +155,7 @@ public class Ubicaciones implements Serializable {
             return false;
         }
         Ubicaciones other = (Ubicaciones) object;
-        if ((this.codiUbi == null && other.codiUbi != null) || (this.codiUbi != null && !this.codiUbi.equals(other.codiUbi))) {
+        if ((this.codiUbic == null && other.codiUbic != null) || (this.codiUbic != null && !this.codiUbic.equals(other.codiUbic))) {
             return false;
         }
         return true;
@@ -163,7 +163,7 @@ public class Ubicaciones implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sv.udb.modelo.Ubicaciones[ codiUbi=" + codiUbi + " ]";
+        return "com.sv.udb.modelo.Ubicaciones[ codiUbic=" + codiUbic + " ]";
     }
     
 }

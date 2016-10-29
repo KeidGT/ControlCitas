@@ -78,9 +78,9 @@ public class Evento implements Serializable {
     private String horaFinaEven;
     @OneToMany(mappedBy = "codiEven", fetch = FetchType.EAGER)
     private List<Cita> citaList;
-    @JoinColumn(name = "codi_ubi", referencedColumnName = "codi_ubi")
+    @JoinColumn(name = "codi_ubic", referencedColumnName = "codi_ubic")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Ubicaciones codiUbi;
+    private Ubicaciones codiUbic;
 
     public Evento() {
     }
@@ -155,12 +155,12 @@ public class Evento implements Serializable {
         this.citaList = citaList;
     }
 
-    public Ubicaciones getCodiUbi() {
-        return codiUbi;
+    public Ubicaciones getCodiUbic() {
+        return codiUbic;
     }
 
-    public void setCodiUbi(Ubicaciones codiUbi) {
-        this.codiUbi = codiUbi;
+    public void setCodiUbic(Ubicaciones codiUbic) {
+        this.codiUbic = codiUbic;
     }
 
     @Override

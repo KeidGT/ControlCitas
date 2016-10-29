@@ -25,28 +25,28 @@ FOREIGN KEY (codi_visi) REFERENCES Visitante (codi_visi) ON DELETE CASCADE ON UP
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `ubicaciones` (
-  `codi_ubi` INT NOT NULL AUTO_INCREMENT,
-  `nomb_ubi` VARCHAR(100) NOT NULL,
+  `codi_ubic` INT NOT NULL AUTO_INCREMENT,
+  `nomb_ubic` VARCHAR(100) NOT NULL,
   `disp_event` int  NOT NULL default 0,
   `disp_cita`  int  NOT NULL default 0,
   `esta_ubic` TINYINT(1) NOT NULL,
-  PRIMARY KEY (`codi_ubi`))
+  PRIMARY KEY (`codi_ubic`))
 ENGINE = InnoDB;
 
 CREATE TABLE Evento(
 codi_event INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- Identificador, codigo de registro
-codi_ubi INT NOT NULL,
+codi_ubic INT NOT NULL,
 nomb_even VARCHAR(50) NOT NULL,
 fech_inic_even DATE NOT NULL,
 fech_fina_even DATE NOT NULL,
 hora_inic_even VARCHAR(8) NOT NULL,
 hora_fina_even VARCHAR(8) NOT NULL,
-FOREIGN KEY (codi_ubi) REFERENCES ubicaciones (codi_ubi) ON DELETE CASCADE ON UPDATE CASCADE
+FOREIGN KEY (codi_ubic) REFERENCES ubicaciones (codi_ubic) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE Cita(
 codi_cita INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- Identificador, codigo de registro
-codi_ubi INT, -- Dato Tomado Desde Web Service llave foránea
+codi_ubic INT, -- Dato Tomado Desde Web Service llave foránea
 codi_even INT,
 codi_usua INT, -- Dato Tomado Desde Web Service, llave foránea para el citador
 tipo_cita INT NOT NULL, -- Identificar si es una cita solicitada (pre programada) 1, o normal (no programada) 2
@@ -57,7 +57,7 @@ esta_cita INT NOT NULL,-- Especificar si la cita sigue vigente o se ha dado de b
 nomb_grup_cita varchar(100),
 cant_grup_cita int,
 FOREIGN KEY (codi_even) REFERENCES Evento (codi_event) ON DELETE CASCADE ON UPDATE CASCADE,
-FOREIGN KEY (codi_ubi) REFERENCES ubicaciones (codi_ubi) ON DELETE CASCADE ON UPDATE CASCADE
+FOREIGN KEY (codi_ubic) REFERENCES ubicaciones (codi_ubic) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE Cambio_cita(

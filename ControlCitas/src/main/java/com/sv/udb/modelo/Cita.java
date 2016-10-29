@@ -73,9 +73,9 @@ public class Cita implements Serializable {
     @JoinColumn(name = "codi_even", referencedColumnName = "codi_event")
     @ManyToOne(fetch = FetchType.EAGER)
     private Evento codiEven;
-    @JoinColumn(name = "codi_ubi", referencedColumnName = "codi_ubi")
+    @JoinColumn(name = "codi_ubic", referencedColumnName = "codi_ubic")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Ubicaciones codiUbi;
+    private Ubicaciones codiUbic;
 
     public Cita() {
     }
@@ -170,12 +170,12 @@ public class Cita implements Serializable {
         this.codiEven = codiEven;
     }
 
-    public Ubicaciones getCodiUbi() {
-        return codiUbi;
+    public Ubicaciones getCodiUbic() {
+        return codiUbic;
     }
 
-    public void setCodiUbi(Ubicaciones codiUbi) {
-        this.codiUbi = codiUbi;
+    public void setCodiUbic(Ubicaciones codiUbic) {
+        this.codiUbic = codiUbic;
     }
 
     @Override
