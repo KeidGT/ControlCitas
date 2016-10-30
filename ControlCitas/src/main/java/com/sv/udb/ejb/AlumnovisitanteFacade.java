@@ -8,6 +8,7 @@ package com.sv.udb.ejb;
 import com.sv.udb.modelo.Alumnovisitante;
 import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Horariodisponible;
+import com.sv.udb.modelo.Visitante;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -54,5 +55,15 @@ public class AlumnovisitanteFacade extends AbstractFacade<Alumnovisitante> imple
         q.setParameter("codiCita", codiCita);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
+    }
+    @Override
+    public Alumnovisitante findByAlumVisi(Visitante visi, String carn) {
+        TypedQuery<Alumnovisitante> q = (TypedQuery<Alumnovisitante>) getEntityManager().createQuery("SELECT a FROM Alumnovisitante a  WHERE a.codiVisi = :codiVisi and a.carnAlum = :carnAlum");
+        if(visi==null)visi = new Visitante();
+        if(carn==null)carn="null";
+        q.setParameter("codiVisi", visi);
+        q.setParameter("carnAlum", carn);
+        List resu = q.getResultList();
+        return resu.isEmpty() ? new Alumnovisitante() : (Alumnovisitante) resu.get(0);
     }
 }

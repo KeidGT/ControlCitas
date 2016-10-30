@@ -5,6 +5,7 @@
  */
 package com.sv.udb.controlador;
 
+import com.sv.udb.ejb.AlumnovisitanteFacadeLocal;
 import com.sv.udb.ejb.CambiocitaFacadeLocal;
 import com.sv.udb.ejb.CitaFacadeLocal;
 import com.sv.udb.ejb.HorariodisponibleFacadeLocal;
@@ -47,11 +48,14 @@ public class CitasBean implements Serializable{
     private HorariodisponibleFacadeLocal FCDEHoraDisp;
     @EJB
     private CitaFacadeLocal FCDECita;
+    @EJB
+    private AlumnovisitanteFacadeLocal FCDEAlumnoVisitante;
     //OBJETOS
     private Cita objeCita;
     private Cambiocita objeCambCita;
     private Horariodisponible horaSeleCita;
     private Alumnovisitante alumVisiSelec;
+    private Alumnovisitante objeAlumVisi;
     Visitantecita objeVisiCita = new Visitantecita();
     
     //LISTAS
@@ -90,6 +94,8 @@ public class CitasBean implements Serializable{
     public void toggSwitFormCita()
     {
         this.switFormCita = !this.switFormCita;
+        /*RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        ctx.execute("INIT_OBJE_TABL()");*/
     }
     
     public CitasBean() {
@@ -227,6 +233,14 @@ public class CitasBean implements Serializable{
 
     public List<Horariodisponible> getListHoraDispUsua() {
         return listHoraDispUsua;
+    }
+
+    public Alumnovisitante getObjeAlumVisi() {
+        return objeAlumVisi;
+    }
+
+    public void setObjeAlumVisi(Alumnovisitante objeAlumVisi) {
+        this.objeAlumVisi = objeAlumVisi;
     }
     
     
@@ -486,46 +500,8 @@ public class CitasBean implements Serializable{
                                     /*SECCIÓN PARA CITAS (DOCENTE Y PERSONAL ADMIN.)*/
     
     //consultar el ultimo objeto "cambio cita" a partir de un objeto "cita"
-    public Cambiocita consCambCita(Cita cita){
-        Cambiocita objecons = FCDECambCita.findByCita(cita);
-        return objecons;
-    }
-    //consultar visitantes de una cita y los guardamos en una lista temporal
-    public void consVisiCita(){
-        listVisiTemp = FCDEVisi.findByCita(objeCita);
-        for(Visitante visi : listVisiTemp){
-            for(Visitante visi2 : listVisi){
-                if(Objects.equals(visi, visi2)){
-                    listVisi.remove(visi2);//quitamos los visitantes que ya estan en la cita, del combobox (lista combobox)
-                }
-            }
-        }
-    }
-    //consultar las citas del usuario
-    public void consListCitaUsua()
-    {
-        try
-        {
-            this.listVisiCitaUsua = FCDEVisiCita.findByCodiUsua(String.valueOf(LoginBean.getCodiUsuaSesion()));
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-    //consultar los encargados de un alumno
-    public void consVisiAlum(){
-        listVisi = FCDEVisi.findByCarnAlum(carnAlum);
-        try
-        {
-            consVisiCita();
-        }
-        catch(Exception ex)
-        {
-            System.out.println(ex);
-        }
-    }
-    //establecer booleanos
+    
+     //establecer booleanos
     private void estAcci(){
         switch(this.objeCita.getEstaCita()){
             case 1:
@@ -545,16 +521,69 @@ public class CitasBean implements Serializable{
             break;
         }
     }
+    //consultar visitantes de una cita y los guardamos en una lista temporal
+    public void consVisiCita(){
+        listVisiTemp = FCDEVisi.findByCita(objeCita);
+        for(Visitante visi : listVisiTemp){
+            for(Visitante visi2 : listVisi){
+                if(Objects.equals(visi, visi2)){
+                    listVisi.remove(visi2);//quitamos los visitantes que ya estan en la cita, del combobox (lista combobox)
+                }
+            }
+        }
+    }
+    //consultar el ultimo cambio de la cita (para mostrar en la tabla)
+    public Cambiocita consObjeCambCita(Cita cita){
+        Cambiocita objecons = FCDECambCita.findByCita(cita);
+        return objecons;
+    }
     
+    //consultar las citas del usuario
+    public void consListCitaUsua()
+    {
+        try
+        {
+            this.listVisiCitaUsua = FCDEVisiCita.findByCodiUsua(String.valueOf(LoginBean.getCodiUsuaSesion()));
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+    //consultar los encargados de un alumno
+    public void consListVisiAlum(){
+        try
+        {
+            listVisi = FCDEVisi.findByCarnAlum(carnAlum);
+            if(carnAlum==null)listVisi = new ArrayList<Visitante>();
+            consVisiCita();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
+    }
+   //NUMERO: 26039449
+     //consultar los horariso disponibles del usuario 
+    private void consListHoraDispUsua(){
+        try
+        {
+            this.listHoraDispUsua = FCDEHoraDisp.findByCodiUsua(LoginBean.getCodiUsuaSesion());
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
     //consultar una cita del usuario (de los que estan en la tabla de datos)
-    public void consCitaUsua(){
+    public void consObjeCitaUsua(){
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiObjePara"));
         try
         {
             limpForm();
             this.objeCita = FCDECita.find(codi);//consultamos la cita
-            this.objeCambCita = consCambCita(this.objeCita);//consultamos el ultimo cambio de cita
+            this.objeCambCita = consObjeCambCita(this.objeCita);//consultamos el ultimo cambio de cita
             //motivo = objeCambCita.getMotiCambCita();
             consVisiCita();//consultamos todos los visitantes de la cita
             this.guardar = false;
@@ -567,17 +596,21 @@ public class CitasBean implements Serializable{
         }
         
     }
-    //consultar los horariso disponibles del usuario 
-    private void consListHoraDispUsua(){
+   
+    //consultar un alumno visitante a partir de un visitante y el carné del alumno seleccionado (para mostrar en tabla)
+    //se tuvo que haber seleccionado el visitante en combobox primero
+    public Alumnovisitante consObjeAlumVisi(Visitante visi){
         try
         {
-            this.listHoraDispUsua = FCDEHoraDisp.findByCodiUsua(LoginBean.getCodiUsuaSesion());
+            this.objeAlumVisi = FCDEAlumnoVisitante.findByAlumVisi(visi, carnAlum);
         }
         catch(Exception ex)
         {
             ex.printStackTrace();
         }
+        return objeAlumVisi;
     }
+    
     //"Agregar un visitante a una lista temporal"
     public void guarVisiCita(){
         try
