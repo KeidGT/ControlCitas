@@ -521,20 +521,45 @@ public class CitasBean implements Serializable{
             break;
         }
     }
+    //usado para consultar los encargados de un alumno, al seleccionar un alumno desde una tabla
+    public void setAlumn(){
+        String Carn = String.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiObjeAlum"));
+        if(Carn!=null)this.carnAlum = Carn;
+        consListVisiAlum();
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Encargados Consultados')");
+        
+    }
+    
     //consultar visitantes de una cita y los guardamos en una lista temporal
     public void consVisiCita(){
-        listVisiTemp = FCDEVisi.findByCita(objeCita);
-        for(Visitante visi : listVisiTemp){
-            for(Visitante visi2 : listVisi){
-                if(Objects.equals(visi, visi2)){
-                    listVisi.remove(visi2);//quitamos los visitantes que ya estan en la cita, del combobox (lista combobox)
+        try{
+            if(objeCita!=null){
+                listVisiTemp = FCDEVisi.findByCita(objeCita);
+                for(Visitante visi : listVisiTemp){
+                    for(Visitante visi2 : listVisi){
+                        if(Objects.equals(visi, visi2)){
+                            listVisi.remove(visi2);//quitamos los visitantes que ya estan en la cita, del combobox (lista combobox)
+                        }
+                    }
                 }
             }
+        }catch(Exception e){
+            System.out.println(e);
         }
     }
     //consultar el ultimo cambio de la cita (para mostrar en la tabla)
     public Cambiocita consObjeCambCita(Cita cita){
-        Cambiocita objecons = FCDECambCita.findByCita(cita);
+        Cambiocita objecons = null; 
+        try
+        {
+             objecons = FCDECambCita.findByCita(cita);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        
         return objecons;
     }
     
@@ -554,7 +579,7 @@ public class CitasBean implements Serializable{
     public void consListVisiAlum(){
         try
         {
-            listVisi = FCDEVisi.findByCarnAlum(carnAlum);
+            if(carnAlum!=null)listVisi = FCDEVisi.findByCarnAlum(carnAlum);
             if(carnAlum==null)listVisi = new ArrayList<Visitante>();
             consVisiCita();
         }

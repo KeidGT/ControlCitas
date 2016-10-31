@@ -107,10 +107,10 @@ public class AlumnoVisitanteBean implements Serializable{
     public void init()
     {
         this.limpForm();
-        this.listAlumVisiCarne  = new ArrayList<Alumnovisitante>();
-        this.listAlumVisi  = new ArrayList<Alumnovisitante>();
         this.consTodo();
         this.consAlumVisi();
+        if(this.listAlumVisiCarne == null) this.listAlumVisiCarne  = new ArrayList<Alumnovisitante>();
+        if(this.listAlumVisi==null)this.listAlumVisi  = new ArrayList<Alumnovisitante>();
     }
     
     public void limpForm()
@@ -207,6 +207,7 @@ public class AlumnoVisitanteBean implements Serializable{
         {
             FCDEAlumVisi.create(this.objeAlumVisi);
             this.listAlumVisi.add(this.objeAlumVisi);
+            
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
             this.limpForm();
         }
