@@ -72,11 +72,21 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="carn">
                                    <f:facet name="header">Alumno</f:facet>
-                                   <h:outputText value="#{fila.carnAlum}"/>   
+                                   <h:outputText value="#{citasBean.consObjeAlumno(fila.carnAlum).nombAlum} #{citasBean.consObjeAlumno(fila.carnAlum).apelAlum}"/>   
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="visi">
                                    <f:facet name="header">Visitante</f:facet>
                                    <h:outputText value="#{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}"/>   
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="fech">
+                                   <f:facet name="header">Fecha</f:facet>
+                                   <h:outputText value="#{citasBean.consObjeCambCita(fila.codiCita).fechInicCitaNuev}"> 
+                                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-6"/>
+                                   </h:outputText>
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="hora">
+                                   <f:facet name="header">Hora</f:facet>
+                                   <h:outputText value="#{citasBean.consObjeCambCita(fila.codiCita).horaInicCitaNuev} - #{citasBean.consObjeCambCita(fila.codiCita).horaFinCitaNuev}"/>
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="esta">
                                    <f:facet name="header">Estado</f:facet>
@@ -85,10 +95,7 @@ and open the template in the editor.
                                    <h:panelGroup class="label label-success" rendered="#{fila.codiCita.estaCita eq '2'}">
                                        <i class="fa fa-calendar-o"/> Programada</h:panelGroup>   
                                </h:column>
-                               <h:column pt:data-sortable="true" pt:data-field="visi">
-                                   <f:facet name="header">Test</f:facet>
-                                   <h:outputText value="#{citasBean.consFech(fila.codiCita.codiCita)}"/>   
-                               </h:column>     
+                                    
                             </h:dataTable>
                             </h:panelGroup>
                         </div>
