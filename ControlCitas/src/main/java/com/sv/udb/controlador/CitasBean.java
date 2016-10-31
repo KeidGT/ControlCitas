@@ -524,11 +524,12 @@ public class CitasBean implements Serializable{
     //usado para consultar los encargados de un alumno, al seleccionar un alumno desde una tabla
     public void setAlumn(){
         String Carn = String.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiObjeAlum"));
-        if(Carn!=null)this.carnAlum = Carn;
-        consListVisiAlum();
-        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Encargados Consultados')");
-        
+        if(Carn!=null){
+            this.carnAlum = Carn;
+            consListVisiAlum();
+            RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Encargados Consultados')");
+        }
     }
     
     //consultar visitantes de una cita y los guardamos en una lista temporal
@@ -536,6 +537,8 @@ public class CitasBean implements Serializable{
         try{
             if(objeCita!=null){
                 listVisiTemp = FCDEVisi.findByCita(objeCita);
+                if(listVisiTemp==null)listVisiTemp=new ArrayList<Visitante>();
+                if(listVisi==null)listVisi=new ArrayList<Visitante>();
                 for(Visitante visi : listVisiTemp){
                     for(Visitante visi2 : listVisi){
                         if(Objects.equals(visi, visi2)){
@@ -579,9 +582,13 @@ public class CitasBean implements Serializable{
     public void consListVisiAlum(){
         try
         {
-            if(carnAlum!=null)listVisi = FCDEVisi.findByCarnAlum(carnAlum);
-            if(carnAlum==null)listVisi = new ArrayList<Visitante>();
-            consVisiCita();
+            if(carnAlum!=null){
+                listVisi = FCDEVisi.findByCarnAlum(carnAlum);
+                consVisiCita();
+            }else{
+                listVisi = new ArrayList<Visitante>();
+            }
+            
         }
         catch(Exception ex)
         {
