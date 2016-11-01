@@ -264,6 +264,7 @@ public class CitasBean implements Serializable{
     public void limpForm()
     {
         this.objeCita = new Cita();
+        this.objeCita.setCodiUbic(null);
         this.motivo=null;
         this.fechSoliCita=null;
         this.guardar = true; 

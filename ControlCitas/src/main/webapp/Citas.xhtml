@@ -224,7 +224,7 @@ and open the template in the editor.
                                             </h:panelGroup>
                                             <div class="input-group col-xs-12">
                                                 <h:outputLabel  for="ubicCita" value="Ubicación "/>
-                                                <h:selectOneMenu id="ubicCita" value="#{citasBean.objeCita.codiUbic}" class="form-control select" pt:data-live-search="true">
+                                                <h:selectOneMenu id="ubicCita" value="#{citasBean.objeCita.codiUbic}" class="form-control select" pt:data-live-search="true" required="true">
                                                     <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
                                                     <f:selectItems value="#{ubicacionesBean.listUbic}" var="lst" itemLabel="#{lst.nombUbic}" itemValue="#{lst}"/>
                                                     <f:converter converterId="PooConv"/>
@@ -233,17 +233,17 @@ and open the template in the editor.
                                             </div>
                                             <h:panelGroup rendered="#{citasBean.programar || citasBean.reprogramar}">
                                                 <div class="input-group col-xs-12">
+                                                    <h:message for="hora" errorClass="field-error" />
                                                     <h:outputLabel  for="hora" value="Horario disponible "/>
-                                                    <h:selectOneMenu id="hora" value="#{citasBean.horaSeleCita}" class="form-control select" pt:data-live-search="true">
+                                                    <h:selectOneMenu id="hora" value="#{citasBean.horaSeleCita}" class="form-control select" pt:data-live-search="true" required="true">
                                                         <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
                                                         <f:selectItems value="#{citasBean.listHoraDispUsua}" var="lstHora" itemLabel="#{lstHora.diaHoraDisp} (#{lstHora.horaInicHoraDisp} - #{lstHora.horaFinaHoraDisp})" itemValue="#{lstHora}"/>
                                                         <f:converter converterId="PooConv"/>
                                                     </h:selectOneMenu>
-                                                    <h:message for="hora" errorClass="field-error" />
                                                 </div>
                                                 <div class="input-group col-xs-12">
                                                     <h:outputLabel  for="fech" value="Fecha: "/>
-                                                    <h:inputText id="fech" value="#{citasBean.fechSoliCita}" class="form-control datepicker">
+                                                    <h:inputText id="fech" value="#{citasBean.fechSoliCita}" class="form-control datepicker" required="true">
                                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                                     </h:inputText> 
                                                     <h:message for="fech" errorClass="field-error" />
