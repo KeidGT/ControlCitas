@@ -5,6 +5,8 @@
  */
 package com.sv.udb.ejb;
 
+import com.sv.udb.modelo.Cita;
+import com.sv.udb.modelo.Visitante;
 import com.sv.udb.modelo.Visitantecita;
 import java.util.List;
 import javax.ejb.Local;
@@ -34,6 +36,8 @@ public interface VisitantecitaFacadeLocal {
     
     List<Visitantecita> findByCodiCita(Object codi);
 
+    Visitantecita findByCodiCita_Visitante(Cita cita, Visitante visi);
+    
     int count();
     
 }

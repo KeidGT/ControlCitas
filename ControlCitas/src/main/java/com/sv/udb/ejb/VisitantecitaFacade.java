@@ -5,6 +5,8 @@
  */
 package com.sv.udb.ejb;
 
+import com.sv.udb.modelo.Cita;
+import com.sv.udb.modelo.Visitante;
 import com.sv.udb.modelo.Visitantecita;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -50,5 +52,13 @@ public class VisitantecitaFacade extends AbstractFacade<Visitantecita> implement
         q.setParameter("codiCita", Integer.parseInt(String.valueOf(codi)));
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
+    }
+    @Override
+    public Visitantecita findByCodiCita_Visitante(Cita cita, Visitante visi) {
+        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita and v.codiVisi = :codiVisi");      
+        q.setParameter("codiCita", cita);
+        q.setParameter("codiVisi", visi);
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : (Visitantecita) resu.get(0);
     }
 }

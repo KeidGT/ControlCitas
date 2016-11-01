@@ -93,7 +93,9 @@ and open the template in the editor.
                                    <h:panelGroup class="label label-info" rendered="#{fila.codiCita.estaCita eq '1'}">
                                        <i class="fa fa-calendar-o"/> Solicitada</h:panelGroup>
                                    <h:panelGroup class="label label-success" rendered="#{fila.codiCita.estaCita eq '2'}">
-                                       <i class="fa fa-calendar-o"/> Programada</h:panelGroup>   
+                                       <i class="fa fa-calendar-o"/> Programada</h:panelGroup>
+                                   <h:panelGroup class="label label-danger" rendered="#{fila.codiCita.estaCita eq '3'}">
+                                       <i class="fa fa-calendar-o"/> Denegada</h:panelGroup>
                                </h:column>
                                     
                             </h:dataTable>

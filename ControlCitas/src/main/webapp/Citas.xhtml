@@ -48,16 +48,14 @@ and open the template in the editor.
                                 <div id="toolTablRegi">
                                     <h:form>
                                         
-                                        <p:remoteCommand name="consObje" actionListener="#{citasBean.consObjeCitaUsua()}" update=":FormRegi :paneTabl :tablPart" 
+                                        <p:remoteCommand name="consObje" actionListener="#{citasBean.consObjeCitaUsua()}" update=":FormRegi :tablPart :paneTabl :paneClose" 
                                                          oncomplete="$('#ModaFormRegi').modal('show'); INIT_OBJE_MODA(); INIT_OBJE_CITA(); INIT_OBJE_TABL();" global="true"/>
                                         <p:remoteCommand name="consObjeAlum" actionListener="#{citasBean.setAlumn()}" update=":formCmbVisi" 
                                                          oncomplete="INIT_OBJE_TABL(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true"/>
-                                        <p:remoteCommand name="consObjeVisi" actionListener="#{citasBean.setVisi()}" update=":FormRegi :paneTabl" 
-                                                         oncomplete="$('#ModaFormRegi').modal('show'); INIT_OBJE_MODA(); INIT_OBJE_CITA(); INIT_OBJE_TABL();" global="true"/>
-                                        <p:remoteCommand name="elimObje" actionListener="#{citasBean.elim()}" update=":FormRegi :ContRegi :paneTabl" 
+                                        <p:remoteCommand name="elimObje" actionListener="#{citasBean.elim()}" update=":FormRegi :ContRegi :paneTabl :paneClose" 
                                                          oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true"/>
                                         <h:commandLink id="btonNuev" class="btn btn-success">
-                                            <p:ajax listener="#{citasBean.limpForm()}" update=":FormRegi" global="true" 
+                                            <p:ajax listener="#{citasBean.limpForm()}" update=":FormRegi :tablPart :paneClose" global="true" 
                                                     oncomplete="$('#ModaFormRegi').modal('show'); INIT_OBJE_MODA; INIT_OBJE_CITA(); INIT_OBJE_TABL();"/>
                                             <i class="fa fa-plus"/> Programar
                                         </h:commandLink>
@@ -75,7 +73,7 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
                                    <f:facet name="header">Código</f:facet>
-                                   <h:outputText value="#{fila.codiCita.codiCita}"/>
+                                   <h:outputText value="#{fila.codiVisiCita}"/>
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="carn">
                                    <f:facet name="header">Alumno</f:facet>
@@ -83,8 +81,7 @@ and open the template in the editor.
                                         #{citasBean.consObjeAlumno(fila.carnAlum).nombAlum} #{citasBean.consObjeAlumno(fila.carnAlum).apelAlum}</h:panelGroup>
                                    <h:panelGroup  rendered="#{citasBean.consCitaVisiSize(fila.codiCita) ne '1'}">
                                         <span class="label label-info">
-                                         <i class="fa fa-users"/>Grupo</span> 
-                                         Consultar
+                                         <i class="fa fa-users"/>Grupo, Consultar</span> 
                                     </h:panelGroup> 
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="visi">
@@ -93,8 +90,7 @@ and open the template in the editor.
                                         #{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}</h:panelGroup>
                                    <h:panelGroup  rendered="#{citasBean.consCitaVisiSize(fila.codiCita) ne '1'}">
                                         <span class="label label-info">
-                                         <i class="fa fa-users"/>Grupo</span> 
-                                         Consultar
+                                         <i class="fa fa-users"/>Grupo, Consultar</span> 
                                     </h:panelGroup>  
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="fech">
@@ -125,10 +121,8 @@ and open the template in the editor.
                                        <i class="fa fa-calendar-o"/> Solicitada</h:panelGroup>
                                    <h:panelGroup class="label label-success" rendered="#{fila.codiCita.estaCita eq '2'}">
                                        <i class="fa fa-calendar-o"/> Programada</h:panelGroup> 
-                                   <h:panelGroup class="label label-warning" rendered="#{fila.codiCita.estaCita eq '3'}">
-                                       <i class="fa fa-calendar-o"/> Solicitada</h:panelGroup> 
-                                   <h:panelGroup class="label label-danger" rendered="#{fila.codiCita.estaCita eq '4'}">
-                                       <i class="fa fa-calendar-o"/> Declinada</h:panelGroup> 
+                                   <h:panelGroup class="label label-danger" rendered="#{fila.codiCita.estaCita eq '3'}">
+                                       <i class="fa fa-calendar-o"/> Rechazada</h:panelGroup>
                                </h:column>     
                             </h:dataTable>
                             </h:panelGroup>
@@ -144,62 +138,84 @@ and open the template in the editor.
                         <div class="modal-content">
                             
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
-                                    <h4 class="modal-title">¿Confirmar esta cita?</h4>
+                                    <h:panelGroup id="paneClose">
+                                        <h:panelGroup rendered="#{citasBean.switFormCita}">
+                                            <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{!citasBean.switFormCita}">
+                                            <h:form>
+                                                    <h:commandLink class="close">
+                                                        <p:ajax listener="#{citasBean.toggSwitFormCita()}" process="@this" update="@form :FormRegi :paneTabl :tablPart :paneClose" oncomplete="INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true"/>
+                                                            <i class="fa fa-times"/>
+                                                    </h:commandLink>
+                                                </h:form>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                    <h4 class="modal-title">Cita</h4>
                                 </div>
-                                <h:panelGroup id="tablPart" class="modal-body" style="padding: 10px;">
+                                <h:panelGroup id="tablPart" style="padding: 10px;">
                                     <h:panelGroup rendered="#{citasBean.switFormCita}">
-                                        <h4 style="margin-left:20px;">Visitantes Involucrados en la Cita:</h4>
-                                        <h:dataTable pt:data-id="TablInvo" id="TablInvo" value="#{citasBean.listVisiTemp}"
-                                                var="fila" class="boottable" pt:data-toolbar="#toolTablInvo"
-                                                styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
-                                                pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
-                                                pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
-                                                pt:data-click-to-select="true"  pt:data-select-item-name="radio"
-                                                pt:data-single-select="true" style="margin:20px; width: 100%;"> 
-                                            <h:column pt:data-sortable="true" pt:data-field="visi">
-                                                <f:facet name="header">Visitante</f:facet>
-                                                <h:outputText value="#{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}"/>
-                                            </h:column>
-                                            <h:column pt:data-sortable="true" pt:data-field="carn">
-                                                <f:facet name="header">DUI</f:facet>
-                                                <h:outputText value="#{fila.codiVisi.duiVisi}"/>   
-                                            </h:column>
-                                            <h:column pt:data-sortable="true" pt:data-field="espe">
-                                                <f:facet name="header">Teléfono</f:facet>
-                                                <h:outputText value="#{fila.codiVisi.teleVisi}"/>   
-                                            </h:column>
-                                            <h:column pt:data-sortable="true" pt:data-field="alum">
-                                                <f:facet name="header">Alumno</f:facet>
-                                                <h:outputText value="#{citasBean.consObjeAlumno(fila.carnAlum).nombAlum} #{citasBean.consObjeAlumno(fila.carnAlum).apelAlum}"/>   
-                                            </h:column>
-                                            <h:column pt:data-sortable="true" pt:data-field="paren">
-                                                <f:facet name="header">Parentesco</f:facet>
-                                                <h:panelGroup rendered="#{fila.pareAlumVisi eq '1'}">
-                                                    Padre/Madre</h:panelGroup>
-                                                <h:panelGroup  rendered="#{fila.pareAlumVisi eq '2'}">
-                                                    Tio/Tia</h:panelGroup> 
-                                                <h:panelGroup rendered="#{fila.pareAlumVisi eq '3'}">
-                                                    Abuelo/Abuela</h:panelGroup> 
-                                                <h:panelGroup rendered="#{fila.pareAlumVisi eq '4'}">
-                                                    Hermano/Hermana</h:panelGroup> 
-                                                <h:panelGroup rendered="#{fila.pareAlumVisi eq '5'}">
-                                                    Primo/Prima</h:panelGroup> 
-                                                <h:panelGroup rendered="#{fila.pareAlumVisi eq '6'}">
-                                                    #{fila.espeAlumVisi}</h:panelGroup> 
-                                            </h:column>
-
-                                        </h:dataTable>
+                                        <div class="modal-body">
+                                            <h4 style="">Visitantes Involucrados en la Cita:</h4>
+                                            <h:dataTable pt:data-id="TablInvo" id="TablInvo" value="#{citasBean.listVisiTemp}"
+                                                    var="fila" class="boottable" pt:data-toolbar="#toolTablInvo"
+                                                    styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
+                                                    pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
+                                                    pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
+                                                    pt:data-click-to-select="true"  pt:data-select-item-name="radio"
+                                                    pt:data-single-select="true" style="width: 100%;"> 
+                                                <h:column pt:data-sortable="true" pt:data-field="visi">
+                                                    <f:facet name="header">Visitante</f:facet>
+                                                    <h:outputText value="#{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}"/>
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="carn">
+                                                    <f:facet name="header">DUI</f:facet>
+                                                    <h:outputText value="#{fila.codiVisi.duiVisi}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="espe">
+                                                    <f:facet name="header">Teléfono</f:facet>
+                                                    <h:outputText value="#{fila.codiVisi.teleVisi}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="alum">
+                                                    <f:facet name="header">Alumno</f:facet>
+                                                    <h:outputText value="#{citasBean.consObjeAlumno(fila.carnAlum).nombAlum} #{citasBean.consObjeAlumno(fila.carnAlum).apelAlum}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="paren">
+                                                    <f:facet name="header">Parentesco</f:facet>
+                                                    <h:panelGroup rendered="#{fila.pareAlumVisi eq '1'}">
+                                                        Padre/Madre</h:panelGroup>
+                                                    <h:panelGroup  rendered="#{fila.pareAlumVisi eq '2'}">
+                                                        Tio/Tia</h:panelGroup> 
+                                                    <h:panelGroup rendered="#{fila.pareAlumVisi eq '3'}">
+                                                        Abuelo/Abuela</h:panelGroup> 
+                                                    <h:panelGroup rendered="#{fila.pareAlumVisi eq '4'}">
+                                                        Hermano/Hermana</h:panelGroup> 
+                                                    <h:panelGroup rendered="#{fila.pareAlumVisi eq '5'}">
+                                                        Primo/Prima</h:panelGroup> 
+                                                    <h:panelGroup rendered="#{fila.pareAlumVisi eq '6'}">
+                                                        #{fila.espeAlumVisi}</h:panelGroup> 
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="acci" rendered="#{citasBean.programar}">
+                                                    <f:facet name="header">Acciones</f:facet>
+                                                    <h:form>
+                                                        <h:commandLink class="btn btn-xs btn-danger">
+                                                            <p:ajax listener="#{citasBean.dropVisiCita(fila)}" process="@form" update=":paneTabl :ContRegi :paneClose" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA(); INIT_OBJE_TABL();" />
+                                                            <i class="fa fa-trash-o"/> Quitar
+                                                        </h:commandLink>
+                                                    </h:form>   
+                                                </h:column>
+                                            </h:dataTable>
+                                        </div>
                                     </h:panelGroup>
                                 </h:panelGroup>
                                 <h:form id="FormRegi" class="form-horizontal">
                                     <ui:fragment id="FragForm" rendered="#{citasBean.switFormCita}">    
                                         <div class="modal-body" style="padding-top: 2px;">                                    
                                             <h:inputHidden id="codi" value="#{citasBean.objeCita.codiCita}" />
-                                            <h:panelGroup rendered="#{citasBean.solicitar}">
+                                            <h:panelGroup rendered="#{citasBean.programar}">
                                                 
                                                 <h:commandLink id="btonMostBusc" class="btn btn-default btn-sm">
-                                                    <p:ajax listener="#{citasBean.toggSwitFormCita()}" process="@this,btonMostBusc" update="@form :paneTabl :tablPart" global="true" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA(); INIT_OBJE_TABL();"/>
+                                                    <p:ajax listener="#{citasBean.toggSwitFormCita()}" process="@this,btonMostBusc" update="@form :paneTabl :tablPart :paneClose" global="true" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA(); INIT_OBJE_TABL();"/>
                                                     <i class="fa fa-search"/> Editar Participantes ...
                                                 </h:commandLink>
                                                 <br/>
@@ -215,7 +231,7 @@ and open the template in the editor.
                                                 </h:selectOneMenu>
                                                 <h:message for="ubicCita" errorClass="field-error" />
                                             </div>
-                                            <h:panelGroup rendered="#{citasBean.solicitar || citasBean.reprogramar}">
+                                            <h:panelGroup rendered="#{citasBean.programar || citasBean.reprogramar}">
                                                 <div class="input-group col-xs-12">
                                                     <h:outputLabel  for="hora" value="Horario disponible "/>
                                                     <h:selectOneMenu id="hora" value="#{citasBean.horaSeleCita}" class="form-control select" pt:data-live-search="true">
@@ -247,8 +263,20 @@ and open the template in the editor.
                                                             <i class="fa fa-mail-forward"/> Cerrar
                                                         </h:commandLink>
                                                         <h:commandLink id="btonConfCita" class="btn btn-success" rendered="#{citasBean.confirmar}">
-                                                            <p:ajax listener="#{citasBean.confCita()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
+                                                            <p:ajax listener="#{citasBean.confRechReprCita(1)}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
                                                             <i class="fa fa-plus"/> Confirmar
+                                                        </h:commandLink>
+                                                        <h:commandLink id="btonRechCita" class="btn btn-warning" rendered="#{citasBean.confirmar}">
+                                                            <p:ajax listener="#{citasBean.confRechReprCita(2)}" process="@form" update="@form :ContRegi :tablPart :paneTabl :paneClose" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
+                                                            <i class="fa fa-times"/> Rechazar
+                                                        </h:commandLink>
+                                                        <h:commandLink id="btonReprCita" class="btn btn-info" rendered="#{citasBean.reprogramar}">
+                                                            <p:ajax listener="#{citasBean.confRechReprCita(3)}" process="@form" update="@form :ContRegi :tablPart :paneTabl :paneClose" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
+                                                            <i class="fa fa-check"/> Reprogramar
+                                                        </h:commandLink>
+                                                        <h:commandLink id="btonProgCita" class="btn btn-success" rendered="#{citasBean.programar}">
+                                                            <p:ajax listener="#{citasBean.progCitaUsua()}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
+                                                            <i class="fa fa-plus"/> Programar
                                                         </h:commandLink>
                                                     </div>
                                                 </div>
@@ -259,7 +287,7 @@ and open the template in the editor.
                                     <ui:fragment id="FragBusc" rendered="#{!citasBean.switFormCita}">
                                         <div class="modal-body" style="padding-top: 2px;">
                                             <br/>
-                                            <h4>Alumnos:</h4>
+                                            <h4>Seleccionar Alumno:</h4>
                                             <h:dataTable pt:data-id="TablAlum" id="TablAlum" value="#{alumnosBean.consTodoAlum()}"
                                                     var="fila" class="boottable" pt:data-toolbar="#toolTablAlum"
                                                     styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
@@ -293,7 +321,7 @@ and open the template in the editor.
                                             </h:dataTable>
                                             <hr/>
                                             <br/>
-                                            <h4>Encargados del Alumno</h4>
+                                            <h4>Seleccionar Encargados del Alumno:</h4>
                                             <br/>
                                             <h:form id="formCmbVisi">
                                                 <div class="input-group col-xs-12">
@@ -307,7 +335,7 @@ and open the template in the editor.
                                                 </div>
                                                 <br/>
                                                 <h:commandLink id="btonConfCita" class="btn btn-success">
-                                                    <p:ajax listener="#{citasBean.addVisiCita()}" process="@form" update=":paneTabl :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA(); INIT_OBJE_TABL();" />
+                                                    <p:ajax listener="#{citasBean.addVisiCita()}" process="@form" update=":paneTabl :ContRegi :paneClose" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA(); INIT_OBJE_TABL();" />
                                                     <i class="fa fa-plus"/> Agregar a la cita
                                                 </h:commandLink>
                                             </h:form>
@@ -320,13 +348,7 @@ and open the template in the editor.
                                                     pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
                                                     pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
                                                     pt:data-click-to-select="true"  pt:data-select-item-name="radio"
-                                                    pt:data-single-select="true">                                
-                                                <h:column pt:data-field="state" pt:data-checkbox="true">
-                                                </h:column>
-                                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
-                                                    <f:facet name="header">Código</f:facet>
-                                                    <h:outputText value="#{fila.codiVisi.codiVisi}"/>
-                                                </h:column>
+                                                    pt:data-single-select="true"> 
                                                 <h:column pt:data-sortable="true" pt:data-field="visi">
                                                     <f:facet name="header">Visitante</f:facet>
                                                     <h:outputText value="#{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}"/>
@@ -358,14 +380,22 @@ and open the template in the editor.
                                                     <h:panelGroup rendered="#{fila.pareAlumVisi eq '6'}">
                                                         #{fila.espeAlumVisi}</h:panelGroup> 
                                                 </h:column>
-
+                                                <h:column pt:data-sortable="true" pt:data-field="acci">
+                                                    <f:facet name="header">Acciones</f:facet>
+                                                    <h:form>
+                                                        <h:commandLink class="btn btn-xs btn-danger">
+                                                            <p:ajax listener="#{citasBean.dropVisiCita(fila)}" process="@form" update=":paneTabl :ContRegi :paneClose" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA(); INIT_OBJE_TABL();" />
+                                                            <i class="fa fa-trash-o"/> Quitar
+                                                        </h:commandLink>
+                                                    </h:form>   
+                                                </h:column>
                                             </h:dataTable>
                                             <hr/>
                                         </div>
                                         <div class="modal-footer">
                                             <h:form>
                                                 <h:commandLink id="btonMostForm" class="btn btn-default btn-sm">
-                                                    <p:ajax listener="#{citasBean.toggSwitFormCita()}" process="@this,btonMostForm" update="@form :FormRegi :paneTabl :tablPart" oncomplete="INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true"/>
+                                                    <p:ajax listener="#{citasBean.toggSwitFormCita()}" process="@this,btonMostForm" update="@form :FormRegi :paneTabl :tablPart :paneClose" oncomplete="INIT_OBJE_MODA(); INIT_OBJE_CITA();" global="true"/>
                                                         <i class="fa fa-search"/> Volver al formulario ...
                                                 </h:commandLink>
                                             </h:form>
