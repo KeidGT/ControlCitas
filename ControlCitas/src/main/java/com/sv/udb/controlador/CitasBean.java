@@ -68,6 +68,7 @@ public class CitasBean implements Serializable{
     private List<Visitantecita> listVisiCita;
     private List<Visitante> listVisi;
     private List<Horariodisponible> listHoraDispUsua;
+    private List<Alumno> listAlum;
     
     //variables de funcionalidad y lógica de negocio
     private boolean guardar;
@@ -246,6 +247,10 @@ public class CitasBean implements Serializable{
     public void setObjeAlumVisi(Alumnovisitante objeAlumVisi) {
         this.objeAlumVisi = objeAlumVisi;
     }
+
+    public List<Alumno> getListAlum() {
+        return listAlum;
+    }
     
     
     
@@ -258,6 +263,8 @@ public class CitasBean implements Serializable{
         this.consHorarios();
         this.consListHoraDispUsua();
         consListCitaUsua();
+        this.listAlum = new AlumnosBean().consTodoAlum();
+        if(this.listAlum == null)this.listAlum = new ArrayList<Alumno>();
     }
     
     
@@ -271,7 +278,7 @@ public class CitasBean implements Serializable{
         consCitaPorAlum();
         this.Disable = true;
         this.objeVisi = new Visitante();
-        this.listVisi = new ArrayList<Visitante>(); 
+        this.listVisi = new ArrayList<Visitante>();
         listVisi.clear();
         this.objeVisiCita = new Visitantecita();
         this.objeCambCita = new Cambiocita();
@@ -621,10 +628,11 @@ public class CitasBean implements Serializable{
         return objeAlumVisi;
     }
     
-    //consultar un onbjeto de tipo alumno de la lista generada temporalmente
+    //consultar un onbjeto de tipo alumno de la lista hipotética del web service
+    // considerar consultar un solo registro del web service en el futuro....
     public Alumno consObjeAlumno(String carn){
         Alumno objeAlumn = null;
-        for(Alumno obje : new AlumnosBean().consTodoAlum()){
+        for(Alumno obje : listAlum){
             if(obje.getCarnAlum().equals(carn)){
                 objeAlumn = obje;
                 break;
@@ -639,6 +647,7 @@ public class CitasBean implements Serializable{
         try
         {
             this.listVisiCitaUsua = FCDEVisiCita.findByCodiUsua(String.valueOf(LoginBean.getCodiUsuaSesion()));
+            if(this.listVisiCitaUsua == null)this.listVisiCitaUsua = new ArrayList<Visitantecita>();
             //quitamos los visitante cita repetidos donde la cita sea la misma
             List<Visitantecita> transac = listVisiCitaUsua;
             /*
