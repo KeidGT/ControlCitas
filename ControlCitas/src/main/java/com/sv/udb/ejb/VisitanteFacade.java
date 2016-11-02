@@ -34,10 +34,10 @@ public class VisitanteFacade extends AbstractFacade<Visitante> implements Visita
     }
     @Override
     public Visitante findByDuiVisi(Object dui) {
-        TypedQuery<Visitante> q = (TypedQuery<Visitante>) getEntityManager().createQuery("SELECT v FROM Visitante v WHERE v.duiVisi = :duiVisi");     
+        TypedQuery<Visitante> q = (TypedQuery<Visitante>) getEntityManager().createQuery("SELECT v FROM Visitante v WHERE v.duiVisi = :duiVisi").setMaxResults(1);     
         q.setParameter("duiVisi", dui);
-        List resu = q.getResultList();
-        return resu.isEmpty() ? null : (Visitante)resu.get(0);
+        Visitante resu = q.getSingleResult();
+        return (resu==null) ? null : resu;
     }
     @Override
     public List<Visitante> findByCita(Cita codiCita) {

@@ -63,8 +63,8 @@ public class CitasBean implements Serializable{
     //LISTAS
     private List<Cita> listCita;
     private List<Horariodisponible> listHoraDisp;
-    private List<Visitantecita> listVisiCitaAlum;
-    private List<Visitantecita> listVisiCitaUsua;
+    private List<Visitantecita> listVisiCitaAlum;//--> ambas listas se pueden fusionar en una misma, revisar en el futuro...
+    private List<Visitantecita> listVisiCitaUsua;//-->
     private List<Visitantecita> listVisiCita;
     private List<Visitante> listVisi;
     private List<Horariodisponible> listHoraDispUsua;
@@ -74,7 +74,6 @@ public class CitasBean implements Serializable{
     private boolean guardar;
     private String motivo;
     private Date fechSoliCita;
-    private boolean Disable;
     private String carnAlum;
     
     
@@ -178,14 +177,6 @@ public class CitasBean implements Serializable{
         return guardar;
     }
 
-    public boolean isDisable() {
-        return Disable;
-    }
-
-    public void setDisable(boolean Disable) {
-        this.Disable = Disable;
-    }
-
     public List<Visitantecita> getListVisiCitaUsua() {
         return listVisiCitaUsua;
     }
@@ -259,10 +250,10 @@ public class CitasBean implements Serializable{
     public void init()
     {
         this.limpForm();
-        this.consTodo();
-        this.consHorarios();
+        //this.consTodo();
         this.consListHoraDispUsua();
-        consListCitaUsua();
+        this.consCitaPorAlum();
+        this.consListCitaUsua();
         this.listAlum = new AlumnosBean().consTodoAlum();
         if(this.listAlum == null)this.listAlum = new ArrayList<Alumno>();
     }
@@ -274,9 +265,7 @@ public class CitasBean implements Serializable{
         this.objeCita.setCodiUbic(null);
         this.motivo=null;
         this.fechSoliCita=null;
-        this.guardar = true; 
-        consCitaPorAlum();
-        this.Disable = true;
+        this.guardar = true;
         this.objeVisi = new Visitante();
         this.listVisi = new ArrayList<Visitante>();
         listVisi.clear();
@@ -440,21 +429,31 @@ public class CitasBean implements Serializable{
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /*SECCIÓN DESTINADA A LA PROGRAMACIÓN DE REGISTRO DE VISITAS (CITAS DE TIPO 2), PARA LLEVAR CONTROL DE VISITANTES*/
     
     
     @EJB
     private VisitanteFacadeLocal FCDEVisi; 
     private Visitante objeVisi;
-    private boolean Disabled;
     private List<Alumnovisitante> listVisiTemp;
-    public boolean isDisabled() {
-        return Disabled;
-    }
 
-    public void setDisabled(boolean Disabled) {
-        this.Disabled = Disabled;
-    }
+
 
     public List<Alumnovisitante> getListVisiTemp() {
         return listVisiTemp;
@@ -496,7 +495,6 @@ public class CitasBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance();
         //Si el visitante no esta registrado, debe registrarse...
         if(!consVisiDui()){
-            this.Disabled = false;
             String dui = this.objeVisi.getDuiVisi();
             this.objeVisi = new Visitante();
             this.objeVisi.setDuiVisi(dui);

@@ -58,12 +58,12 @@ public class AlumnovisitanteFacade extends AbstractFacade<Alumnovisitante> imple
     }
     @Override
     public Alumnovisitante findByAlumVisi(Visitante visi, String carn) {
-        TypedQuery<Alumnovisitante> q = (TypedQuery<Alumnovisitante>) getEntityManager().createQuery("SELECT a FROM Alumnovisitante a  WHERE a.codiVisi = :codiVisi and a.carnAlum = :carnAlum");
+        TypedQuery<Alumnovisitante> q = (TypedQuery<Alumnovisitante>) getEntityManager().createQuery("SELECT a FROM Alumnovisitante a  WHERE a.codiVisi = :codiVisi and a.carnAlum = :carnAlum").setMaxResults(1);
         if(visi==null)visi = new Visitante();
         if(carn==null)carn="null";
         q.setParameter("codiVisi", visi);
         q.setParameter("carnAlum", carn);
-        List resu = q.getResultList();
-        return resu.isEmpty() ? new Alumnovisitante() : (Alumnovisitante) resu.get(0);
+        Alumnovisitante resu = q.getSingleResult();
+        return (resu==null)? new Alumnovisitante() : resu;
     }
 }

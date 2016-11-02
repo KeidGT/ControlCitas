@@ -29,7 +29,7 @@ public interface CambiocitaFacadeLocal {
 
     List<Cambiocita> findRange(int[] range);
     
-    Cambiocita findByCodiCita(Object codi);
+    Cambiocita findByCodiCita(Cita codi);
     
     Cambiocita findByCita(Cita codi);
     int count();

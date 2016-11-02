@@ -5,10 +5,12 @@
  */
 package com.sv.udb.ejb;
 
+import com.sv.udb.modelo.Cambiocita;
 import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Visitante;
 import com.sv.udb.modelo.Visitantecita;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -58,7 +60,18 @@ public class VisitantecitaFacade extends AbstractFacade<Visitantecita> implement
         TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita and v.codiVisi = :codiVisi");      
         q.setParameter("codiCita", cita);
         q.setParameter("codiVisi", visi);
+        Visitantecita resu = q.getSingleResult();
+        return (resu == null) ? null : resu;
+    }
+    
+    @EJB
+    private CambiocitaFacadeLocal FCDECambCita;
+    
+    @Override
+    public List<Visitantecita> findByFechNow() {
+        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT vc FROM Visitantecita vc, Cambiocita cc WHERE vc.codiCita = cc.codiCita");      
+        //q.setParameter("codiCita", Integer.parseInt(String.valueOf(codi)));
         List resu = q.getResultList();
-        return resu.isEmpty() ? null : (Visitantecita) resu.get(0);
+        return resu.isEmpty() ? null : resu;
     }
 }

@@ -35,19 +35,19 @@ public class CambiocitaFacade extends AbstractFacade<Cambiocita> implements Camb
     }
     
     @Override
-    public Cambiocita findByCodiCita(Object codi) {
-        TypedQuery<Cambiocita> q = (TypedQuery<Cambiocita>) getEntityManager().createQuery("SELECT c FROM Cambiocita c WHERE c.codiCita = :codiCita ORDER BY c.fechCambCita desc, c.horaCambCita desc");    
-        q.setParameter("codiCita", String.valueOf(codi));
-        List resu = q.getResultList();
-        return resu.isEmpty() ? null : (Cambiocita)resu.get(0);
+    public Cambiocita findByCodiCita(Cita codi) {
+        TypedQuery<Cambiocita> q = (TypedQuery<Cambiocita>) getEntityManager().createQuery("SELECT c FROM Cambiocita c WHERE c.codiCita = :codiCita ORDER BY c.fechCambCita desc, c.horaCambCita desc ").setMaxResults(1);    
+        q.setParameter("codiCita", codi);
+        Cambiocita resu = q.getSingleResult();
+        return (resu == null) ? null : resu;
     }
     
     @Override
     public Cambiocita findByCita(Cita codi) {
-        TypedQuery<Cambiocita> q = (TypedQuery<Cambiocita>) getEntityManager().createQuery("SELECT c FROM Cambiocita c WHERE c.codiCita = :codiCita ORDER BY c.fechCambCita desc, c.horaCambCita desc");     
+        TypedQuery<Cambiocita> q = (TypedQuery<Cambiocita>) getEntityManager().createQuery("SELECT c FROM Cambiocita c WHERE c.codiCita = :codiCita ORDER BY c.fechCambCita desc, c.horaCambCita desc").setMaxResults(1);     
         q.setParameter("codiCita", codi);
-        List resu = q.getResultList();
-        return resu.isEmpty() ? null : (Cambiocita)resu.get(0);
+        Cambiocita resu = q.getSingleResult();
+        return (resu == null) ? null : resu;
     }
     
 }

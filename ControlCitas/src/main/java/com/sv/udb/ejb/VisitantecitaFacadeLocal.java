@@ -38,6 +38,8 @@ public interface VisitantecitaFacadeLocal {
 
     Visitantecita findByCodiCita_Visitante(Cita cita, Visitante visi);
     
+    List<Visitantecita> findByFechNow();
+    
     int count();
     
 }
