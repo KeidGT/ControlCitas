@@ -98,6 +98,7 @@ public class LoginBean implements Serializable {
     
     public void creaSess()
     {
+        new WebServicesBean().consDocePorAlum("20130670");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         FacesContext facsCtxt = FacesContext.getCurrentInstance();
         try
@@ -117,7 +118,7 @@ public class LoginBean implements Serializable {
     }
     
     public void cerrSess()
-    {
+    {        
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         FacesContext facsCtxt = FacesContext.getCurrentInstance();
         try

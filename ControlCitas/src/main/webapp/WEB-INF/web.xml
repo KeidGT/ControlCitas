@@ -23,6 +23,10 @@
         <param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
         <param-value>/WEB-INF/resources</param-value>
     </context-param>
+    <context-param>  
+        <param-name>webservices.URL</param-name>  
+        <param-value>http://www.opensv.tk:8080/WebService/MiServicio</param-value>  
+    </context-param>
     <welcome-file-list>
         <welcome-file>poo/Login.xhtml</welcome-file>
     </welcome-file-list>
