@@ -40,10 +40,10 @@ public class CalendarioBean implements Serializable{
     
     private static final long serialVersionUID = 6527333208194203406L;
     private ScheduleModel objeCale;
-    private List<Pruebaevento> listPruebaevento = new ArrayList<Pruebaevento>();
+    //private List<Pruebaevento> listPruebaevento = new ArrayList<Pruebaevento>();
     private List<Cita> listCita;
-    @EJB
-    private PruebaeventoFacadeLocal FCDEPruEven;
+//    @EJB
+//    private PruebaeventoFacadeLocal FCDEPruEven;
     @EJB
     private CitaFacadeLocal FCDECita;
     @EJB
@@ -60,23 +60,23 @@ public class CalendarioBean implements Serializable{
         getEvenCale();
     }
     
-      public void consTodo() {
-        try {
-            this.listPruebaevento = FCDEPruEven.findAll();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+//    public void consTodo() {
+//        try {
+//            this.listPruebaevento = FCDEPruEven.findAll();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
     
-    public List<Pruebaevento> getListPruebaevento() {
-        return listPruebaevento;
-    }
+//    public List<Pruebaevento> getListPruebaevento() {
+//        return listPruebaevento;
+//    }
 
     public ScheduleModel getObjeCale() {
         return objeCale;
     }
     
-     public void conListCitaProg()
+    public void conListCitaProg()
     {
         try
         {
@@ -101,7 +101,7 @@ public class CalendarioBean implements Serializable{
                 DefaultScheduleEvent evt = new DefaultScheduleEvent();
                 evt.setEndDate(sdf.parse(FechFina));
                 evt.setStartDate(sdf.parse(FechInic));
-                evt.setTitle(obj.getDescCita());
+                evt.setTitle(obj.getDescCita()+ " " + "\nHora inicio: " + objeCambCita.getHoraInicCitaNuev() + "\nHora final: " + objeCambCita.getHoraFinCitaNuev());
                 evt.setData(obj.getCodiCita());
                 evt.setDescription(obj.getCodiUbic().getNombUbic());
                 objeCale.addEvent(evt);
