@@ -30,6 +30,8 @@ public interface CitaFacadeLocal {
 
     List<Cita> findByCodiUsua(Object codi);
     
+    List<Cita> findByEstaProg();
+    
     int count();
     
 }

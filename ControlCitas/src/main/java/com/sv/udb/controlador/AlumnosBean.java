@@ -29,7 +29,7 @@ public class AlumnosBean {
         //listAlum.add(new Alumno("Carnet","Nombre","Apellido","Nivel","Especialidad","Grupo Técnico","Grupo Académico"));
         listAlum.add(new Alumno("20130670","Kevin","Guevara","Primer Año","Informática","3-A","A-5"));
         listAlum.add(new Alumno("20130732","Alvin","Baires","Tercer Año","Informática","2-A","A-3"));
-        listAlum.add(new Alumno("20130734","Keneth","Cruz","Primer Año","Arquitectura","3-b","b-2"));
+        listAlum.add(new Alumno("20130698","Keneth","Cruz","Primer Año","Arquitectura","3-b","b-2"));
         listAlum.add(new Alumno("20130735","Alba","Urrutia","Octavo Grado","","","B"));
         listAlum.add(new Alumno("20130736","Adrián","Ramírez","Septimo Grado","","","D"));
         return listAlum;
