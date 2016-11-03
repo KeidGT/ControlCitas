@@ -32,13 +32,11 @@ public interface VisitantecitaFacadeLocal {
     
     List<Visitantecita> findByCarnAlum(String codi);
     
-    List<Visitantecita> findByCodiUsua(Object codi);
+    List<Visitantecita> findByCodiUsua(int codi);
     
-    List<Visitantecita> findByCodiCita(Object codi);
+    List<Visitantecita> findByCodiCita(Cita codi);
 
     Visitantecita findByCodiCita_Visitante(Cita cita, Visitante visi);
-    
-    List<Visitantecita> findByFechNow();
     
     int count();
     

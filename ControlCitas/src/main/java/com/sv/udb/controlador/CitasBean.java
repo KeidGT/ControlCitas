@@ -52,13 +52,17 @@ public class CitasBean implements Serializable{
     private CitaFacadeLocal FCDECita;
     @EJB
     private AlumnovisitanteFacadeLocal FCDEAlumnoVisitante;
+     @EJB
+    private VisitanteFacadeLocal FCDEVisi; 
+    
     //OBJETOS
     private Cita objeCita;
     private Cambiocita objeCambCita;
     private Horariodisponible horaSeleCita;
     private Alumnovisitante alumVisiSelec;
     private Alumnovisitante objeAlumVisi;
-    Visitantecita objeVisiCita = new Visitantecita();
+    private Visitantecita objeVisiCita = new Visitantecita();
+    private Visitante objeVisi;
     
     //LISTAS
     private List<Cita> listCita;
@@ -69,6 +73,7 @@ public class CitasBean implements Serializable{
     private List<Visitante> listVisi;
     private List<Horariodisponible> listHoraDispUsua;
     private List<Alumno> listAlum;
+    private List<Alumnovisitante> listVisiTemp;
     
     //variables de funcionalidad y lógica de negocio
     private boolean guardar;
@@ -104,6 +109,19 @@ public class CitasBean implements Serializable{
         
     }
     //Encapsulamientos
+    
+   
+    public List<Alumnovisitante> getListVisiTemp() {
+        return listVisiTemp;
+    }
+
+    public Visitante getObjeVisi() {
+        return objeVisi;
+    }
+
+    public void setObjeVisi(Visitante objeVisi) {
+        this.objeVisi = objeVisi;
+    }
 
     public Visitantecita getObjeVisiCita() {
         return objeVisiCita;
@@ -114,6 +132,7 @@ public class CitasBean implements Serializable{
     }
     
     public List<Visitantecita> getListVisiCitaAlum() {
+        this.consCitaPorAlum();
         return listVisiCitaAlum;
     }
 
@@ -178,6 +197,7 @@ public class CitasBean implements Serializable{
     }
 
     public List<Visitantecita> getListVisiCitaUsua() {
+        this.consListCitaUsua();
         return listVisiCitaUsua;
     }
 
@@ -228,6 +248,7 @@ public class CitasBean implements Serializable{
     }
 
     public List<Horariodisponible> getListHoraDispUsua() {
+        this.consListHoraDispUsua();
         return listHoraDispUsua;
     }
 
@@ -242,20 +263,20 @@ public class CitasBean implements Serializable{
     public List<Alumno> getListAlum() {
         return listAlum;
     }
-    
-    
+
+    public List<Visitantecita> getListVisiCita() {
+        consListCita();
+        return listVisiCita;
+    }
+
     
     
     @PostConstruct
     public void init()
     {
         this.limpForm();
-        //this.consTodo();
-        this.consListHoraDispUsua();
-        this.consCitaPorAlum();
-        this.consListCitaUsua();
         this.listAlum = new AlumnosBean().consTodoAlum();
-        if(this.listAlum == null)this.listAlum = new ArrayList<Alumno>();
+        
     }
     
     
@@ -303,17 +324,7 @@ public class CitasBean implements Serializable{
         }
     }
     
-    public void consTodo()
-    {
-        try
-        {
-            this.listCita = FCDECita.findAll();
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
+    
     
     public void cons()
     {
@@ -448,23 +459,39 @@ public class CitasBean implements Serializable{
     /*SECCIÓN DESTINADA A LA PROGRAMACIÓN DE REGISTRO DE VISITAS (CITAS DE TIPO 2), PARA LLEVAR CONTROL DE VISITANTES*/
     
     
-    @EJB
-    private VisitanteFacadeLocal FCDEVisi; 
-    private Visitante objeVisi;
-    private List<Alumnovisitante> listVisiTemp;
-
-
-
-    public List<Alumnovisitante> getListVisiTemp() {
-        return listVisiTemp;
-    }
-
-    public Visitante getObjeVisi() {
-        return objeVisi;
-    }
-
-    public void setObjeVisi(Visitante objeVisi) {
-        this.objeVisi = objeVisi;
+    
+    
+    public void consListCita()
+    {
+        try
+        {
+            this.listCita = FCDECita.findAll();
+            List<Cambiocita> listCambCitaTemp = new ArrayList<Cambiocita>();
+            for(Cita obj : listCita){
+                Cambiocita camb = FCDECambCita.findByCita(obj);
+                listCambCitaTemp.add(camb);
+            }
+            listCita.clear();
+            for(Cambiocita objeCambCitaTemp: listCambCitaTemp){
+                List<Visitantecita> listVisiCitaTemp = new ArrayList<Visitantecita>();
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    objeCambCita.setHoraCambCita(df.format(new Date()));
+                if(df.format(objeCambCitaTemp.getFechInicCitaNuev()).equals(df.format(new Date())) || df.format(objeCambCitaTemp.getFechFinCitaNuev()).equals(df.format(new Date()))){
+                    listVisiCitaTemp = FCDEVisiCita.findByCodiCita(objeCambCitaTemp.getCodiCita());
+                    
+                }
+                if(listVisiCita == null)listVisiCita = new ArrayList<Visitantecita>();
+                for(Visitantecita obje: listVisiCitaTemp){
+                    if(!listVisiCita.contains(obje))listVisiCita.add(obje);
+                }
+                listVisiCitaTemp.clear();
+            }
+            
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
     
     
@@ -644,7 +671,7 @@ public class CitasBean implements Serializable{
     {
         try
         {
-            this.listVisiCitaUsua = FCDEVisiCita.findByCodiUsua(String.valueOf(LoginBean.getCodiUsuaSesion()));
+            this.listVisiCitaUsua = FCDEVisiCita.findByCodiUsua(LoginBean.getCodiUsuaSesion());
             if(this.listVisiCitaUsua == null)this.listVisiCitaUsua = new ArrayList<Visitantecita>();
             //quitamos los visitante cita repetidos donde la cita sea la misma
             List<Visitantecita> transac = listVisiCitaUsua;

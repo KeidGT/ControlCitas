@@ -37,4 +37,11 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
+    //aplicar filtro de fecha aqui
+    @Override
+    public List<Cita> findAll() {
+        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c ");
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : resu;
+    }
 }

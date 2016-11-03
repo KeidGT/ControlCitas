@@ -107,12 +107,8 @@ and open the template in the editor.
                                             <h:message for="seleAlum" errorClass="field-error" />
                                             <h:selectOneMenu id="seleAlum" value="#{alumnoVisitanteBean.objeAlumVisi.carnAlum}" class="form-control select" pt:data-live-search="true">
                                                 <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItem itemValue="20130670" itemLabel="Kevin Guevara"/>
-                                                <f:selectItem itemValue="20130732" itemLabel="Alvin Baires"/>
-                                                <f:selectItem itemValue="20130660" itemLabel="Jennyfer Soto"/>
-                                                <f:selectItem itemValue="20130284" itemLabel="Ariel Ramírez"/>
-                                                <f:selectItem itemValue="20130438" itemLabel="Eduardo Rivas"/>
-                                                <f:selectItem itemValue="20130698" itemLabel="Keneth Cruz"/>
+                                                <f:selectItems value="#{alumnosBean.consTodoAlum()}" var="lst" itemLabel="#{lst.nombAlum} #{lst.apelAlum}" itemValue="#{lst.carnAlum}"/>
+                                                <f:converter converterId="PooConv"/>
                                             </h:selectOneMenu>
                                         </div>
                                         <div class="input-group col-xs-12">

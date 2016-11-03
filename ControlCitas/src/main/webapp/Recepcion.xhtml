@@ -60,35 +60,47 @@ and open the template in the editor.
                                         </h:commandLink>
                                     </h:form>
                                 </div>
-                                <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{eventosBean.listEven}"
+                                <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{citasBean.listVisiCita}"
                                         var="fila" class="boottable" pt:data-toolbar="#toolTablRegi"
                                         styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
                                         pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
                                         pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
                                         pt:data-click-to-select="true"  pt:data-select-item-name="radio"
                                         pt:data-single-select="true">                                
-                               <h:column pt:data-field="state" pt:data-checkbox="true">
-                               </h:column>
                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
                                    <f:facet name="header">Código</f:facet>
-                                   <h:outputText value="#{fila.codiEvent}"/>
+                                   <h:outputText value="#{fila.codiVisiCita}"/>
                                </h:column>
-                               <h:column pt:data-sortable="true" pt:data-field="nomb">
-                                   <f:facet name="header">Nombre de Evento</f:facet>
-                                   <h:outputText value="#{fila.nombEven}"/>   
+                               <h:column pt:data-sortable="true" pt:data-field="carn">
+                                   <f:facet name="header">Alumno</f:facet>
+                                   <h:outputText value=" #{citasBean.consObjeAlumno(fila.carnAlum).nombAlum} #{citasBean.consObjeAlumno(fila.carnAlum).apelAlum}"/>
+                                   
                                </h:column>
-                               <h:column pt:data-sortable="true" pt:data-field="dui">
-                                   <f:facet name="header">Inicia</f:facet>
-                                   <h:outputText value="#{fila.fechInicEven}">
-                                       <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-6"/>
-                                   </h:outputText>   
+                               <h:column pt:data-sortable="true" pt:data-field="visi">
+                                   <f:facet name="header">Visitante</f:facet>
+                                   <h:outputText value=" #{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}"/>
                                </h:column>
-                               <h:column pt:data-sortable="true">
-                                  <f:facet name="header">Termina</f:facet>
-                                  <h:outputText value="#{fila.fechFinaEven}">
-                                      <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-6"/>
-                                  </h:outputText> 
+                               <h:column pt:data-sortable="true" pt:data-field="hora">
+                                   <f:facet name="header">Hora </f:facet>
+                                   <h:outputText value="#{citasBean.consObjeCambCita(fila.codiCita).horaInicCitaNuev} - #{citasBean.consObjeCambCita(fila.codiCita).horaFinCitaNuev}"/>
                                </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="luga">
+                                   <f:facet name="header">Lugar </f:facet>
+                                   <h:outputText value="#{fila.codiCita.codiUbic.nombUbic}"/>
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="moti">
+                                   <f:facet name="header">Motivo </f:facet>
+                                   <h:outputText value="#{fila.codiCita.descCita}"/>
+                               </h:column>
+                               <h:column pt:data-sortable="true" pt:data-field="esta">
+                                   <f:facet name="header">Estado</f:facet>
+                                   <h:panelGroup class="label label-info" rendered="#{fila.codiCita.estaCita eq '1'}">
+                                       <i class="fa fa-calendar-o"/> Solicitada</h:panelGroup>
+                                   <h:panelGroup class="label label-success" rendered="#{fila.codiCita.estaCita eq '2'}">
+                                       <i class="fa fa-calendar-o"/> Programada</h:panelGroup> 
+                                   <h:panelGroup class="label label-danger" rendered="#{fila.codiCita.estaCita eq '3'}">
+                                       <i class="fa fa-calendar-o"/> Rechazada</h:panelGroup>
+                               </h:column> 
                             </h:dataTable>
                             </h:panelGroup>
                         </div>

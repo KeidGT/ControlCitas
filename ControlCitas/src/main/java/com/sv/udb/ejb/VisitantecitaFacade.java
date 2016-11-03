@@ -9,11 +9,14 @@ import com.sv.udb.modelo.Cambiocita;
 import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Visitante;
 import com.sv.udb.modelo.Visitantecita;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -42,16 +45,16 @@ public class VisitantecitaFacade extends AbstractFacade<Visitantecita> implement
         return resu.isEmpty() ? null : resu;
     }
     @Override
-    public List<Visitantecita> findByCodiUsua(Object codi) {
+    public List<Visitantecita> findByCodiUsua(int codi) {
         TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita.codiUsua = :codiUsua");
         q.setParameter("codiUsua", Integer.parseInt(String.valueOf(codi)));
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
     @Override
-    public List<Visitantecita> findByCodiCita(Object codi) {
+    public List<Visitantecita> findByCodiCita(Cita codi) {
         TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita");      
-        q.setParameter("codiCita", Integer.parseInt(String.valueOf(codi)));
+        q.setParameter("codiCita", codi);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
@@ -64,14 +67,4 @@ public class VisitantecitaFacade extends AbstractFacade<Visitantecita> implement
         return (resu == null) ? null : resu;
     }
     
-    @EJB
-    private CambiocitaFacadeLocal FCDECambCita;
-    
-    @Override
-    public List<Visitantecita> findByFechNow() {
-        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT vc FROM Visitantecita vc, Cambiocita cc WHERE vc.codiCita = cc.codiCita");      
-        //q.setParameter("codiCita", Integer.parseInt(String.valueOf(codi)));
-        List resu = q.getResultList();
-        return resu.isEmpty() ? null : resu;
-    }
 }
