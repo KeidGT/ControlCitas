@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CitasporAlumno" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e7e34e53-6ba9-4c0c-8e70-174a96076c3f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="codivisi" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT a.desc_cita, b.fech_lleg_cita, b.hora_lleg_cita, b.fech_sali_cita, b.hora_sali_cita
+FROM Cita a, Visitante_cita b
+WHERE a.codi_cita=b.codi_visi_cita;]]>
+	</queryString>
+	<field name="desc_cita" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fech_lleg_cita" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hora_lleg_cita" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fech_sali_cita" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hora_sali_cita" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="Group1">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/15)]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<textField>
+					<reportElement x="0" y="0" width="111" height="20" uuid="ccdab49b-ac0c-41e5-9ca3-1fa9451d601b"/>
+					<textFieldExpression><![CDATA[$F{desc_cita}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="111" y="0" width="111" height="20" uuid="03f82795-37f9-4311-a4af-ab708d7a44d6"/>
+					<textFieldExpression><![CDATA[$F{fech_lleg_cita}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="242" y="0" width="111" height="20" uuid="61b47e24-5776-4d33-a905-b2cd6b298b09"/>
+					<textFieldExpression><![CDATA[$F{fech_sali_cita}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="45"/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
+		<groupHeader>
+			<band height="45"/>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="86" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="263" height="33" uuid="c379214e-0517-47d9-b6d5-b028cd9f71af"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Citas por Alumno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="222" y="0" width="228" height="22" forecolor="#000000" uuid="ef88504f-1285-46d0-81ca-e409943bc352"/>
+				<text><![CDATA[Instituto Técnico Ricaldone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="111" y="42" width="228" height="22" uuid="8fdb04e6-3dab-4654-9d1d-014ffa6f8553"/>
+				<text><![CDATA[Citas programadas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="339" y="33" width="111" height="20" uuid="3d120afa-3604-4f34-ad0f-04076f4a1598"/>
+				<text><![CDATA[Hora llegada]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="442" y="33" width="111" height="20" uuid="17bd9b6f-7795-46ce-8a41-cf031f3aa6b2"/>
+				<textFieldExpression><![CDATA[$F{hora_lleg_cita}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="339" y="64" width="111" height="20" uuid="424dd109-68a7-469e-8a41-485aad209394"/>
+				<text><![CDATA[Hora salida]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="442" y="64" width="89" height="20" uuid="059af38b-c99c-4669-8695-4c2e68f4cccc"/>
+				<textFieldExpression><![CDATA[$F{hora_sali_cita}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="60" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="2e800496-e99a-422b-a3a3-320e92f46cf1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="111" height="20" uuid="db10ad60-0fdc-4af1-b5b6-0b9e37a792ea"/>
+				<text><![CDATA[Motivo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="0" width="111" height="20" uuid="e4c1f8ac-1328-4d14-b87e-b189ccfc995c"/>
+				<text><![CDATA[Fecha llegada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="0" width="111" height="20" uuid="6f64c1b3-6fde-4968-9b42-18d0451157f7"/>
+				<text><![CDATA[Fecha salida]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="8da84a36-af78-4fae-a67d-527907cbbe64"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="0696f128-228d-4447-916b-5c565ca60a81"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="6eadc7b4-a495-48b8-8596-5a9375367067"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="1edbd303-99b3-49d2-8c28-3bc69733dfb5"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="87c41592-f63d-4e2d-b279-43c18d9401b7"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -29,10 +29,10 @@ and open the template in the editor.
             <h:form id="FormVisorPdfJs">
                 <fieldset>
                     <h:commandLink id="btonRepo" class="btn btn-success" rendered="#{true}">
-                        <p:ajax listener="#{reportesBean.procRepo()}" process="@this" update="@form" />
+                        <p:ajax listener="#{reportesBeanCitaReprogramada.procRepo()}" process="@this" update="@form" />
                         <i class="fa fa-print"/> Procesar Reporte
                     </h:commandLink>
-                    <cs:PdfViewer id="demo" value="#{reportesBean.docuRepo}" width="100%" height="500px"/>                                
+                    <cs:PdfViewer id="demo" value="#{reportesBeanCitaReprogramada.docuRepo}" width="100%" height="500px"/>                                
                 </fieldset>
             </h:form>
         </ui:define>

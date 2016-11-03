@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CitaReprogramada" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cb83788b-ad3f-4c13-9676-1e1b5ac04b18">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT a.desc_cita, b.fech_inic_cita_nuev, b.hora_inic_cita_nuev, b.fech_inic_cita_nuev, b.hora_inic_cita_nuev
+FROM Cita a, Cambio_cita b
+WHERE a.codi_cita=b.codi_camb_cita;]]>
+	</queryString>
+	<field name="desc_cita" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fech_inic_cita_nuev" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hora_inic_cita_nuev" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="185" height="20" uuid="e8f3a271-7d00-4503-95d6-3149cf5f594a"/>
+				<text><![CDATA[Motivo del cambio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="0" width="185" height="20" uuid="fd82bb51-b2c2-47ac-bbf5-475062bc1984"/>
+				<text><![CDATA[Fecha nueva de inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="185" height="20" uuid="3dd401eb-3660-44b0-8aef-68ba4ce060d0"/>
+				<text><![CDATA[Hora de inicio nueva]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="185" height="20" uuid="e79c3ea2-83d5-44a2-8295-8dc514cea297"/>
+				<textFieldExpression><![CDATA[$F{desc_cita}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="0" width="185" height="20" uuid="c4ce1bff-a5e0-416f-91b3-4b004fd08858"/>
+				<textFieldExpression><![CDATA[$F{fech_inic_cita_nuev}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="185" height="20" uuid="c97e79fe-12ab-49d5-91ad-974707b1846d"/>
+				<textFieldExpression><![CDATA[$F{hora_inic_cita_nuev}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField>
+				<reportElement x="444" y="22" width="100" height="20" uuid="870dc354-174a-4289-8e17-a20022d2ecf0"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
