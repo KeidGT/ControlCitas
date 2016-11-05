@@ -910,8 +910,13 @@ public class CitasBean implements Serializable{
                     objeCambCita.setFechFinCitaNuev(fechSoliCita);
                     DateFormat df = new SimpleDateFormat("HH:mm:a");
                     objeCambCita.setHoraCambCita(df.format(new Date()));
-                    objeCambCita.setHoraInicCitaNuev(this.getHoraSeleCita().getHoraInicHoraDisp());
-                    objeCambCita.setHoraFinCitaNuev(this.getHoraSeleCita().getHoraFinaHoraDisp());
+                    if(ignoHoraDisp){
+                        objeCambCita.setHoraInicCitaNuev(FechInic);
+                        objeCambCita.setHoraFinCitaNuev(FechFina);
+                    }else{
+                        objeCambCita.setHoraInicCitaNuev(horaSeleCita.getHoraInicHoraDisp());
+                        objeCambCita.setHoraFinCitaNuev(horaSeleCita.getHoraFinaHoraDisp());
+                    }
                     objeCita.setEstaCita(2);
                 }
             }
