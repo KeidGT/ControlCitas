@@ -63,7 +63,7 @@ public class CitasBean implements Serializable{
     private Alumnovisitante objeAlumVisi;
     private Visitantecita objeVisiCita = new Visitantecita();
     private Visitante objeVisi;
-    
+    private Alumno objeAlum;
     //LISTAS
     private List<Cita> listCita;
     private List<Horariodisponible> listHoraDisp;
@@ -269,6 +269,14 @@ public class CitasBean implements Serializable{
         return listVisiCita;
     }
 
+    public Alumno getObjeAlum() {
+        return objeAlum;
+    }
+
+    public void setObjeAlum(Alumno objeAlum) {
+        this.objeAlum = objeAlum;
+    }
+    
     
     
     @PostConstruct
@@ -694,6 +702,11 @@ public class CitasBean implements Serializable{
             ex.printStackTrace();
         }
     }
+    public void consDepenListCitaUsua(Visitantecita fila){
+        this.objeCambCita = consObjeCambCita(fila.getCodiCita());
+        this.objeAlum = consObjeAlumno(fila.getCarnAlum());
+    }
+    
     //consultar los encargados de un alumno
     public void consListVisiAlum(){
         try
@@ -915,8 +928,12 @@ public class CitasBean implements Serializable{
             int diaExceHoraDisp = this.fechSoliCita.getDay();
             if(diaHoraDisp == diaExceHoraDisp){
                 if(listVisiTemp.size() > 0){
+                    if(fechSoliCita.after(new Date())){
 
-                    vali = true;
+                        vali = true;
+                    }else{
+                        ctx.execute("setMessage('MESS_INFO', 'Atención', 'Ningun Visitante Agregado a la Cita');");
+                    }
                 }else{
                     ctx.execute("setMessage('MESS_INFO', 'Atención', 'Ningun Visitante Agregado a la Cita');");
                 }
