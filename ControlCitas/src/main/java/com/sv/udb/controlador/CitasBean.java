@@ -948,6 +948,7 @@ public class CitasBean implements Serializable{
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al realizar la acción')");
+            ex.printStackTrace();
         }
     }
     
