@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -89,22 +90,25 @@ public class CalendarioBean implements Serializable{
     }
      public void getEvenCale(){
         try{
+            this.objeCale = new DefaultScheduleModel();
             conListCitaProg();//se consultan las citas programadas
             if(listCita == null) listCita= new ArrayList<Cita>();
             for(Cita obj: listCita){//--> recorrer lista
                 Cambiocita  objeCambCita = getCambCita(obj);
                 if(objeCambCita == null)objeCambCita = new Cambiocita();
+                
                 SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
-                String FechFina = df.format(objeCambCita.getFechFinCitaNuev())+" "+objeCambCita.getHoraFinCitaNuev();
-                String FechInic = df.format(objeCambCita.getFechInicCitaNuev())+" "+objeCambCita.getHoraInicCitaNuev();
+                String FechFinaS = df.format(objeCambCita.getFechFinCitaNuev())+" "+objeCambCita.getHoraFinCitaNuev();
+                String FechInicS = df.format(objeCambCita.getFechInicCitaNuev())+" "+objeCambCita.getHoraInicCitaNuev();
+                System.out.println("Fecha Inicio: " + FechInicS);
+                System.out.println("Fecha Fin: " + FechFinaS);
                 DefaultScheduleEvent evt = new DefaultScheduleEvent();
-                evt.setEndDate(sdf.parse(FechFina));
-                evt.setStartDate(sdf.parse(FechInic));
-                evt.setTitle(obj.getDescCita()+ " " + "\nHora inicio: " + objeCambCita.getHoraInicCitaNuev() + "\nHora final: " + objeCambCita.getHoraFinCitaNuev());
+                evt.setStartDate(this.getFecha(FechInicS));
+                evt.setEndDate(this.getFecha(FechFinaS));
+                evt.setTitle("Cita");
                 evt.setData(obj.getCodiCita());
                 evt.setDescription(obj.getCodiUbic().getNombUbic());
-                objeCale.addEvent(evt);
+                this.objeCale.addEvent(evt);
              }
         }catch(Exception e){
             e.printStackTrace();
@@ -126,10 +130,11 @@ public class CalendarioBean implements Serializable{
      
     private Date getFecha(String date) 
     {
+        
         Date fecha = null;
         if (date != null){
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy h:mm aa");
                 fecha = sdf.parse(date);
             } catch (Exception e) {
                 fecha = null;
