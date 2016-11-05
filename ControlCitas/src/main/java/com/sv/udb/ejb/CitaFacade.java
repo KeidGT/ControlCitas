@@ -32,9 +32,9 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
         super(Cita.class);
     }
     @Override
-    public List<Cita> findByCodiUsua(Object codi) {
+    public List<Cita> findByCodiUsua(int codi) {
         TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c WHERE c.codiUsua = :codiUsua");      
-        q.setParameter("codiUsua", String.valueOf(codi));
+        q.setParameter("codiUsua", codi);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }

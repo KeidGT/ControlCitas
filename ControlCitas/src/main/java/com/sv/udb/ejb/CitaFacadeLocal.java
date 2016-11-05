@@ -28,7 +28,7 @@ public interface CitaFacadeLocal {
 
     List<Cita> findRange(int[] range);
 
-    List<Cita> findByCodiUsua(Object codi);
+    List<Cita> findByCodiUsua(int codi);
     
     List<Cita> findByEstaProg();
     

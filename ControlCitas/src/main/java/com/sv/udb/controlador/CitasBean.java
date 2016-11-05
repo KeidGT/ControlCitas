@@ -63,17 +63,19 @@ public class CitasBean implements Serializable{
     private Alumnovisitante objeAlumVisi;
     private Visitantecita objeVisiCita = new Visitantecita();
     private Visitante objeVisi;
-    private Alumno objeAlum;
+    private Alumno objeAlumUsuaDepe;
+    private Cambiocita objeCambCitaUsuaDepe;
     //LISTAS
     private List<Cita> listCita;
     private List<Horariodisponible> listHoraDisp;
     private List<Visitantecita> listVisiCitaAlum;//--> ambas listas se pueden fusionar en una misma, revisar en el futuro...
-    private List<Visitantecita> listVisiCitaUsua;//-->
+    private List<Cita> listCitaUsua;//-->
     private List<Visitantecita> listVisiCita;
     private List<Visitante> listVisi;
     private List<Horariodisponible> listHoraDispUsua;
     private List<Alumno> listAlum;
     private List<Alumnovisitante> listVisiTemp;
+    private List<Visitantecita> listVisiCitaUsuaDepe;
     
     //variables de funcionalidad y lógica de negocio
     private boolean guardar;
@@ -199,10 +201,6 @@ public class CitasBean implements Serializable{
         return guardar;
     }
 
-    public List<Visitantecita> getListVisiCitaUsua() {
-        this.consListCitaUsua();
-        return listVisiCitaUsua;
-    }
 
     public Cambiocita getObjeCambCita() {
         return objeCambCita;
@@ -272,14 +270,6 @@ public class CitasBean implements Serializable{
         return listVisiCita;
     }
 
-    public Alumno getObjeAlum() {
-        return objeAlum;
-    }
-
-    public void setObjeAlum(Alumno objeAlum) {
-        this.objeAlum = objeAlum;
-    }
-
     public boolean isIgnoHoraDisp() {
         return ignoHoraDisp;
     }
@@ -304,9 +294,35 @@ public class CitasBean implements Serializable{
         this.FechFina = FechFina;
     }
 
+    public List<Cita> getListCitaUsua() {
+        consListCitaUsua();
+        return listCitaUsua;
+    }
+
+    public Alumno getObjeAlumUsuaDepe() {
+        return objeAlumUsuaDepe;
+    }
+
+    public void setObjeAlumUsuaDepe(Alumno objeAlumUsuaDepe) {
+        this.objeAlumUsuaDepe = objeAlumUsuaDepe;
+    }
+
+    public Cambiocita getObjeCambCitaUsuaDepe() {
+        return objeCambCitaUsuaDepe;
+    }
+
+    public void setObjeCambCitaUsuaDepe(Cambiocita objeCambCitaUsuaDepe) {
+        this.objeCambCitaUsuaDepe = objeCambCitaUsuaDepe;
+    }
+
+    public List<Visitantecita> getListVisiCitaUsuaDepe() {
+        return listVisiCitaUsuaDepe;
+    }
+
     
+
     
-    
+        
     
     
     @PostConstruct
@@ -651,19 +667,7 @@ public class CitasBean implements Serializable{
         return parentesco;
     }
     //consultar el ultimo cambio de la cita (para mostrar en la tabla)
-    public Cambiocita consObjeCambCita(Cita cita){
-        Cambiocita objecons = null; 
-        try
-        {
-             objecons = FCDECambCita.findByCita(cita);
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        
-        return objecons;
-    }
+
     
     //consultar el ultimo cambio de la cita (para mostrar en la tabla)
     public Visitante consObjeVisi(int codi){
@@ -712,29 +716,9 @@ public class CitasBean implements Serializable{
     {
         try
         {
-            this.listVisiCitaUsua = FCDEVisiCita.findByCodiUsua(LoginBean.getCodiUsuaSesion());
-            if(this.listVisiCitaUsua == null)this.listVisiCitaUsua = new ArrayList<Visitantecita>();
-            //quitamos los visitante cita repetidos donde la cita sea la misma
-            List<Visitantecita> transac = listVisiCitaUsua;
-            /*
-                no se recomienda usar for each, ya que no se puede quitar 
-                de la lista el objeto que se esta recorriendo
-                al usar for each se produce error, y no se  obtienen los resultados 
-                esperados
-            */
-            int tam = listVisiCitaUsua.size();
-            System.out.println(tam);
-            for(int i = 0; i < tam; i++){
-              int cont = 0;
-              for(int j = 0; j < tam; j++){
-                  System.out.println("Cita1: "+transac.get(i).getCodiCita().getDescCita()+", Cita2: "+listVisiCitaUsua.get(j).getCodiCita().getDescCita());
-                if(Objects.equals(transac.get(i).getCodiCita(), listVisiCitaUsua.get(j).getCodiCita())){
-                    cont++;
-                    System.out.println("REPETIDO");
-                }
-                if(cont > 1)listVisiCitaUsua.remove(listVisiCitaUsua.get(j));
-              }  
-            }
+            this.listCitaUsua = FCDECita.findByCodiUsua(LoginBean.getCodiUsuaSesion());
+            if(this.listCitaUsua == null)this.listCitaUsua = new ArrayList<Cita>();
+            
         }
         catch(Exception ex)
         {
@@ -807,18 +791,25 @@ public class CitasBean implements Serializable{
         }
     }
     
-    public int consCitaVisiSize(Cita cita){
-        int size = 0;
+    public void consDepeListCitaUsua(Cita cita){
         try
         {
-            size = FCDEVisi.findByCita(cita).size();
+            this.listVisiCitaUsuaDepe = FCDEVisiCita.findByCodiCita(cita);
+            if(listVisiCitaUsuaDepe == null)listVisiCitaUsuaDepe = new ArrayList<Visitantecita>();
+            this.objeCambCitaUsuaDepe = FCDECambCita.findByCita(cita);
+            if(objeCambCitaUsuaDepe==null)objeCambCitaUsuaDepe = new Cambiocita();
+            this.objeAlumUsuaDepe = consObjeAlumno(listVisiCitaUsuaDepe.get(0).getCarnAlum());
+            if(objeAlumUsuaDepe==null)objeAlumUsuaDepe= new Alumno();
+            
         }
         catch(Exception ex)
         {
             ex.printStackTrace();
         }
-        return size;
     }
+    public Visitantecita consObjeVisiCitaDepe(){
+        return listVisiCitaUsuaDepe.get(0);
+    } 
     
     //usado para consultar los encargados de un alumno, al seleccionar un alumno desde una tabla
     public void setAlumn(){
@@ -851,9 +842,9 @@ public class CitasBean implements Serializable{
         try
         {
             limpForm();
-            this.objeVisiCita = FCDEVisiCita.find(codi);//consultamos el objeto Visitante cita
-            this.objeCita = objeVisiCita.getCodiCita();//tomamus su objeto hijo de tipo cita
-            this.objeCambCita = consObjeCambCita(this.objeCita);//consultamos el ultimo cambio de cita
+            this.objeCita = FCDECita.find(codi);
+            this.objeCambCita = FCDECambCita.findByCita(objeCita);//consultamos el ultimo cambio de cita
+            if(objeCambCita == null) objeCambCita = new Cambiocita();
             this.fechSoliCita = objeCambCita.getFechInicCitaNuev();
             listVisiTemp = null;
             consVisiCita();//consultamos todos los visitantes de la cita
@@ -924,7 +915,7 @@ public class CitasBean implements Serializable{
                     objeCita.setEstaCita(2);
                 }
             }
-            listVisiCitaUsua.remove(objeVisiCita);
+            listCitaUsua.remove(objeCita);
             objeCambCita.setCodiCita(objeCita);
             objeCambCita.setMotiCambCita(motivo);
             objeCambCita.setEstaCambCita(1);
@@ -934,7 +925,7 @@ public class CitasBean implements Serializable{
             FCDECita.edit(objeCita);
             FCDECambCita.create(objeCambCita);
             objeCambCita.setCodiCita(objeCita);
-            listVisiCitaUsua.add(objeVisiCita);
+            listCitaUsua.add(objeCita);
             switch(acci){
                 case 1:
                     ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Confirmada'); $('#ModaFormRegi').modal('hide');");
@@ -1025,8 +1016,8 @@ public class CitasBean implements Serializable{
                     FCDEVisiCita.create(objeVisiCita);
                     
                 }
-                if(this.listVisiCitaUsua ==  null)this.listVisiCitaUsua = new ArrayList<Visitantecita>();
-                this.listVisiCitaUsua.add(objeVisiCita);
+                if(this.listCitaUsua ==  null)this.listCitaUsua = new ArrayList<Cita>();
+                this.listCitaUsua.add(objeCita);
                 this.limpForm();
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Programada');");
             }
