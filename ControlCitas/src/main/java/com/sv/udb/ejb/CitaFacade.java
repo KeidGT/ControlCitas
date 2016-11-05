@@ -6,6 +6,7 @@
 package com.sv.udb.ejb;
 
 import com.sv.udb.modelo.Cita;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -43,5 +44,11 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
         TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c ");
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
+    }
+    @Override
+    public List<Cita> findByEstaProg() {
+        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c where c.estaCita = 2 ");
+        List resu = q.getResultList();
+        return (resu.isEmpty()) ? new ArrayList<Cita>() : resu;
     }
 }
