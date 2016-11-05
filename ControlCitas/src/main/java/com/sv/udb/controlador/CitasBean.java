@@ -80,12 +80,15 @@ public class CitasBean implements Serializable{
     private String motivo;
     private Date fechSoliCita;
     private String carnAlum;
-    
+    private String FechInic;
+    private String FechFina;
     
     //variables para manejar campos de la lógica de negocio
     private boolean confirmar;
     private boolean programar;
     private boolean reprogramar;
+    private boolean ignoHoraDisp;
+    
     
     //Switch para formularios
     private boolean switFormCita=true;
@@ -276,6 +279,33 @@ public class CitasBean implements Serializable{
     public void setObjeAlum(Alumno objeAlum) {
         this.objeAlum = objeAlum;
     }
+
+    public boolean isIgnoHoraDisp() {
+        return ignoHoraDisp;
+    }
+
+    public void setIgnoHoraDisp(boolean ignoHoraDisp) {
+        this.ignoHoraDisp = ignoHoraDisp;
+    }
+
+    public String getFechInic() {
+        return FechInic;
+    }
+
+    public void setFechInic(String FechInic) {
+        this.FechInic = FechInic;
+    }
+
+    public String getFechFina() {
+        return FechFina;
+    }
+
+    public void setFechFina(String FechFina) {
+        this.FechFina = FechFina;
+    }
+
+    
+    
     
     
     
@@ -292,21 +322,23 @@ public class CitasBean implements Serializable{
     {
         this.objeCita = new Cita();
         this.objeCita.setCodiUbic(null);
-        this.motivo=null;
         this.fechSoliCita=null;
         this.guardar = true;
         this.objeVisi = new Visitante();
         this.listVisi = new ArrayList<Visitante>();
         listVisi.clear();
         this.objeVisiCita = new Visitantecita();
-        this.objeCambCita = new Cambiocita();
         listVisiTemp = new ArrayList<Alumnovisitante>();
         listVisiTemp.clear();
         this.carnAlum = "";
         this.confirmar = false;
         this.reprogramar = false;
         this.programar = true;
-        switFormCita=true;
+        this.switFormCita=true;
+        this.ignoHoraDisp = false;
+        this.horaSeleCita = null;
+        this.motivo=null;
+        this.objeCambCita  = new Cambiocita();
     }
     
     public void consCitaPorAlum()
@@ -397,6 +429,7 @@ public class CitasBean implements Serializable{
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
+            ex.printStackTrace();
         }
     }
     
@@ -689,10 +722,16 @@ public class CitasBean implements Serializable{
                 al usar for each se produce error, y no se  obtienen los resultados 
                 esperados
             */
-            for(int i = 0; i < transac.size(); i++){
+            int tam = listVisiCitaUsua.size();
+            System.out.println(tam);
+            for(int i = 0; i < tam; i++){
               int cont = 0;
-              for(int j = 0; j < listVisiCitaUsua.size(); j++){
-                if(Objects.equals(transac.get(i).getCodiCita(), listVisiCitaUsua.get(j).getCodiCita()))cont++;
+              for(int j = 0; j < tam; j++){
+                  System.out.println("Cita1: "+transac.get(i).getCodiCita().getDescCita()+", Cita2: "+listVisiCitaUsua.get(j).getCodiCita().getDescCita());
+                if(Objects.equals(transac.get(i).getCodiCita(), listVisiCitaUsua.get(j).getCodiCita())){
+                    cont++;
+                    System.out.println("REPETIDO");
+                }
                 if(cont > 1)listVisiCitaUsua.remove(listVisiCitaUsua.get(j));
               }  
             }
@@ -702,11 +741,7 @@ public class CitasBean implements Serializable{
             ex.printStackTrace();
         }
     }
-    public void consDepenListCitaUsua(Visitantecita fila){
-        this.objeCambCita = consObjeCambCita(fila.getCodiCita());
-        this.objeAlum = consObjeAlumno(fila.getCarnAlum());
-    }
-    
+        
     //consultar los encargados de un alumno
     public void consListVisiAlum(){
         try
@@ -923,10 +958,10 @@ public class CitasBean implements Serializable{
     private boolean valiDatoProgVisiUsua(){
         boolean vali = false;
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        if(horaSeleCita != null && fechSoliCita!= null && objeCita.getCodiUbic() != null){
-            int diaHoraDisp = getDay(this.horaSeleCita.getDiaHoraDisp());
+        if((horaSeleCita != null || ignoHoraDisp) && fechSoliCita!= null && objeCita.getCodiUbic() != null){
+            int diaHoraDisp = (horaSeleCita == null)? 0 : getDay(this.horaSeleCita.getDiaHoraDisp());
             int diaExceHoraDisp = this.fechSoliCita.getDay();
-            if(diaHoraDisp == diaExceHoraDisp){
+            if(diaHoraDisp == diaExceHoraDisp || ignoHoraDisp){
                 if(listVisiTemp.size() > 0){
                     if(fechSoliCita.after(new Date())){
 
@@ -969,8 +1004,13 @@ public class CitasBean implements Serializable{
                 objeCambCita.setFechFinCitaNuev(fechSoliCita);
                 DateFormat df = new SimpleDateFormat("HH:mm:a");
                 objeCambCita.setHoraCambCita(df.format(new Date()));
-                objeCambCita.setHoraInicCitaNuev(this.getHoraSeleCita().getHoraInicHoraDisp());
-                objeCambCita.setHoraFinCitaNuev(this.getHoraSeleCita().getHoraFinaHoraDisp());
+                if(ignoHoraDisp){
+                    objeCambCita.setHoraInicCitaNuev(FechInic);
+                    objeCambCita.setHoraFinCitaNuev(FechFina);
+                }else{
+                    objeCambCita.setHoraInicCitaNuev(horaSeleCita.getHoraInicHoraDisp());
+                    objeCambCita.setHoraFinCitaNuev(horaSeleCita.getHoraFinaHoraDisp());
+                }
                 objeCambCita.setEstaCambCita(1);
 
                 //crear el objeto cambio Cita
@@ -994,7 +1034,8 @@ public class CitasBean implements Serializable{
         }
         catch(Exception ex)
         {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al Programar')");
+            ex.printStackTrace();
         }
     }
     

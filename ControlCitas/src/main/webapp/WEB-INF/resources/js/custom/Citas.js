@@ -16,7 +16,7 @@ function INIT_OBJE_CITA(){
 }
 function INIT_OBJE_TABL(){
     $("#TablAlum").initBootTableAlum();
-    $("#TablVisiCita").bootstrapTable();
-     $("#TablInvo").bootstrapTable();
+    //$("#TablVisiCita").bootstrapTable();
+     //$("#TablInvo").bootstrapTable();
     //setMessage('MESS_INFO', 'Atención', 'Inicializando...');
 }
