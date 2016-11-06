@@ -36,7 +36,7 @@ and open the template in the editor.
                         <div class="panel-heading">Tabla de Datos</div>
                         <div class="panel-body">
                             <h:panelGroup id="ContRegi">
-                                <div id="toolTablRegi">
+                                <div id="toolTablRegi" >
                                     <h:form>
                                         
                                         <p:remoteCommand name="consObje" actionListener="#{visitantesBean.cons()}" update=":FormRegi" 
@@ -48,13 +48,27 @@ and open the template in the editor.
                                                     oncomplete="$('#ModaFormRegi').modal('show');"/>
                                             <i class="fa fa-plus"/> Nuevo
                                         </h:commandLink>
+                                        
                                     </h:form>
                                 </div>
+                                
+                                <div style="width: 100%">
+                                    <h:form style="float: right">
+                                        <h:inputText style="float: right; width: 100%;" id="cadeText" value="#{visitantesBean.cadeText}" class="form-control" />
+                                        <br/><br/>
+                                        <h:commandLink style="float: right; " id="btonBusc" class="btn btn-success">
+                                            <p:ajax  process="cadeText" oncomplete="INIT_OBJE(); INIT_OBJE_MODA();" update="@form :ContRegi"  global="true" />
+                                            Buscar
+                                        </h:commandLink>
+                                        <br/><br/>
+                                    </h:form>
+                                </div>
+                                
                                 <h:dataTable pt:data-id="TablRegi" id="TablRegi" value="#{visitantesBean.listVisi}"
                                         var="fila" class="boottable" pt:data-toolbar="#toolTablRegi"
                                         styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
                                         pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
-                                        pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
+                                        pt:data-search="false" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
                                         pt:data-click-to-select="true"  pt:data-select-item-name="radio"
                                         pt:data-single-select="true">                                
                                <h:column pt:data-field="state" pt:data-checkbox="true">

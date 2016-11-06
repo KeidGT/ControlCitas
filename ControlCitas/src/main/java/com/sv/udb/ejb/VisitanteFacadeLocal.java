@@ -35,6 +35,8 @@ public interface VisitanteFacadeLocal {
     
     List<Visitante> findByCarnAlum(String carnAlum);
     
+    List<Visitante> findByAllFields(String cadeText, int cantRegi, int estaRegi);
+    
     int count();
     
 }
