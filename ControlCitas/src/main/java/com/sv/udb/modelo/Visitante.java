@@ -1,31 +1,27 @@
 /*
- * Modelo controlador Visitante
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.sv.udb.modelo;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Sistema de citas
- * @version 1.0 13 de Octubre de 2016
+ * @author Kevin
  */
 @Entity
 @Table(name = "Visitante", catalog = "sistemas_pilet", schema = "")
@@ -39,12 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Visitante.findByCorrVisi", query = "SELECT v FROM Visitante v WHERE v.corrVisi = :corrVisi"),
     @NamedQuery(name = "Visitante.findByTeleVisi", query = "SELECT v FROM Visitante v WHERE v.teleVisi = :teleVisi"),
     @NamedQuery(name = "Visitante.findByTipoVisi", query = "SELECT v FROM Visitante v WHERE v.tipoVisi = :tipoVisi"),
-    //CUSTOM QUERY
-    @NamedQuery(name = "Visitante.findByCita", query = "SELECT v FROM Visitante v, Visitantecita vc WHERE v.codiVisi = vc.codiVisi.codiVisi and vc.codiCita.codiCita = :codiCita"),
-@NamedQuery(name = "Visitante.findByCarnAlum", query = "SELECT v FROM Visitante v, Alumnovisitante ac WHERE v.codiVisi = ac.codiVisi.codiVisi and ac.carnAlum = :carnAlum")})
-  /**
-   * Clase publica Visitante
-   */
+    @NamedQuery(name = "Visitante.findByEstaVisi", query = "SELECT v FROM Visitante v WHERE v.estaVisi = :estaVisi")})
 public class Visitante implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -74,19 +65,12 @@ public class Visitante implements Serializable {
     private String teleVisi;
     @Column(name = "tipo_visi")
     private Integer tipoVisi;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiVisi", fetch = FetchType.EAGER)
-    private List<Alumnovisitante> alumnovisitanteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiVisi", fetch = FetchType.EAGER)
-    private List<Visitantecita> visitantecitaList;
-  /**
-   * Método constructor Visitante
-   */
+    @Column(name = "esta_visi")
+    private Integer estaVisi;
+
     public Visitante() {
     }
-  /**
-   * Método constructor
-   *  registro de visitante
-   */
+
     public Visitante(Integer codiVisi) {
         this.codiVisi = codiVisi;
     }
@@ -153,22 +137,12 @@ public class Visitante implements Serializable {
         this.tipoVisi = tipoVisi;
     }
 
-    @XmlTransient
-    public List<Alumnovisitante> getAlumnovisitanteList() {
-        return alumnovisitanteList;
+    public Integer getEstaVisi() {
+        return estaVisi;
     }
 
-    public void setAlumnovisitanteList(List<Alumnovisitante> alumnovisitanteList) {
-        this.alumnovisitanteList = alumnovisitanteList;
-    }
-
-    @XmlTransient
-    public List<Visitantecita> getVisitantecitaList() {
-        return visitantecitaList;
-    }
-
-    public void setVisitantecitaList(List<Visitantecita> visitantecitaList) {
-        this.visitantecitaList = visitantecitaList;
+    public void setEstaVisi(Integer estaVisi) {
+        this.estaVisi = estaVisi;
     }
 
     @Override

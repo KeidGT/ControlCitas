@@ -9,9 +9,10 @@ codi_visi INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- Identificador, codigo de r
 dui_visi varchar(10) unique,
 nomb_visi VARCHAR(50) NOT NULL, -- Nombre de Visitante
 apel_visi VARCHAR(50) NOT NULL, -- Apellido de Visitante
-corr_visi VARCHAR(100) unique,	-- Correo del visitante (tambien puede ser usado para ingresar al sistema)
+corr_visi VARCHAR(100),	-- Correo del visitante (tambien puede ser usado para ingresar al sistema)
 tele_visi varchar(10), -- Telefono
-tipo_visi INT -- Sirve para identificar si es una persona particular o responsable de alumno
+tipo_visi INT, -- Sirve para identificar si es una persona particular o responsable de alumno
+esta_visi INT default 1
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 CREATE TABLE Alumno_visitante(
