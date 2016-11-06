@@ -38,6 +38,18 @@ public class VisitantesBean implements Serializable{
     private List<Visitante> listVisi;
     private boolean guardar;
     
+    private String cadeText="";
+
+    public String getCadeText() {
+        return cadeText;
+    }
+
+    public void setCadeText(String cadeText) {
+        this.cadeText = cadeText;
+    }
+    
+    
+    
     //variables para registro de nuevo visitante
     @Inject
     private GlobalAppBean globalAppBean;
@@ -53,6 +65,7 @@ public class VisitantesBean implements Serializable{
     }
 
     public List<Visitante> getListVisi() {
+        consTodo();
         return listVisi;
     }
 
@@ -61,6 +74,7 @@ public class VisitantesBean implements Serializable{
     }
 
     public AlumnoVisitanteBean getAlumVisiBean() {
+        this.alumVisiBean = new AlumnoVisitanteBean();
         return alumVisiBean;
     }
 
@@ -75,7 +89,7 @@ public class VisitantesBean implements Serializable{
     public void init()
     {
         this.limpForm();
-        this.alumVisiBean = new AlumnoVisitanteBean();
+        
         
     }
  //Limpiando el formulario   
@@ -83,7 +97,7 @@ public class VisitantesBean implements Serializable{
     {
         this.objeVisi = new Visitante();
         this.guardar = true;   
-        consTodo();
+        
     }
     
     
@@ -91,7 +105,7 @@ public class VisitantesBean implements Serializable{
     {
         try
         {
-            this.listVisi = FCDEVisi.findAll();
+            this.listVisi = FCDEVisi.findByAllFields(cadeText, 20, 1);
         }
         catch(Exception ex)
         {
