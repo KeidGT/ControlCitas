@@ -80,7 +80,7 @@ and open the template in the editor.
                                    <h:panelGroup rendered="#{citasBean.listVisiCitaDepe.size() eq '1'}">
                                        #{citasBean.consObjeVisiCitaDepe().codiVisi.nombVisi} #{citasBean.consObjeVisiCitaDepe().codiVisi.apelVisi}</h:panelGroup>
                                    <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() ne '1'}">
-                                       <text style="font-weight: bold;">Involucrados</text><br/>
+                                       <span style="font-weight: bold;">Involucrados</span><br/>
                                         <ui:repeat value="#{citasBean.listVisiCitaDepe}" var="lstCita">
                                             <h:outputText value="#{lstCita.codiVisi.nombVisi} #{lstCita.codiVisi.apelVisi}" style="border-bottom: solid #EEEEEE; border-top: solid #EEEEEE;"/>
                                             <br/>

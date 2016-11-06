@@ -81,16 +81,16 @@ and open the template in the editor.
                                    <h:panelGroup rendered="#{citasBean.listVisiCitaDepe.size() eq '1'}">
                                        #{citasBean.objeAlumDepe.nombAlum} #{citasBean.objeAlumDepe.apelAlum}</h:panelGroup>
                                    <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() ne '1'}">
-                                        <span class="label label-info">
+                                        <span class="label label-primary">
                                          <i class="fa fa-users"/>Grupo, Consultar</span> 
                                     </h:panelGroup> 
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="visi">
                                    <f:facet name="header">Visitante</f:facet>
                                    <h:panelGroup rendered="#{citasBean.listVisiCitaDepe.size() eq '1'}">
-                                       #{citasBean.consObjeVisiCitaDepe().codiVisi.nombVisi} #{citasBean.consObjeVisiCitaDepe().codiVisi.apelVisi}</h:panelGroup>
+                                       #{citasBean.consFirtObjeVisiCitaDepe().codiVisi.nombVisi} #{citasBean.consFirtObjeVisiCitaDepe().codiVisi.apelVisi}</h:panelGroup>
                                    <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() ne '1'}">
-                                        <span class="label label-info">
+                                        <span class="label label-primary">
                                          <i class="fa fa-users"/>Grupo, Consultar</span> 
                                     </h:panelGroup>  
                                </h:column>
@@ -292,15 +292,15 @@ and open the template in the editor.
                                                             <i class="fa fa-mail-forward"/> Cerrar
                                                         </h:commandLink>
                                                         <h:commandLink id="btonConfCita" class="btn btn-success" rendered="#{citasBean.confirmar}">
-                                                            <p:ajax listener="#{citasBean.confRechReprCita(1)}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
+                                                            <p:ajax listener="#{citasBean.cambCita(1)}" process="@form" update="@form :ContRegi" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
                                                             <i class="fa fa-plus"/> Confirmar
                                                         </h:commandLink>
                                                         <h:commandLink id="btonRechCita" class="btn btn-warning" rendered="#{citasBean.confirmar}">
-                                                            <p:ajax listener="#{citasBean.confRechReprCita(2)}" process="@form" update="@form :ContRegi :tablPart :paneTabl :paneClose" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
+                                                            <p:ajax listener="#{citasBean.cambCita(2)}" process="@form" update="@form :ContRegi :tablPart :paneTabl :paneClose" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
                                                             <i class="fa fa-times"/> Rechazar
                                                         </h:commandLink>
                                                         <h:commandLink id="btonReprCita" class="btn btn-info" rendered="#{citasBean.reprogramar}">
-                                                            <p:ajax listener="#{citasBean.confRechReprCita(3)}" process="@form" update="@form :ContRegi :tablPart :paneTabl :paneClose" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
+                                                            <p:ajax listener="#{citasBean.cambCita(3)}" process="@form" update="@form :ContRegi :tablPart :paneTabl :paneClose" oncomplete="INIT_OBJE(); INIT_OBJE_MODA(); INIT_OBJE_CITA();" />
                                                             <i class="fa fa-check"/> Reprogramar
                                                         </h:commandLink>
                                                         <h:commandLink id="btonProgCita" class="btn btn-success" rendered="#{citasBean.programar}">

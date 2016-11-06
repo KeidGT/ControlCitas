@@ -409,7 +409,7 @@ public class CitasBean implements Serializable{
             objeCambCita.setFechCambCita(new Date());
             objeCambCita.setFechInicCitaNuev(fechSoliCita);
             objeCambCita.setFechFinCitaNuev(fechSoliCita);
-            DateFormat df = new SimpleDateFormat("HH:mm:a");
+            DateFormat df = new SimpleDateFormat("K:mm:a");
             objeCambCita.setHoraCambCita(df.format(new Date()));
             objeCambCita.setHoraInicCitaNuev(this.getHoraSeleCita().getHoraInicHoraDisp());
             objeCambCita.setHoraFinCitaNuev(this.getHoraSeleCita().getHoraFinaHoraDisp());
@@ -508,39 +508,52 @@ public class CitasBean implements Serializable{
             ex.printStackTrace();
         }
     }
-    
-    
-    private boolean consVisiDui(){
-        boolean resp = false;
-        RequestContext ctx = RequestContext.getCurrentInstance();
+    public void consObjeVisiCitaRecep(){
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiObjePara"));
         try
-        {   
-            Visitante objVis = FCDEVisi.findByDuiVisi(this.objeVisi.getDuiVisi());
-            if(objVis != null){
-                    if(objVis.getDuiVisi().equals(this.objeVisi.getDuiVisi())){
-                        this.objeVisi = objVis;
-                        ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante Encontrado!')");
-                        resp = true;
-                }
-                
+        {
+            limpForm();
+            this.objeVisiCita = FCDEVisiCita.find(codi);
+            if(objeVisiCita.getCodiCita().getTipoCita() == 1){
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Consultada')");
+            }else{
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Visita Consultada')");
             }
         }
         catch(Exception ex)
         {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Datos No Consultados')");
-            ex.printStackTrace();
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
-        return resp;
     }
     
-    public void regiIngrVisi(){
-        RequestContext ctx = RequestContext.getCurrentInstance();
-        //Si el visitante no esta registrado, debe registrarse...
-        if(!consVisiDui()){
-            String dui = this.objeVisi.getDuiVisi();
-            this.objeVisi = new Visitante();
-            this.objeVisi.setDuiVisi(dui);
-            ctx.execute("setMessage('MESS_INFO', 'Atención', 'Visitante no encontrado, Registrar Visitante!')");
+    //1(registrar entrada), 2 (registrar Salida)
+    public void cambVisiCitaRecep(int estado){
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        try
+        {
+            listVisiCitaRecep.remove(objeVisiCita);
+            objeVisiCita.setEstaVisi(estado);
+            
+            DateFormat dfh = new SimpleDateFormat("K:mm a");
+            switch(estado){
+                case 1:
+                    objeVisiCita.setFechLlegCita(new Date());
+                    objeVisiCita.setHoraLlegCita(dfh.format(new Date()));
+                break;
+                case 2:
+                    objeVisiCita.setFechSaliCita(new Date());
+                    objeVisiCita.setHoraSaliCita(dfh.format(new Date()));
+                break;
+            }
+            FCDEVisiCita.edit(objeVisiCita);
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cambio Realizado'); $('#ModaFormRegi').modal('hide');");
+            listVisiCitaRecep.add(objeVisiCita);
+        }
+        catch(Exception ex)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al realizar la acción')");
+            ex.printStackTrace();
         }
     }
     
@@ -568,8 +581,8 @@ public class CitasBean implements Serializable{
     
     //consultar el ultimo objeto "cambio cita" a partir de un objeto "cita"
     
-     //establecer booleanos
-    private void estAcci(){
+     //establecer booleanos segun el estado de la cita
+    private void estaCita(){
         switch(this.objeCita.getEstaCita()){
             //cuando una cita está por ser programada
             case 0:
@@ -727,9 +740,7 @@ public class CitasBean implements Serializable{
                 listVisiTemp=FCDEAlumnoVisitante.findByCita(objeCita);
                 if(listVisiTemp==null )listVisiTemp = new ArrayList<Alumnovisitante>();
                 //agregamos los anteriores a los nuevos
-                for(Alumnovisitante visi : listTransac){
-                    listVisiTemp.add(visi);
-                }
+                listVisiTemp.addAll(listTransac);
                 //..eliminamos repetidos
                 HashSet<Alumnovisitante> hashSet = new HashSet<Alumnovisitante>(listVisiTemp);
                 listVisiTemp.clear();
@@ -768,10 +779,9 @@ public class CitasBean implements Serializable{
             ex.printStackTrace();
         }
     }
-    public Visitantecita consObjeVisiCitaDepe(){
+    public Visitantecita consFirtObjeVisiCitaDepe(){
         return listVisiCitaDepe.get(0);
     } 
-    
     //usado para consultar los encargados de un alumno, al seleccionar un alumno desde una tabla
     public void setAlumn(){
         String Carn = String.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiObjeAlum"));
@@ -810,7 +820,7 @@ public class CitasBean implements Serializable{
             listVisiTemp = null;
             consVisiCita();//consultamos todos los visitantes de la cita
             this.guardar = false;
-            estAcci();
+            estaCita();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Consultada')");
         }
         catch(Exception ex)
@@ -854,7 +864,7 @@ public class CitasBean implements Serializable{
     }
     
     //confirmar(1), rechazar(2), Reprogramar(3) cita
-    public void confRechReprCita(int acci){
+    public void cambCita(int acci){
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         
         try
@@ -869,7 +879,7 @@ public class CitasBean implements Serializable{
                 case 3:{
                     objeCambCita.setFechInicCitaNuev(fechSoliCita);
                     objeCambCita.setFechFinCitaNuev(fechSoliCita);
-                    DateFormat df = new SimpleDateFormat("HH:mm:a");
+                    DateFormat df = new SimpleDateFormat("K:mm:a");
                     objeCambCita.setHoraCambCita(df.format(new Date()));
                     if(ignoHoraDisp){
                         objeCambCita.setHoraInicCitaNuev(FechInic);
@@ -886,7 +896,7 @@ public class CitasBean implements Serializable{
             objeCambCita.setMotiCambCita(motivo);
             objeCambCita.setEstaCambCita(1);
             objeCambCita.setFechCambCita(new Date());
-            DateFormat df = new SimpleDateFormat("HH:mm:a");
+            DateFormat df = new SimpleDateFormat("K:mm:a");
             objeCambCita.setHoraCambCita(df.format(new Date()));
             FCDECita.edit(objeCita);
             FCDECambCita.create(objeCambCita);
@@ -904,7 +914,7 @@ public class CitasBean implements Serializable{
                     ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Reprogramada'); $('#ModaFormRegi').modal('hide');");
                 }
             }
-            estAcci();
+            estaCita();
         }
         catch(Exception ex)
         {
@@ -960,7 +970,7 @@ public class CitasBean implements Serializable{
 
                 objeCambCita.setFechInicCitaNuev(fechSoliCita);
                 objeCambCita.setFechFinCitaNuev(fechSoliCita);
-                DateFormat df = new SimpleDateFormat("HH:mm:a");
+                DateFormat df = new SimpleDateFormat("K:mm:a");
                 objeCambCita.setHoraCambCita(df.format(new Date()));
                 if(ignoHoraDisp){
                     objeCambCita.setHoraInicCitaNuev(FechInic);
