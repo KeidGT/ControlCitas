@@ -109,3 +109,9 @@
 .panel{
     margin-right: 20px;
 }
+.divisor{
+    margin: 0px !important;
+}
+.divisor:last-child{
+    display: none;
+}

@@ -63,19 +63,19 @@ public class CitasBean implements Serializable{
     private Alumnovisitante objeAlumVisi;
     private Visitantecita objeVisiCita = new Visitantecita();
     private Visitante objeVisi;
-    private Alumno objeAlumUsuaDepe;
-    private Cambiocita objeCambCitaUsuaDepe;
+    
+    private Alumno objeAlumDepe;
+    private Cambiocita objeCambCitaDepe;
     //LISTAS
     private List<Cita> listCita;
     private List<Horariodisponible> listHoraDisp;
-    private List<Visitantecita> listVisiCitaAlum;//--> ambas listas se pueden fusionar en una misma, revisar en el futuro...
+    private List<Cita> listCitaAlum;//--> ambas listas se pueden fusionar en una misma, revisar en el futuro...
     private List<Cita> listCitaUsua;//-->
-    private List<Visitantecita> listVisiCita;
     private List<Visitante> listVisi;
     private List<Horariodisponible> listHoraDispUsua;
     private List<Alumno> listAlum;
     private List<Alumnovisitante> listVisiTemp;
-    private List<Visitantecita> listVisiCitaUsuaDepe;
+    private List<Visitantecita> listVisiCitaDepe;
     
     //variables de funcionalidad y lógica de negocio
     private boolean guardar;
@@ -136,13 +136,9 @@ public class CitasBean implements Serializable{
         this.objeVisiCita = objeVisiCita;
     }
     
-    public List<Visitantecita> getListVisiCitaAlum() {
+    public List<Cita> getListCitaAlum() {
         this.consCitaPorAlum();
-        return listVisiCitaAlum;
-    }
-
-    public void setListVisiCitaVisi(List<Visitantecita> listVisiCitaAlum) {
-        this.listVisiCitaAlum = listVisiCitaAlum;
+        return listCitaAlum;
     }
 
     public Date getFechSoliCita() {
@@ -194,6 +190,7 @@ public class CitasBean implements Serializable{
     }
 
     public List<Cita> getListCita() {
+        consListCita();
         return listCita;
     }
 
@@ -265,10 +262,6 @@ public class CitasBean implements Serializable{
         return listAlum;
     }
 
-    public List<Visitantecita> getListVisiCita() {
-        consListCita();
-        return listVisiCita;
-    }
 
     public boolean isIgnoHoraDisp() {
         return ignoHoraDisp;
@@ -299,24 +292,24 @@ public class CitasBean implements Serializable{
         return listCitaUsua;
     }
 
-    public Alumno getObjeAlumUsuaDepe() {
-        return objeAlumUsuaDepe;
+    public Alumno getObjeAlumDepe() {
+        return objeAlumDepe;
     }
 
-    public void setObjeAlumUsuaDepe(Alumno objeAlumUsuaDepe) {
-        this.objeAlumUsuaDepe = objeAlumUsuaDepe;
+    public void setObjeAlumDepe(Alumno objeAlumDepe) {
+        this.objeAlumDepe = objeAlumDepe;
     }
 
-    public Cambiocita getObjeCambCitaUsuaDepe() {
-        return objeCambCitaUsuaDepe;
+    public Cambiocita getObjeCambCitaDepe() {
+        return objeCambCitaDepe;
     }
 
-    public void setObjeCambCitaUsuaDepe(Cambiocita objeCambCitaUsuaDepe) {
-        this.objeCambCitaUsuaDepe = objeCambCitaUsuaDepe;
+    public void setObjeCambCitaDepe(Cambiocita objeCambCitaDepe) {
+        this.objeCambCitaDepe = objeCambCitaDepe;
     }
 
-    public List<Visitantecita> getListVisiCitaUsuaDepe() {
-        return listVisiCitaUsuaDepe;
+    public List<Visitantecita> getListVisiCitaDepe() {
+        return listVisiCitaDepe;
     }
 
     
@@ -361,7 +354,7 @@ public class CitasBean implements Serializable{
     {
         try
         {
-            this.listVisiCitaAlum = FCDEVisiCita.findByCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
+            this.listCitaAlum = FCDECita.findByCarnAlum(String.valueOf(LoginBean.getCodiUsuaSesion()));
         }
         catch(Exception ex)
         {
@@ -530,18 +523,10 @@ public class CitasBean implements Serializable{
             }
             listCita.clear();
             for(Cambiocita objeCambCitaTemp: listCambCitaTemp){
-                List<Visitantecita> listVisiCitaTemp = new ArrayList<Visitantecita>();
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                    objeCambCita.setHoraCambCita(df.format(new Date()));
                 if(df.format(objeCambCitaTemp.getFechInicCitaNuev()).equals(df.format(new Date())) || df.format(objeCambCitaTemp.getFechFinCitaNuev()).equals(df.format(new Date()))){
-                    listVisiCitaTemp = FCDEVisiCita.findByCodiCita(objeCambCitaTemp.getCodiCita());
-                    
+                    listCita.add(objeCambCitaTemp.getCodiCita());
                 }
-                if(listVisiCita == null)listVisiCita = new ArrayList<Visitantecita>();
-                for(Visitantecita obje: listVisiCitaTemp){
-                    if(!listVisiCita.contains(obje))listVisiCita.add(obje);
-                }
-                listVisiCitaTemp.clear();
             }
             
         }
@@ -794,12 +779,15 @@ public class CitasBean implements Serializable{
     public void consDepeListCitaUsua(Cita cita){
         try
         {
-            this.listVisiCitaUsuaDepe = FCDEVisiCita.findByCodiCita(cita);
-            if(listVisiCitaUsuaDepe == null)listVisiCitaUsuaDepe = new ArrayList<Visitantecita>();
-            this.objeCambCitaUsuaDepe = FCDECambCita.findByCita(cita);
-            if(objeCambCitaUsuaDepe==null)objeCambCitaUsuaDepe = new Cambiocita();
-            this.objeAlumUsuaDepe = consObjeAlumno(listVisiCitaUsuaDepe.get(0).getCarnAlum());
-            if(objeAlumUsuaDepe==null)objeAlumUsuaDepe= new Alumno();
+            //consultamos la lista de visitante_cita
+            this.listVisiCitaDepe = FCDEVisiCita.findByCodiCita(cita);
+            if(listVisiCitaDepe == null)listVisiCitaDepe = new ArrayList<Visitantecita>();
+            //consultamos el ultimo objeto cambio_cita
+            this.objeCambCitaDepe = FCDECambCita.findByCita(cita);
+            if(objeCambCitaDepe==null)objeCambCitaDepe = new Cambiocita();
+            //consultamos el alumno 
+            this.objeAlumDepe = consObjeAlumno(listVisiCitaDepe.get(0).getCarnAlum());
+            if(objeAlumDepe==null)objeAlumDepe= new Alumno();
             
         }
         catch(Exception ex)
@@ -808,7 +796,7 @@ public class CitasBean implements Serializable{
         }
     }
     public Visitantecita consObjeVisiCitaDepe(){
-        return listVisiCitaUsuaDepe.get(0);
+        return listVisiCitaDepe.get(0);
     } 
     
     //usado para consultar los encargados de un alumno, al seleccionar un alumno desde una tabla

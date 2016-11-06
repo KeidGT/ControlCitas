@@ -78,31 +78,31 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="carn">
                                    <f:facet name="header">Alumno</f:facet>
-                                   <h:panelGroup rendered="#{citasBean.listVisiCitaUsuaDepe.size() eq '1'}">
-                                       #{citasBean.objeAlumUsuaDepe.nombAlum} #{citasBean.objeAlumUsuaDepe.apelAlum}</h:panelGroup>
-                                   <h:panelGroup  rendered="#{citasBean.listVisiCitaUsuaDepe.size() ne '1'}">
+                                   <h:panelGroup rendered="#{citasBean.listVisiCitaDepe.size() eq '1'}">
+                                       #{citasBean.objeAlumDepe.nombAlum} #{citasBean.objeAlumDepe.apelAlum}</h:panelGroup>
+                                   <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() ne '1'}">
                                         <span class="label label-info">
                                          <i class="fa fa-users"/>Grupo, Consultar</span> 
                                     </h:panelGroup> 
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="visi">
                                    <f:facet name="header">Visitante</f:facet>
-                                   <h:panelGroup rendered="#{citasBean.listVisiCitaUsuaDepe.size() eq '1'}">
+                                   <h:panelGroup rendered="#{citasBean.listVisiCitaDepe.size() eq '1'}">
                                        #{citasBean.consObjeVisiCitaDepe().codiVisi.nombVisi} #{citasBean.consObjeVisiCitaDepe().codiVisi.apelVisi}</h:panelGroup>
-                                   <h:panelGroup  rendered="#{citasBean.listVisiCitaUsuaDepe.size() ne '1'}">
+                                   <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() ne '1'}">
                                         <span class="label label-info">
                                          <i class="fa fa-users"/>Grupo, Consultar</span> 
                                     </h:panelGroup>  
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="fech">
                                    <f:facet name="header">Fecha</f:facet>
-                                   <h:outputText value="#{citasBean.objeCambCitaUsuaDepe.fechInicCitaNuev}">
+                                   <h:outputText value="#{citasBean.objeCambCitaDepe.fechInicCitaNuev}">
                                        <f:convertDateTime pattern="dd/MM/yyyy (EEEEE)" />
                                    </h:outputText>   
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="hora">
                                    <f:facet name="header">Hora </f:facet>
-                                   <h:outputText value="#{citasBean.objeCambCitaUsuaDepe.horaInicCitaNuev} - #{citasBean.objeCambCitaUsuaDepe.horaFinCitaNuev}"/>
+                                   <h:outputText value="#{citasBean.objeCambCitaDepe.horaInicCitaNuev} - #{citasBean.objeCambCitaDepe.horaFinCitaNuev}"/>
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="luga">
                                    <f:facet name="header">Lugar </f:facet>
@@ -114,7 +114,7 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="desc">
                                    <f:facet name="header">Ultima Descripción </f:facet>
-                                   <h:outputText value="#{citasBean.objeCambCitaUsuaDepe.motiCambCita}"/>
+                                   <h:outputText value="#{citasBean.objeCambCitaDepe.motiCambCita}"/>
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="esta">
                                    <f:facet name="header">Estado</f:facet>

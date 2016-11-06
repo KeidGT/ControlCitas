@@ -32,6 +32,8 @@ public interface CitaFacadeLocal {
     
     List<Cita> findByEstaProg();
     
+    List<Cita> findByCarnAlum(String carnAlum);
+    
     int count();
     
 }
