@@ -111,9 +111,9 @@ and open the template in the editor.
                                         <h:inputHidden id="codi" value="#{eventosBean.objeEven.codiEvent}" />
 			                            <div class="input-group col-xs-12">
 			                                <h:outputLabel  for="luga" value="Lugar: "/>
-			                                <h:selectOneMenu id="luga" value="#{citasBean.objeCita.codiUbi}" class="form-control select" pt:data-live-search="true">
+			                                <h:selectOneMenu id="luga" value="#{citasBean.objeCita.codiUbic}" class="form-control select" pt:data-live-search="true">
                                                             <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                            <f:selectItems value="#{ubicacionesBean.listUbic}" var="lst" itemLabel="#{lst.nombUbi}" itemValue="#{lst}"/>
+                                                            <f:selectItems value="#{ubicacionesBean.listUbic}" var="lst" itemLabel="#{lst.nombUbic}" itemValue="#{lst}"/>
                                                             <f:converter converterId="PooConv"/>
                                                         </h:selectOneMenu>
 			                                <h:message for="luga" errorClass="field-error" />
