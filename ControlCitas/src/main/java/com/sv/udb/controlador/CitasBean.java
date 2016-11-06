@@ -67,7 +67,7 @@ public class CitasBean implements Serializable{
     private Alumno objeAlumDepe;
     private Cambiocita objeCambCitaDepe;
     //LISTAS
-    private List<Cita> listCita;
+    private List<Visitantecita> listVisiCitaRecep;
     private List<Horariodisponible> listHoraDisp;
     private List<Cita> listCitaAlum;//--> ambas listas se pueden fusionar en una misma, revisar en el futuro...
     private List<Cita> listCitaUsua;//-->
@@ -76,7 +76,6 @@ public class CitasBean implements Serializable{
     private List<Alumno> listAlum;
     private List<Alumnovisitante> listVisiTemp;
     private List<Visitantecita> listVisiCitaDepe;
-    
     //variables de funcionalidad y lógica de negocio
     private boolean guardar;
     private String motivo;
@@ -189,10 +188,12 @@ public class CitasBean implements Serializable{
         this.objeCita = objeCita;
     }
 
-    public List<Cita> getListCita() {
-        consListCita();
-        return listCita;
+    public List<Visitantecita> getListVisiCitaRecep() {
+        consListVisCitaRecep();
+        return listVisiCitaRecep;
     }
+
+    
 
     public boolean isGuardar() {
         return guardar;
@@ -391,7 +392,7 @@ public class CitasBean implements Serializable{
         }
     }
     
-    public void guar()
+    public void soliCitaVisi()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         if(valiDato())
@@ -402,7 +403,7 @@ public class CitasBean implements Serializable{
             this.objeCita.setEstaCita(1);
             this.objeCita.setDescCita(this.motivo);
             FCDECita.create(this.objeCita);            
-            this.listCita.add(this.objeCita);
+            this.listCitaAlum.add(this.objeCita);
             //Cambiocita objeCambCita = new Cambiocita();
             objeCambCita.setCodiCita(this.objeCita);
             objeCambCita.setFechCambCita(new Date());
@@ -421,40 +422,6 @@ public class CitasBean implements Serializable{
             FCDEVisiCita.create(objeVisiCita);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Se ha solicitado la cita, espere por la respuesta.')");
             this.limpForm();
-        }
-    }
-    
-    public void modi()
-    {
-        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        try
-        {
-            this.listCita.remove(this.objeCita); //Limpia el objeto viejo
-            FCDECita.edit(this.objeCita);
-            this.listCita.add(this.objeCita); //Agrega el objeto modificado
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-            this.limpForm();
-        }
-        catch(Exception ex)
-        {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
-            ex.printStackTrace();
-        }
-    }
-    
-    public void elim()
-    {
-        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        try
-        {
-            FCDECita.remove(this.objeCita);
-            this.listCita.remove(this.objeCita);
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
-            this.limpForm();
-        }
-        catch(Exception ex)
-        {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
     }
     
@@ -511,22 +478,28 @@ public class CitasBean implements Serializable{
     
     
     
-    public void consListCita()
+    public void consListVisCitaRecep()
     {
         try
         {
-            this.listCita = FCDECita.findAll();
+            this.listVisiCitaRecep = FCDEVisiCita.findAll();
             List<Cambiocita> listCambCitaTemp = new ArrayList<Cambiocita>();
-            for(Cita obj : listCita){
-                Cambiocita camb = FCDECambCita.findByCita(obj);
-                listCambCitaTemp.add(camb);
-            }
-            listCita.clear();
-            for(Cambiocita objeCambCitaTemp: listCambCitaTemp){
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                if(df.format(objeCambCitaTemp.getFechInicCitaNuev()).equals(df.format(new Date())) || df.format(objeCambCitaTemp.getFechFinCitaNuev()).equals(df.format(new Date()))){
-                    listCita.add(objeCambCitaTemp.getCodiCita());
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            //tomamos todos los ultimos cambio cita que sean para "hoy"
+            for(Visitantecita obj : listVisiCitaRecep){
+                Cambiocita camb = FCDECambCita.findByCita(obj.getCodiCita());
+                if(df.format(camb.getFechInicCitaNuev()).equals(df.format(new Date())) || df.format(camb.getFechFinCitaNuev()).equals(df.format(new Date()))){
+                    listCambCitaTemp.add(camb);
                 }
+            }
+            //eliminamos posibles cambioCita duplicados
+            HashSet<Cambiocita> hashSet = new HashSet<Cambiocita>(listCambCitaTemp);
+            listCambCitaTemp.clear();
+            listCambCitaTemp.addAll(hashSet);
+            //limpiamos la lista, y agregamos todos los registros que involucren a los cambio cita de "hoy"
+            listVisiCitaRecep.clear();
+            for(Cambiocita obj: listCambCitaTemp){
+                listVisiCitaRecep.addAll(FCDEVisiCita.findByCodiCita(obj.getCodiCita()));
             }
             
         }
