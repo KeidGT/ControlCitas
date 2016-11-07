@@ -96,7 +96,7 @@ public class WebServicesBean implements Serializable{
         }
     }
     
-    public void consAlumPorDoce(String codiDoce)
+    public WSconsAlumByDoce consAlumPorDoce(String codiDoce)
     {
         FacesContext facsCtxt = FacesContext.getCurrentInstance();
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -119,9 +119,10 @@ public class WebServicesBean implements Serializable{
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al procesar la consulta')");
         }
+        return this.objeWebServAlumByDoce;
     }
     
-    public void consDocePorAlum(String carnAlum)
+    public WSconsDoceByAlum consDocePorAlum(String carnAlum)
     {
         System.out.println("ConsDocePorALUM");
         FacesContext facsCtxt = FacesContext.getCurrentInstance();
@@ -136,15 +137,19 @@ public class WebServicesBean implements Serializable{
         if (response.getStatusInfo().getFamily() == Family.SUCCESSFUL)
         {
             this.objeWebServDoceByAlum = response.readEntity(WSconsDoceByAlum.class); //La respuesta de captura en un pojo que esta en el paquete utils
-            for(DatosDocentes temp : this.objeWebServDoceByAlum.getDoce())
+            if(this.objeWebServDoceByAlum.isResp())
             {
-                System.err.println(String.format("Nombre: %s Nombre: %s", temp.getNomb(), temp.getNomb()));
+                for(DatosDocentes temp : this.objeWebServDoceByAlum.getDoce())
+                {
+                    System.err.println(String.format("Nombre: %s Nombre: %s", temp.getNomb(), temp.getNomb()));
+                }
             }
         }
         else
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al procesar la consulta')");
         }
+        return this.objeWebServDoceByAlum;
     }
     
     //Lógica slider

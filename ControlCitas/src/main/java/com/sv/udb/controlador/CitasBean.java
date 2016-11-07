@@ -18,6 +18,9 @@ import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Horariodisponible;
 import com.sv.udb.modelo.Visitante;
 import com.sv.udb.modelo.Visitantecita;
+import com.sv.udb.utils.pojos.DatosAlumnos;
+import com.sv.udb.utils.pojos.WSconsAlumByDoce;
+import com.sv.udb.utils.pojos.WSconsDoceByAlum;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -64,16 +67,17 @@ public class CitasBean implements Serializable{
     private Visitantecita objeVisiCita = new Visitantecita();
     private Visitante objeVisi;
     
-    private Alumno objeAlumDepe;
+    private WSconsDoceByAlum objeAlumDepe;
     private Cambiocita objeCambCitaDepe;
     //LISTAS
+    private List<DatosAlumnos> listAlumnosWS;
     private List<Visitantecita> listVisiCitaRecep;
     private List<Horariodisponible> listHoraDisp;
     private List<Cita> listCitaAlum;//--> ambas listas se pueden fusionar en una misma, revisar en el futuro...
     private List<Cita> listCitaUsua;//-->
     private List<Visitante> listVisi;
     private List<Horariodisponible> listHoraDispUsua;
-    private List<Alumno> listAlum;
+    private WSconsAlumByDoce objeWebServAlumByDoce;
     private List<Alumnovisitante> listVisiTemp;
     private List<Visitantecita> listVisiCitaDepe;
     //variables de funcionalidad y lógica de negocio
@@ -259,10 +263,38 @@ public class CitasBean implements Serializable{
         this.objeAlumVisi = objeAlumVisi;
     }
 
-    public List<Alumno> getListAlum() {
-        return listAlum;
+    public List<DatosAlumnos> getListAlumnosWS() {
+        consAlumWS();
+        return listAlumnosWS;
     }
 
+    public void setListAlumnosWS(List<DatosAlumnos> listAlumnosWS) {
+        this.listAlumnosWS = listAlumnosWS;
+    }
+
+
+    private void consAlumWS()
+    {
+        /*
+            26 = Permitir Recibir Solicitud de Citas por parte de sus Alumnos
+            27 = Permitir Recibir Solicitud de Citas por parte de cualquier Alumno
+            28 = Recibir Citas de Visitantes
+        */
+        int permCita = 26;
+        if(permCita==26)
+        {
+            this.objeWebServAlumByDoce = new WebServicesBean().consAlumPorDoce(String.valueOf(LoginBean.getCodiUsuaSesion()));
+            this.listAlumnosWS = this.objeWebServAlumByDoce.getResu();
+        }
+        else if(permCita==27)
+        {
+            
+        }
+        else if(permCita==28)
+        {
+            
+        }        
+    }
 
     public boolean isIgnoHoraDisp() {
         return ignoHoraDisp;
@@ -293,13 +325,15 @@ public class CitasBean implements Serializable{
         return listCitaUsua;
     }
 
-    public Alumno getObjeAlumDepe() {
+    public WSconsDoceByAlum getObjeAlumDepe() {
         return objeAlumDepe;
     }
 
-    public void setObjeAlumDepe(Alumno objeAlumDepe) {
+    public void setObjeAlumDepe(WSconsDoceByAlum objeAlumDepe) {
         this.objeAlumDepe = objeAlumDepe;
     }
+
+    
 
     public Cambiocita getObjeCambCitaDepe() {
         return objeCambCitaDepe;
@@ -313,6 +347,15 @@ public class CitasBean implements Serializable{
         return listVisiCitaDepe;
     }
 
+    public WSconsAlumByDoce getObjeWebServAlumByDoce() {
+        
+        return objeWebServAlumByDoce;
+    }
+
+    public void setObjeWebServAlumByDoce(WSconsAlumByDoce objeWebServAlumByDoce) {
+        this.objeWebServAlumByDoce = objeWebServAlumByDoce;
+    }
+
     
 
     
@@ -323,8 +366,6 @@ public class CitasBean implements Serializable{
     public void init()
     {
         this.limpForm();
-        this.listAlum = new AlumnosBean().consTodoAlum();
-        
     }
     
     
@@ -350,6 +391,8 @@ public class CitasBean implements Serializable{
         this.motivo=null;
         this.objeCambCita  = new Cambiocita();
     }
+    
+    
     
     public void consCitaPorAlum()
     {
@@ -671,15 +714,8 @@ public class CitasBean implements Serializable{
     
     //consultar un onbjeto de tipo alumno de la lista hipotética del web service
     // considerar consultar un solo registro del web service en el futuro....
-    public Alumno consObjeAlumno(String carn){
-        Alumno objeAlumn = null;
-        for(Alumno obje : listAlum){
-            if(obje.getCarnAlum().equals(carn)){
-                objeAlumn = obje;
-                break;
-            }
-        }
-        return objeAlumn;
+    public WSconsDoceByAlum consObjeAlumno(String carn){
+        return new WebServicesBean().consDocePorAlum(carn);
     }
     
     //consultar las citas del usuario
@@ -770,8 +806,9 @@ public class CitasBean implements Serializable{
             this.objeCambCitaDepe = FCDECambCita.findByCita(cita);
             if(objeCambCitaDepe==null)objeCambCitaDepe = new Cambiocita();
             //consultamos el alumno 
+            System.out.println(listVisiCitaDepe.get(0).getCarnAlum());
             this.objeAlumDepe = consObjeAlumno(listVisiCitaDepe.get(0).getCarnAlum());
-            if(objeAlumDepe==null)objeAlumDepe= new Alumno();
+            if(objeAlumDepe==null)objeAlumDepe= new WSconsDoceByAlum();
             
         }
         catch(Exception ex)

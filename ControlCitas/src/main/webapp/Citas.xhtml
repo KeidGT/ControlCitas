@@ -79,7 +79,7 @@ and open the template in the editor.
                                <h:column pt:data-sortable="true" pt:data-field="carn">
                                    <f:facet name="header">Alumno</f:facet>
                                    <h:panelGroup rendered="#{citasBean.listVisiCitaDepe.size() eq '1'}">
-                                       #{citasBean.objeAlumDepe.nombAlum} #{citasBean.objeAlumDepe.apelAlum}</h:panelGroup>
+                                       #{citasBean.objeAlumDepe.nomb}</h:panelGroup>
                                    <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() ne '1'}">
                                         <span class="label label-primary">
                                          <i class="fa fa-users"/>Grupo, Consultar</span> 
@@ -179,7 +179,7 @@ and open the template in the editor.
                                                 </h:column>
                                                 <h:column pt:data-sortable="true" pt:data-field="alum">
                                                     <f:facet name="header">Alumno</f:facet>
-                                                    <h:outputText value="#{citasBean.consObjeAlumno(fila.carnAlum).nombAlum} #{citasBean.consObjeAlumno(fila.carnAlum).apelAlum}"/>   
+                                                    <h:outputText value="#{citasBean.consObjeAlumno(fila.carnAlum).nomb}"/>   
                                                 </h:column>
                                                 <h:column pt:data-sortable="true" pt:data-field="paren">
                                                     <f:facet name="header">Parentesco</f:facet>
@@ -228,7 +228,7 @@ and open the template in the editor.
                                                 <h:message for="ubicCita" errorClass="field-error" />
                                                 <h:selectOneMenu id="ubicCita" value="#{citasBean.objeCita.codiUbic}" class="form-control select" pt:data-live-search="true" required="true">
                                                     <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                    <f:selectItems value="#{ubicacionesBean.listUbic}" var="lst" itemLabel="#{lst.nombUbic}" itemValue="#{lst}"/>
+                                                    <f:selectItems value="#{ubicacionesBean.consListUbicPorDispCita()}" var="lst" itemLabel="#{lst.nombUbic}" itemValue="#{lst}"/>
                                                     <f:converter converterId="PooConv"/>
                                                 </h:selectOneMenu>
                                             </div>
@@ -317,7 +317,7 @@ and open the template in the editor.
                                         <div class="modal-body" style="padding-top: 2px;">
                                             <br/>
                                             <h4>Seleccionar Alumno:</h4>
-                                            <h:dataTable pt:data-id="TablAlum" id="TablAlum" value="#{citasBean.listAlum}"
+                                            <h:dataTable pt:data-id="TablAlum" id="TablAlum" value="#{citasBean.listAlumnosWS}"
                                                     var="fila" class="boottable" pt:data-toolbar="#toolTablAlum"
                                                     styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
                                                     pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
@@ -328,23 +328,19 @@ and open the template in the editor.
                                                 </h:column>
                                                 <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id" class="hidden">
                                                     <f:facet name="header">Carnet</f:facet>
-                                                    <h:outputText value="#{fila.carnAlum}"/>
+                                                    <h:outputText value="#{fila.carn}"/>
                                                 </h:column>
                                                 <h:column pt:data-sortable="true" pt:data-field="nomb">
                                                     <f:facet name="header">Nombre</f:facet>
-                                                    <h:outputText value="#{fila.nombAlum}"/>   
-                                                </h:column>
-                                                <h:column pt:data-sortable="true" pt:data-field="apel">
-                                                    <f:facet name="header">Apellido</f:facet>
-                                                    <h:outputText value="#{fila.apelAlum}"/>   
+                                                    <h:outputText value="#{fila.nomb}"/>   
                                                 </h:column>
                                                 <h:column pt:data-sortable="true" pt:data-field="niv">
                                                     <f:facet name="header">Nivel</f:facet>
-                                                    <h:outputText value="#{fila.nivAlum}"/>   
+                                                    <h:outputText value="#{fila.grad}"/>   
                                                 </h:column>
                                                 <h:column pt:data-sortable="true" pt:data-field="espe">
                                                     <f:facet name="header">Epecialidad</f:facet>
-                                                    <h:outputText value="#{fila.espeAulm}"/>   
+                                                    <h:outputText value="#{fila.espe}"/>   
                                                 </h:column>
 
                                             </h:dataTable>
@@ -392,7 +388,7 @@ and open the template in the editor.
                                                 </h:column>
                                                 <h:column pt:data-sortable="true" pt:data-field="alum">
                                                     <f:facet name="header">Alumno</f:facet>
-                                                    <h:outputText value="#{citasBean.consObjeAlumno(fila.carnAlum).nombAlum} #{citasBean.consObjeAlumno(fila.carnAlum).apelAlum}"/>   
+                                                    <h:outputText value="#{citasBean.consObjeAlumno(fila.carnAlum).nomb}"/>   
                                                 </h:column>
                                                 <h:column pt:data-sortable="true" pt:data-field="paren">
                                                     <f:facet name="header">Parentesco</f:facet>
