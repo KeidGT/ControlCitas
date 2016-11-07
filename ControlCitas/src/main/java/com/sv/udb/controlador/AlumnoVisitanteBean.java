@@ -205,6 +205,7 @@ public class AlumnoVisitanteBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
+            objeAlumVisi.setEstaAlumVisi(1);
             FCDEAlumVisi.create(this.objeAlumVisi);
             this.listAlumVisi.add(this.objeAlumVisi);
             
@@ -227,7 +228,6 @@ public class AlumnoVisitanteBean implements Serializable{
             FCDEAlumVisi.edit(this.objeAlumVisi);
             this.listAlumVisi.add(this.objeAlumVisi); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-            this.limpForm();
         }
         catch(Exception ex)
         {
@@ -240,11 +240,11 @@ public class AlumnoVisitanteBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            FCDEAlumVisi.remove(this.objeAlumVisi);
+            objeAlumVisi.setEstaAlumVisi(0);
+            FCDEAlumVisi.edit(this.objeAlumVisi);
             this.listAlumVisi.remove(this.objeAlumVisi);
             this.listAlumVisiCarne.remove(this.objeAlumVisi);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
-            this.limpForm();
         }
         catch(Exception ex)
         {
@@ -257,6 +257,7 @@ public class AlumnoVisitanteBean implements Serializable{
         try{
             if(!Disabled){//si aun no está registrado
                 //Registramos Visitante
+                    this.objeVisi.setEstaVisi(1);
                     this.objeVisi.setTipoVisi(1);
                     FCDEVisi.create(this.objeVisi);
             }

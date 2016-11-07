@@ -27,6 +27,10 @@ public interface UbicacionesFacadeLocal {
     List<Ubicaciones> findAll();
 
     List<Ubicaciones> findRange(int[] range);
+    
+    List<Ubicaciones> findByDispCita();
+    
+    List<Ubicaciones> findByDispEven() ;
 
     int count();
     

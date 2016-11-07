@@ -989,7 +989,7 @@ public class CitasBean implements Serializable{
                     objeVisiCita.setCodiCita(objeCita);
                     objeVisiCita.setCarnAlum(visi.getCarnAlum());
                     objeVisiCita.setCodiVisi(visi.getCodiVisi());
-                    objeVisiCita.setEstaVisi(0);
+                    objeVisiCita.setEstaVisi(1);
                     FCDEVisiCita.create(objeVisiCita);
                     
                 }

@@ -71,14 +71,15 @@ public class HorarioDisponibleBean implements Serializable{
         this.limpForm();
         this.consPorUsua();
         this.consTodo();
+        consTodo();
+        consPorUsua();
     }
     //Limpiar el formulario
     public void limpForm()
     {
         this.objeHoraDisp = new Horariodisponible();
         this.guardar = true; 
-        consTodo();
-        consPorUsua();
+        
     }
     
     public void consPorUsua()
@@ -135,10 +136,11 @@ public class HorarioDisponibleBean implements Serializable{
         {
             if(validar()){
                 this.objeHoraDisp.setCodiUsua(LoginBean.getCodiUsuaSesion());
+                objeHoraDisp.setEstaHoraDisp(1);
                 FCDEHoraDisp.create(this.objeHoraDisp);
                 logger.info("Se ha guardado un horario: " + this.objeHoraDisp.getDiaHoraDisp() + " " + this.objeHoraDisp.getHoraInicHoraDisp() + " " + this.objeHoraDisp.getAnioHoraDisp() );
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
-                this.limpForm();
+                this.listHoraDisp.add(objeHoraDisp);
             }
         }
         catch(Exception ex)
@@ -165,7 +167,7 @@ public class HorarioDisponibleBean implements Serializable{
                 FCDEHoraDisp.edit(this.objeHoraDisp);
                 logger.info("Se ha modificado un horario: " + this.objeHoraDisp.getDiaHoraDisp() + " " + this.objeHoraDisp.getHoraInicHoraDisp() + " a " + this.objeHoraDisp.getHoraFinaHoraDisp() + " " + this.objeHoraDisp.getAnioHoraDisp() );
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-                this.limpForm();
+                this.listHoraDisp.add(objeHoraDisp);
             }
         }
         catch(Exception ex)
@@ -185,11 +187,11 @@ public class HorarioDisponibleBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            FCDEHoraDisp.remove(this.objeHoraDisp);
+            objeHoraDisp.setEstaHoraDisp(0);
+            FCDEHoraDisp.edit(this.objeHoraDisp);
             this.listHoraDisp.remove(this.objeHoraDisp);
             logger.info("Se ha eliminado un horario: " + this.objeHoraDisp.getDiaHoraDisp() + " " + this.objeHoraDisp.getHoraInicHoraDisp() + " " + this.objeHoraDisp.getHoraFinaHoraDisp() + " " + this.objeHoraDisp.getAnioHoraDisp() );
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
-            this.limpForm();
         }
         catch(Exception ex)
         {

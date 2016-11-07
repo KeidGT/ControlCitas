@@ -37,30 +37,38 @@ public class VisitantecitaFacade extends AbstractFacade<Visitantecita> implement
     public VisitantecitaFacade() {
         super(Visitantecita.class);
     }
+    
+    @Override
+    public List<Visitantecita> findAll() {
+        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.estaVisi != -1");
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : resu;
+    }
+    
     @Override
     public List<Visitantecita> findByCarnAlum(String codi) {
-        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.carnAlum = :carnAlum");
+        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.carnAlum = :carnAlum and v.estaVisi != -1");
         q.setParameter("carnAlum", codi);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
     @Override
     public List<Visitantecita> findByCodiUsua(int codi) {
-        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita.codiUsua = :codiUsua");
+        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita.codiUsua = :codiUsua and v.estaVisi != -1");
         q.setParameter("codiUsua", Integer.parseInt(String.valueOf(codi)));
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
     @Override
     public List<Visitantecita> findByCodiCita(Cita codi) {
-        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita");      
+        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita and v.estaVisi != -1");      
         q.setParameter("codiCita", codi);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
     @Override
     public Visitantecita findByCodiCitaCarnAlum(Cita cita, String carn) {
-        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita and v.carnAlum = :carnAlum");      
+        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita and v.carnAlum = :carnAlum and v.estaVisi != -1");      
         q.setParameter("codiCita", cita);
         q.setParameter("carnAlum", carn);
         List<Visitantecita> resu = q.getResultList();

@@ -146,11 +146,11 @@ public class VisitantesBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
+            objeVisi.setEstaVisi(1);
             FCDEVisi.create(this.objeVisi);
             this.listVisi.add(this.objeVisi);
             logger.info("Se ha guardado un visitante: " + this.objeVisi.getNombVisi());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
-            this.limpForm();
         }
         catch(Exception ex)
         {
@@ -174,7 +174,6 @@ public class VisitantesBean implements Serializable{
             this.listVisi.add(this.objeVisi); //Agrega el objeto modificado
             logger.info("Se ha modificado un visitante: "+this.objeVisi.getNombVisi());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-            this.limpForm();
         }
         catch(Exception ex)
         {
@@ -193,7 +192,8 @@ public class VisitantesBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            FCDEVisi.remove(this.objeVisi);
+            objeVisi.setEstaVisi(0);
+            FCDEVisi.edit(this.objeVisi);
             this.listVisi.remove(this.objeVisi);
             logger.info("Se ha eliminado un visitante: " + this.objeVisi.getNombVisi());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");

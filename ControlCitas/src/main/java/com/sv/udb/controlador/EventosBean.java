@@ -113,7 +113,6 @@ public class EventosBean implements Serializable{
                 logger.info("Se ha guardado el evento: " + this.objeEven.getNombEven());
                 this.listEven.add(this.objeEven);
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
-                this.limpForm();
             }
         }
         catch(Exception ex)
@@ -140,7 +139,6 @@ public class EventosBean implements Serializable{
                 this.listEven.add(this.objeEven); //Agrega el objeto modificado
                 logger.info("Se ha modificado el evento: "+this.objeEven.getNombEven());
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-                this.limpForm();
             }
         }
         catch(Exception ex)
@@ -193,7 +191,6 @@ public class EventosBean implements Serializable{
             this.listEven.remove(this.objeEven);
             logger.info("Se ha eliminado el evento: " + this.objeEven.getNombEven());
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
-            this.limpForm();
         }
         catch(Exception ex)
         {

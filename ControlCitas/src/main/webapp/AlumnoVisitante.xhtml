@@ -139,15 +139,6 @@ and open the template in the editor.
                                             <h:inputText  id="pareAlum" value="#{alumnoVisitanteBean.objeAlumVisi.espeAlumVisi}" class="form-control"/>
                                             <h:message for="pareAlum" errorClass="field-error" />
                                         </div>
-                                        <div class="input-group col-xs-12">
-                                            <h:outputLabel  for="esta" value="Estado: "/>
-                                            <h:message for="esta" errorClass="field-error" />
-                                            <h:selectOneMenu id="esta" value="#{alumnoVisitanteBean.objeAlumVisi.estaAlumVisi}" class="form-control select" pt:data-live-search="true">
-                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItem itemValue="1" itemLabel="Activo"/>
-                                                <f:selectItem itemValue="2" itemLabel="Inactivo"/>
-                                            </h:selectOneMenu>
-                                        </div>
                                     </fieldset>
                                 </div>
                                 <div class="modal-footer">

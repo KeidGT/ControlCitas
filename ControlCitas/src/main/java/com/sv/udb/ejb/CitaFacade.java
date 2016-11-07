@@ -32,16 +32,15 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
         super(Cita.class);
     }
     @Override
-    public List<Cita> findByCodiUsua(int codi) {
-        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c WHERE c.codiUsua = :codiUsua");      
-        q.setParameter("codiUsua", codi);
+    public List<Cita> findAll() {
+        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c WHERE c.estaCita != 0"); 
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
-    //aplicar filtro de fecha aqui
     @Override
-    public List<Cita> findAll() {
-        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c ");
+    public List<Cita> findByCodiUsua(int codi) {
+        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c WHERE c.codiUsua = :codiUsua and c.estaCita != 0");      
+        q.setParameter("codiUsua", codi);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
     }
@@ -53,7 +52,7 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
     }
     @Override
     public List<Cita> findByCarnAlum(String carnAlum) {
-        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c, Visitantecita vc where c = vc.codiCita and vc.carnAlum = :carnAlum");
+        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c, Visitantecita vc where c = vc.codiCita and vc.carnAlum = :carnAlum and c.estaCita != 0");
         q.setParameter("carnAlum", carnAlum);
         List resu = q.getResultList();
         return (resu.isEmpty()) ? new ArrayList<Cita>() : resu;

@@ -142,7 +142,6 @@ public class VisitanteCitaBean implements Serializable{
             FCDEVisiCita.create(this.objeVisiCita);
             this.listVisiCita.add(this.objeVisiCita);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
-            this.limpForm();
         }
         catch(Exception ex)
         {
@@ -159,7 +158,6 @@ public class VisitanteCitaBean implements Serializable{
             FCDEVisiCita.edit(this.objeVisiCita);
             this.listVisiCita.add(this.objeVisiCita); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-            this.limpForm();
         }
         catch(Exception ex)
         {
@@ -172,7 +170,8 @@ public class VisitanteCitaBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            FCDEVisiCita.remove(this.objeVisiCita);
+            objeVisiCita.setEstaVisi(-1);
+            FCDEVisiCita.edit(this.objeVisiCita);
             this.listVisiCita.remove(this.objeVisiCita);
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
             this.limpForm();
