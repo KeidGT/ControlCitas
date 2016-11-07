@@ -25,6 +25,10 @@ public interface CitaFacadeLocal {
     Cita find(Object id);
 
     List<Cita> findAll();
+    
+    List<Cita> findAllVisi();
+    
+    List<Cita> findAllCita();
 
     List<Cita> findRange(int[] range);
 

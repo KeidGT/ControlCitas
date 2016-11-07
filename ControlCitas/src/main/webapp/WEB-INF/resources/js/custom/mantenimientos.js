@@ -22,6 +22,9 @@ $(document).ready(function() {
             e.stopPropagation();
         });
     };
+    $.fn.initSelePick = function() {;
+        $(this).selectpicker();
+    };
     $('#ModaFormRegi').on('show.bs.modal', function() {
         INIT_OBJE_MODA();
     });
@@ -40,7 +43,7 @@ function INIT_OBJE_MODA()
 {
     $("#FormRegi\\:btonElim").confirmation({container: '#FormRegi'});
     $(".datepicker").initDatePick();
-    $(".select").selectpicker();
+    $(".select").initSelePick();
     $('.timepicker').timepicker({
         icons: {
                 up:"fa fa-sort-desc",
