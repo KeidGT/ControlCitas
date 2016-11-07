@@ -33,11 +33,12 @@ public class VisitanteFacade extends AbstractFacade<Visitante> implements Visita
         super(Visitante.class);
     }
     @Override
-    public Visitante findByDuiVisi(Object dui) {
-        TypedQuery<Visitante> q = (TypedQuery<Visitante>) getEntityManager().createQuery("SELECT v FROM Visitante v WHERE v.duiVisi = :duiVisi").setMaxResults(1);     
+    public Visitante findByDuiVisi(String dui) {
+        TypedQuery<Visitante> q = (TypedQuery<Visitante>) getEntityManager().createQuery("SELECT v FROM Visitante v WHERE v.duiVisi = :duiVisi");     
         q.setParameter("duiVisi", dui);
-        Visitante resu = q.getSingleResult();
-        return (resu==null) ? null : resu;
+        List<Visitante> resu = q.getResultList();
+        System.out.println(resu);
+        return resu.isEmpty() ? null : resu.get(0);
     }
     @Override
     public List<Visitante> findByCita(Cita codiCita) {
@@ -62,6 +63,4 @@ public class VisitanteFacade extends AbstractFacade<Visitante> implements Visita
         List resu = q.getResultList();
         return resu.isEmpty() ? new ArrayList<Visitante>() : resu;
     }
-    
-    
 }

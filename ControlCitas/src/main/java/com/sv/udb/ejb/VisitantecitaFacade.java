@@ -59,12 +59,12 @@ public class VisitantecitaFacade extends AbstractFacade<Visitantecita> implement
         return resu.isEmpty() ? null : resu;
     }
     @Override
-    public Visitantecita findByCodiCita_Visitante(Cita cita, Visitante visi) {
-        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita and v.codiVisi = :codiVisi");      
+    public Visitantecita findByCodiCitaCarnAlum(Cita cita, String carn) {
+        TypedQuery<Visitantecita> q = (TypedQuery<Visitantecita>) getEntityManager().createQuery("SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita and v.carnAlum = :carnAlum");      
         q.setParameter("codiCita", cita);
-        q.setParameter("codiVisi", visi);
-        Visitantecita resu = q.getSingleResult();
-        return (resu == null) ? null : resu;
+        q.setParameter("carnAlum", carn);
+        List<Visitantecita> resu = q.getResultList();
+        return (resu.isEmpty()) ? null : resu.get(0);
     }
     
 }

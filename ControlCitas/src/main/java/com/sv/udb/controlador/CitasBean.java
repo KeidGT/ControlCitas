@@ -935,7 +935,7 @@ public class CitasBean implements Serializable{
 
                         vali = true;
                     }else{
-                        ctx.execute("setMessage('MESS_INFO', 'Atención', 'Ningun Visitante Agregado a la Cita');");
+                        ctx.execute("setMessage('MESS_INFO', 'Atención', 'Esta fecha ya pasó, debe solicitar con anticipación');");
                     }
                 }else{
                     ctx.execute("setMessage('MESS_INFO', 'Atención', 'Ningun Visitante Agregado a la Cita');");

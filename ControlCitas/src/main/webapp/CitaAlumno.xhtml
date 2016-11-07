@@ -78,7 +78,7 @@ and open the template in the editor.
                                <h:column pt:data-sortable="true" pt:data-field="visi">
                                    <f:facet name="header">Visitante(s)</f:facet>
                                    <h:panelGroup rendered="#{citasBean.listVisiCitaDepe.size() eq '1'}">
-                                       #{citasBean.consObjeVisiCitaDepe().codiVisi.nombVisi} #{citasBean.consObjeVisiCitaDepe().codiVisi.apelVisi}</h:panelGroup>
+                                       #{citasBean.consFirtObjeVisiCitaDepe().codiVisi.nombVisi} #{citasBean.consFirtObjeVisiCitaDepe().codiVisi.apelVisi}</h:panelGroup>
                                    <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() ne '1'}">
                                        <span style="font-weight: bold;">Involucrados</span><br/>
                                         <ui:repeat value="#{citasBean.listVisiCitaDepe}" var="lstCita">

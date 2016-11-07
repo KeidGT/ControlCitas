@@ -29,14 +29,14 @@ public interface VisitanteFacadeLocal {
 
     List<Visitante> findRange(int[] range);
     
-    Visitante findByDuiVisi(Object dui);
+    Visitante findByDuiVisi(String dui);
     
     List<Visitante> findByCita(Cita codiCita);
     
     List<Visitante> findByCarnAlum(String carnAlum);
     
     List<Visitante> findByAllFields(String cadeText, int cantRegi, int estaRegi);
-    
+
     int count();
     
 }

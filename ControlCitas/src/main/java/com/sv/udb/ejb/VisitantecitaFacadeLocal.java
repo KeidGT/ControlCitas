@@ -36,7 +36,7 @@ public interface VisitantecitaFacadeLocal {
     
     List<Visitantecita> findByCodiCita(Cita codi);
 
-    Visitantecita findByCodiCita_Visitante(Cita cita, Visitante visi);
+    Visitantecita findByCodiCitaCarnAlum(Cita cita, String carn);
     
     int count();
     
