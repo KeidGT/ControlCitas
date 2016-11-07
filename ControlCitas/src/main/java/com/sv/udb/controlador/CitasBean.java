@@ -76,10 +76,12 @@ public class CitasBean implements Serializable{
     private List<Alumno> listAlum;
     private List<Alumnovisitante> listVisiTemp;
     private List<Visitantecita> listVisiCitaDepe;
+    private List<Visitante> listVisiVisiTemp;
     //variables de funcionalidad y lógica de negocio
     private boolean guardar;
     private String motivo;
     private Date fechSoliCita;
+    private Date fechSoliCita2;
     private String carnAlum;
     private String FechInic;
     private String FechFina;
@@ -89,7 +91,7 @@ public class CitasBean implements Serializable{
     private boolean programar;
     private boolean reprogramar;
     private boolean ignoHoraDisp;
-    
+    private boolean isGrouVisi;
     
     //Switch para formularios
     private boolean switFormCita=true;
@@ -146,6 +148,13 @@ public class CitasBean implements Serializable{
 
     public void setFechSoliCita(Date fechSoliCita) {
         this.fechSoliCita = fechSoliCita;
+    }
+    public Date getFechSoliCita2() {
+        return fechSoliCita2;
+    }
+
+    public void setFechSoliCita2(Date fechSoliCita2) {
+        this.fechSoliCita2 = fechSoliCita;
     }
 
     public String getMotivo() {
@@ -313,6 +322,18 @@ public class CitasBean implements Serializable{
         return listVisiCitaDepe;
     }
 
+    public boolean isIsGrouVisi() {
+        return isGrouVisi;
+    }
+
+    public void setIsGrouVisi(boolean isGrouVisi) {
+        this.isGrouVisi = isGrouVisi;
+    }
+
+    public List<Visitante> getListVisiVisiTemp() {
+        return listVisiVisiTemp;
+    }
+
     
 
     
@@ -333,6 +354,7 @@ public class CitasBean implements Serializable{
         this.objeCita = new Cita();
         this.objeCita.setCodiUbic(null);
         this.fechSoliCita=null;
+        this.fechSoliCita2=null;
         this.guardar = true;
         this.objeVisi = new Visitante();
         this.listVisi = new ArrayList<Visitante>();
@@ -349,6 +371,7 @@ public class CitasBean implements Serializable{
         this.horaSeleCita = null;
         this.motivo=null;
         this.objeCambCita  = new Cambiocita();
+        this.listVisiVisiTemp = new ArrayList<Visitante>();
     }
     
     public void consCitaPorAlum()
@@ -793,18 +816,6 @@ public class CitasBean implements Serializable{
         }
     }
     
-    //usado para consultar un visitante en una cita, al seleccionar un AlumnoVisitante desde una tabla
-    public void setVisi(){
-        int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiObjeVisi"));
-        this.objeAlumVisi = consObjeAlumVisi(consObjeVisi(codi));
-        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Encargados Consultados')");
-        
-    }
-    
-    
-    
-    
     
     //consultar una cita del usuario (de los que estan en la tabla de datos)
     public void consObjeCitaUsua(){
@@ -1010,6 +1021,140 @@ public class CitasBean implements Serializable{
     /*TERMINA SECCIÓN PARA CITAS (DOCENTE Y PERSONAL ADMIN.)*/
     
     
+    private boolean valiDatoProgVisi(){
+        boolean vali = false;
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        if((horaSeleCita != null || ignoHoraDisp) && fechSoliCita!= null && objeCita.getCodiUbic() != null){
+            int diaHoraDisp = (horaSeleCita == null)? 0 : getDay(this.horaSeleCita.getDiaHoraDisp());
+            int diaExceHoraDisp = this.fechSoliCita.getDay();
+            if(diaHoraDisp == diaExceHoraDisp || ignoHoraDisp){
+                if(listVisiTemp.size() > 0){
+                    if(fechSoliCita.after(new Date())){
+
+                        vali = true;
+                    }else{
+                        ctx.execute("setMessage('MESS_INFO', 'Atención', 'Esta fecha ya pasó, debe solicitar con anticipación');");
+                    }
+                }else{
+                    ctx.execute("setMessage('MESS_INFO', 'Atención', 'Ningun Visitante Agregado a la Cita');");
+                }
+            }else{
+                ctx.execute("setMessage('MESS_INFO', 'Atención', 'El dia de la fecha no coincide con el horario disponible');");
+            }
+        }else{
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Rellenar Campos');");
+        }
+        return vali;
+    }
+    
+    public void progVisi(){
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        
+        try
+        {
+            if(valiDatoProgVisi()){
+                objeCita.setEstaCita(2);
+                objeCita.setDescCita(motivo);
+                objeCita.setTipoCita(2);
+                objeCita.setTipoDura(2);
+                objeCita.setTipoVisi(2);
+                objeCita.setCodiUsua(LoginBean.getCodiUsuaSesion());
+                //crear el objeto cita
+                FCDECita.create(objeCita);
+
+                objeCambCita.setCodiCita(objeCita);
+                objeCambCita.setEstaCambCita(1);
+                objeCambCita.setFechCambCita(new Date());
+
+                objeCambCita.setFechInicCitaNuev(fechSoliCita);
+                objeCambCita.setFechFinCitaNuev(fechSoliCita);
+                DateFormat df = new SimpleDateFormat("K:mm:a");
+                objeCambCita.setHoraCambCita(df.format(new Date()));
+                if(ignoHoraDisp){
+                    objeCambCita.setHoraInicCitaNuev(FechInic);
+                    objeCambCita.setHoraFinCitaNuev(FechFina);
+                }else{
+                    objeCambCita.setHoraInicCitaNuev(horaSeleCita.getHoraInicHoraDisp());
+                    objeCambCita.setHoraFinCitaNuev(horaSeleCita.getHoraFinaHoraDisp());
+                }
+                objeCambCita.setEstaCambCita(1);
+
+                //crear el objeto cambio Cita
+                FCDECambCita.create(objeCambCita);
+                
+                //registrando visitantes Cita
+                for(Alumnovisitante visi : listVisiTemp){
+                    objeVisiCita.setCodiCita(objeCita);
+                    objeVisiCita.setCarnAlum(visi.getCarnAlum());
+                    objeVisiCita.setCodiVisi(visi.getCodiVisi());
+                    objeVisiCita.setEstaVisi(1);
+                    FCDEVisiCita.create(objeVisiCita);
+                    
+                }
+                if(this.listCitaUsua ==  null)this.listCitaUsua = new ArrayList<Cita>();
+                this.listCitaUsua.add(objeCita);
+                this.limpForm();
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Programada');");
+            }
+            
+        }
+        catch(Exception ex)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al Programar')");
+            ex.printStackTrace();
+        }
+    }
+    
+    
+    
+    
+    
+    /*SECCIÓN DESTINADA  PARA LA GESTIÓN DE VISITAS*/
+    
+    //usado para consultar un visitante en una cita, al seleccionar un AlumnoVisitante desde una tabla
+    public void setVisi(){
+        try{
+            int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiObjeVisi"));
+            this.objeVisi = FCDEVisi.find(codi);
+            if(objeVisi == null) objeVisi = new Visitante();
+            if(listVisiVisiTemp == null)listVisiVisiTemp = new ArrayList<Visitante>();
+            
+                RequestContext ctx = RequestContext.getCurrentInstance();
+            if((isGrouVisi && listVisiVisiTemp.size() < 1) || !isGrouVisi){
+                listVisiVisiTemp.add(objeVisi);
+                //eliminamos posibles cambioCita duplicados
+                HashSet<Visitante> hashSet = new HashSet<Visitante>(listVisiVisiTemp);
+                listVisiVisiTemp.clear();
+                listVisiVisiTemp.addAll(hashSet); 
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Visitante Agregado')");
+            }else{
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Este grupo ya tiene un encargado')");
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+    }
+    //quitar un visitante de la lista temporal
+    public void dropVisiVisi(Visitante obje){
+        try
+        {
+            RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+            this.listVisiVisiTemp.remove(obje);
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Visitante Eliminado de la Cita')");
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        
+    }
+    
+    
+    
+    
+    /*TERMINA SECCIÓN DESTINADA  PARA LA GESTIÓN DE VISITAS*/
     public void prueba(){
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
        
