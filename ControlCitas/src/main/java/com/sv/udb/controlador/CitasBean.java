@@ -990,8 +990,7 @@ public class CitasBean implements Serializable{
             DateFormat formatter = new SimpleDateFormat("hh:mm a");
             if(diaHoraDisp == diaExceHoraDisp || ignoHoraDisp){
                 if(listVisiTemp.size() > 0){
-                    if(this.fechSoliCita.after(new Date())){
-
+                    if(!this.fechSoliCita.before(new Date())){
                         vali = true;
                     }else{
                         ctx.execute("setMessage('MESS_INFO', 'Atención', 'Esta fecha ya pasó, debe solicitar con anticipación');");
