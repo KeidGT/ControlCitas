@@ -18,6 +18,9 @@ import com.sv.udb.modelo.Cita;
 import com.sv.udb.modelo.Horariodisponible;
 import com.sv.udb.modelo.Visitante;
 import com.sv.udb.modelo.Visitantecita;
+import com.sv.udb.utils.pojos.DatosAlumnos;
+import com.sv.udb.utils.pojos.WSconsAlumByDoce;
+import com.sv.udb.utils.pojos.WSconsDoceByAlum;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -64,18 +67,20 @@ public class CitasBean implements Serializable{
     private Visitantecita objeVisiCita = new Visitantecita();
     private Visitante objeVisi;
     
-    private Alumno objeAlumDepe;
+    private WSconsDoceByAlum objeAlumDepe;
     private Cambiocita objeCambCitaDepe;
     //LISTAS
+    private List<DatosAlumnos> listAlumnosWS;
     private List<Visitantecita> listVisiCitaRecep;
     private List<Horariodisponible> listHoraDisp;
     private List<Cita> listCitaAlum;//--> ambas listas se pueden fusionar en una misma, revisar en el futuro...
     private List<Cita> listCitaUsua;//-->
     private List<Visitante> listVisi;
     private List<Horariodisponible> listHoraDispUsua;
-    private List<Alumno> listAlum;
+    private WSconsAlumByDoce objeWebServAlumByDoce;
     private List<Alumnovisitante> listVisiTemp;
     private List<Visitantecita> listVisiCitaDepe;
+    private List<Cita> listVisiUsua;
     private List<Visitante> listVisiVisiTemp;
     //variables de funcionalidad y lógica de negocio
     private boolean guardar;
@@ -92,6 +97,7 @@ public class CitasBean implements Serializable{
     private boolean reprogramar;
     private boolean ignoHoraDisp;
     private boolean isGrouVisi;
+    private boolean LugaEven;
     
     //Switch para formularios
     private boolean switFormCita=true;
@@ -268,10 +274,38 @@ public class CitasBean implements Serializable{
         this.objeAlumVisi = objeAlumVisi;
     }
 
-    public List<Alumno> getListAlum() {
-        return listAlum;
+    public List<DatosAlumnos> getListAlumnosWS() {
+        consAlumWS();
+        return listAlumnosWS;
     }
 
+    public void setListAlumnosWS(List<DatosAlumnos> listAlumnosWS) {
+        this.listAlumnosWS = listAlumnosWS;
+    }
+
+
+    private void consAlumWS()
+    {
+        /*
+            26 = Permitir Recibir Solicitud de Citas por parte de sus Alumnos
+            27 = Permitir Recibir Solicitud de Citas por parte de cualquier Alumno
+            28 = Recibir Citas de Visitantes
+        */
+        int permCita = 26;
+        if(permCita==26)
+        {
+            this.objeWebServAlumByDoce = new WebServicesBean().consAlumPorDoce(String.valueOf(LoginBean.getCodiUsuaSesion()));
+            this.listAlumnosWS = this.objeWebServAlumByDoce.getResu();
+        }
+        else if(permCita==27)
+        {
+            
+        }
+        else if(permCita==28)
+        {
+            
+        }        
+    }
 
     public boolean isIgnoHoraDisp() {
         return ignoHoraDisp;
@@ -302,13 +336,15 @@ public class CitasBean implements Serializable{
         return listCitaUsua;
     }
 
-    public Alumno getObjeAlumDepe() {
+    public WSconsDoceByAlum getObjeAlumDepe() {
         return objeAlumDepe;
     }
 
-    public void setObjeAlumDepe(Alumno objeAlumDepe) {
+    public void setObjeAlumDepe(WSconsDoceByAlum objeAlumDepe) {
         this.objeAlumDepe = objeAlumDepe;
     }
+
+    
 
     public Cambiocita getObjeCambCitaDepe() {
         return objeCambCitaDepe;
@@ -334,6 +370,19 @@ public class CitasBean implements Serializable{
         return listVisiVisiTemp;
     }
 
+    public boolean isLugaEven() {
+        return LugaEven;
+    }
+
+    public void setLugaEven(boolean LugaEven) {
+        this.LugaEven = LugaEven;
+    }
+
+    public List<Cita> getListVisiUsua() {
+        consListVisiUsua();
+        return listVisiUsua;
+    }
+
     
 
     
@@ -344,8 +393,6 @@ public class CitasBean implements Serializable{
     public void init()
     {
         this.limpForm();
-        this.listAlum = new AlumnosBean().consTodoAlum();
-        
     }
     
     
@@ -372,7 +419,10 @@ public class CitasBean implements Serializable{
         this.motivo=null;
         this.objeCambCita  = new Cambiocita();
         this.listVisiVisiTemp = new ArrayList<Visitante>();
+        this.LugaEven = true;
     }
+    
+    
     
     public void consCitaPorAlum()
     {
@@ -633,6 +683,7 @@ public class CitasBean implements Serializable{
             break;
         }
     }
+     
     //método para retornar parentesco, dependiendo del código se le pase
     public String getParen(Visitante visi){
         String parentesco = "";
@@ -694,15 +745,8 @@ public class CitasBean implements Serializable{
     
     //consultar un onbjeto de tipo alumno de la lista hipotética del web service
     // considerar consultar un solo registro del web service en el futuro....
-    public Alumno consObjeAlumno(String carn){
-        Alumno objeAlumn = null;
-        for(Alumno obje : listAlum){
-            if(obje.getCarnAlum().equals(carn)){
-                objeAlumn = obje;
-                break;
-            }
-        }
-        return objeAlumn;
+    public WSconsDoceByAlum consObjeAlumno(String carn){
+        return new WebServicesBean().consDocePorAlum(carn);
     }
     
     //consultar las citas del usuario
@@ -710,7 +754,7 @@ public class CitasBean implements Serializable{
     {
         try
         {
-            this.listCitaUsua = FCDECita.findByCodiUsua(LoginBean.getCodiUsuaSesion());
+            this.listCitaUsua = FCDECita.findCitaByCodiUsua(LoginBean.getCodiUsuaSesion());
             if(this.listCitaUsua == null)this.listCitaUsua = new ArrayList<Cita>();
             
         }
@@ -793,8 +837,9 @@ public class CitasBean implements Serializable{
             this.objeCambCitaDepe = FCDECambCita.findByCita(cita);
             if(objeCambCitaDepe==null)objeCambCitaDepe = new Cambiocita();
             //consultamos el alumno 
+            System.out.println(listVisiCitaDepe.get(0).getCarnAlum());
             this.objeAlumDepe = consObjeAlumno(listVisiCitaDepe.get(0).getCarnAlum());
-            if(objeAlumDepe==null)objeAlumDepe= new Alumno();
+            if(objeAlumDepe==null)objeAlumDepe= new WSconsDoceByAlum();
             
         }
         catch(Exception ex)
@@ -873,6 +918,8 @@ public class CitasBean implements Serializable{
         }
         
     }
+    
+    
     
     //confirmar(1), rechazar(2), Reprogramar(3) cita
     public void cambCita(int acci){
@@ -1021,95 +1068,58 @@ public class CitasBean implements Serializable{
     /*TERMINA SECCIÓN PARA CITAS (DOCENTE Y PERSONAL ADMIN.)*/
     
     
-    private boolean valiDatoProgVisi(){
-        boolean vali = false;
-        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        if((horaSeleCita != null || ignoHoraDisp) && fechSoliCita!= null && objeCita.getCodiUbic() != null){
-            int diaHoraDisp = (horaSeleCita == null)? 0 : getDay(this.horaSeleCita.getDiaHoraDisp());
-            int diaExceHoraDisp = this.fechSoliCita.getDay();
-            if(diaHoraDisp == diaExceHoraDisp || ignoHoraDisp){
-                if(listVisiTemp.size() > 0){
-                    if(fechSoliCita.after(new Date())){
-
-                        vali = true;
-                    }else{
-                        ctx.execute("setMessage('MESS_INFO', 'Atención', 'Esta fecha ya pasó, debe solicitar con anticipación');");
-                    }
-                }else{
-                    ctx.execute("setMessage('MESS_INFO', 'Atención', 'Ningun Visitante Agregado a la Cita');");
-                }
-            }else{
-                ctx.execute("setMessage('MESS_INFO', 'Atención', 'El dia de la fecha no coincide con el horario disponible');");
-            }
-        }else{
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Rellenar Campos');");
-        }
-        return vali;
-    }
-    
-    public void progVisi(){
-        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        
-        try
-        {
-            if(valiDatoProgVisi()){
-                objeCita.setEstaCita(2);
-                objeCita.setDescCita(motivo);
-                objeCita.setTipoCita(2);
-                objeCita.setTipoDura(2);
-                objeCita.setTipoVisi(2);
-                objeCita.setCodiUsua(LoginBean.getCodiUsuaSesion());
-                //crear el objeto cita
-                FCDECita.create(objeCita);
-
-                objeCambCita.setCodiCita(objeCita);
-                objeCambCita.setEstaCambCita(1);
-                objeCambCita.setFechCambCita(new Date());
-
-                objeCambCita.setFechInicCitaNuev(fechSoliCita);
-                objeCambCita.setFechFinCitaNuev(fechSoliCita);
-                DateFormat df = new SimpleDateFormat("K:mm:a");
-                objeCambCita.setHoraCambCita(df.format(new Date()));
-                if(ignoHoraDisp){
-                    objeCambCita.setHoraInicCitaNuev(FechInic);
-                    objeCambCita.setHoraFinCitaNuev(FechFina);
-                }else{
-                    objeCambCita.setHoraInicCitaNuev(horaSeleCita.getHoraInicHoraDisp());
-                    objeCambCita.setHoraFinCitaNuev(horaSeleCita.getHoraFinaHoraDisp());
-                }
-                objeCambCita.setEstaCambCita(1);
-
-                //crear el objeto cambio Cita
-                FCDECambCita.create(objeCambCita);
-                
-                //registrando visitantes Cita
-                for(Alumnovisitante visi : listVisiTemp){
-                    objeVisiCita.setCodiCita(objeCita);
-                    objeVisiCita.setCarnAlum(visi.getCarnAlum());
-                    objeVisiCita.setCodiVisi(visi.getCodiVisi());
-                    objeVisiCita.setEstaVisi(1);
-                    FCDEVisiCita.create(objeVisiCita);
-                    
-                }
-                if(this.listCitaUsua ==  null)this.listCitaUsua = new ArrayList<Cita>();
-                this.listCitaUsua.add(objeCita);
-                this.limpForm();
-                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Programada');");
-            }
-            
-        }
-        catch(Exception ex)
-        {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al Programar')");
-            ex.printStackTrace();
-        }
-    }
+   
     
     
     
     
     
     /*SECCIÓN DESTINADA  PARA LA GESTIÓN DE VISITAS*/
+    
+    //consultar una lisata de visitas por usuario
+    public void consListVisiUsua(){
+        try{
+            listVisiUsua = FCDECita.findVisiByCodiUsua(LoginBean.getCodiUsuaSesion());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void consObjeVisiUsua(){
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiObjePara"));
+        try
+        {
+            limpForm();
+            this.objeCita = FCDECita.find(codi);
+            this.objeCambCita = FCDECambCita.findByCita(objeCita);//consultamos el ultimo cambio de cita
+            if(objeCambCita == null) objeCambCita = new Cambiocita();
+            this.fechSoliCita = objeCambCita.getFechInicCitaNuev();
+            this.fechSoliCita2 = objeCambCita.getFechFinCitaNuev();
+            this.FechInic = objeCambCita.getHoraInicCitaNuev();
+            this.FechFina = objeCambCita.getHoraFinCitaNuev();
+            listVisiVisiTemp = FCDEVisi.findByCita(objeCita);
+            if(listVisiVisiTemp == null)listVisiVisiTemp = new ArrayList<Visitante>();
+            if(listVisiVisiTemp.size() == 1 && objeCita.getCantGrupCita() != null){
+                isGrouVisi = true;
+            }else {
+                isGrouVisi = false;
+            }
+            if(objeCita.getCodiEven() == null){
+                this.LugaEven = true;
+            }else{
+                this.LugaEven = false;
+            }
+            
+            estaCita();
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Consultada')");
+        }
+        catch(Exception ex)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
+        }
+    }
+    
+    
     
     //usado para consultar un visitante en una cita, al seleccionar un AlumnoVisitante desde una tabla
     public void setVisi(){
@@ -1149,6 +1159,119 @@ public class CitasBean implements Serializable{
             ex.printStackTrace();
         }
         
+    }
+    
+    private boolean valiDatoProgVisi(){
+        boolean vali = false;
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+       
+        DateFormat formatter = new SimpleDateFormat("hh:mm a");
+        try
+        {
+            if(listVisiVisiTemp.size() > 0){
+                if((this.fechSoliCita2.after(this.fechSoliCita))||(this.fechSoliCita2.equals(this.fechSoliCita)&&formatter.parse(this.FechFina).after(formatter.parse(this.FechInic)))){
+                    vali = true;
+                }
+                else{
+                    ctx.execute("setMessage('MESS_INFO', 'Atención', 'Fecha Final no debe ser antes de la Inicial');");
+                }
+            }else{
+                ctx.execute("setMessage('MESS_INFO', 'Atención', 'No se ha seleccionado ningun visitante');");
+            }
+        }
+        catch(Exception err)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Horas no válidas')");
+            return false;
+        }
+        
+        return vali;
+    }
+    
+    public void progVisi(){
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        
+        try
+        {
+            if(valiDatoProgVisi()){
+                objeCita.setEstaCita(2);
+                objeCita.setDescCita(motivo);
+                objeCita.setTipoCita(2);
+                objeCita.setTipoDura(2);
+                objeCita.setTipoVisi(2);
+                objeCita.setCodiUsua(LoginBean.getCodiUsuaSesion());
+                //crear el objeto cita
+                FCDECita.create(objeCita);
+
+                objeCambCita.setCodiCita(objeCita);
+                objeCambCita.setEstaCambCita(1);
+                objeCambCita.setFechCambCita(new Date());
+
+                objeCambCita.setFechInicCitaNuev(fechSoliCita);
+                objeCambCita.setFechFinCitaNuev(fechSoliCita2);
+                DateFormat df = new SimpleDateFormat("K:mm:a");
+                objeCambCita.setHoraCambCita(df.format(new Date()));
+                objeCambCita.setHoraInicCitaNuev(FechInic);
+                objeCambCita.setHoraFinCitaNuev(FechFina);
+                objeCambCita.setEstaCambCita(1);
+
+                //crear el objeto cambio Cita
+                FCDECambCita.create(objeCambCita);
+                
+                if(objeVisiCita == null)objeVisiCita = new Visitantecita();
+                //registrando visitantes Cita
+                for(Visitante visi : listVisiVisiTemp){
+                    objeVisiCita.setCodiCita(objeCita);
+                    objeVisiCita.setCodiVisi(visi);
+                    objeVisiCita.setEstaVisi(1);
+                    objeVisiCita.setCarnAlum("CANÉNULL");
+                    FCDEVisiCita.create(objeVisiCita);
+                    
+                }
+                if(this.listCitaUsua ==  null)this.listCitaUsua = new ArrayList<Cita>();
+                this.listCitaUsua.add(objeCita);
+                this.limpForm();
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Programada');");
+            }
+            
+        }
+        catch(Exception ex)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al Programar')");
+            ex.printStackTrace();
+        }
+    }
+    //cambios cita 
+    public void cambVisi(){
+        RequestContext ctx = RequestContext.getCurrentInstance();
+        
+        try
+        {
+            objeCita.setEstaCita(2);
+            listVisiUsua.remove(objeCita);
+            
+            DateFormat df = new SimpleDateFormat("K:mm a");
+            
+            objeCambCita.setFechCambCita(new Date());
+            objeCambCita.setFechInicCitaNuev(fechSoliCita);
+            objeCambCita.setFechFinCitaNuev(fechSoliCita2);
+            objeCambCita.setHoraCambCita(df.format(new Date()));
+            objeCambCita.setHoraInicCitaNuev(FechInic);
+            objeCambCita.setHoraFinCitaNuev(FechFina);
+            objeCambCita.setCodiCita(objeCita);
+            objeCambCita.setMotiCambCita(motivo);
+            objeCambCita.setEstaCambCita(1);
+            FCDECita.edit(objeCita);
+            FCDECambCita.create(objeCambCita);
+            listVisiUsua.add(objeCita);
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Cita Reprogramada'); $('#ModaFormRegi').modal('hide');");
+            estaCita();
+        }
+        catch(Exception ex)
+        {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al realizar la acción')");
+            ex.printStackTrace();
+        }
     }
     
     

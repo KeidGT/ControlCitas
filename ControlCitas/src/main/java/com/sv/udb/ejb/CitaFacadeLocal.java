@@ -32,7 +32,9 @@ public interface CitaFacadeLocal {
 
     List<Cita> findRange(int[] range);
 
-    List<Cita> findByCodiUsua(int codi);
+    List<Cita> findCitaByCodiUsua(int codi);
+    
+    List<Cita> findVisiByCodiUsua(int codi);
     
     List<Cita> findByEstaProg();
     

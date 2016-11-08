@@ -45,10 +45,6 @@ public class VisitanteCitaBean implements Serializable{
     public void setListVisiCita(List<Visitantecita> listVisiCita) {
         this.listVisiCita = listVisiCita;
     }
-
-    
-
-    
     
     public Visitantecita getObjeVisiCita() {
         return objeVisiCita;

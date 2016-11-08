@@ -73,4 +73,14 @@ public class UbicacionesBean {
             ex.printStackTrace();
         }
     }
+    
+    public List<Ubicaciones> consListUbicPorDispCita()
+    {
+        return FCDEUbic.findByDispCita();
+    }
+    
+    public List<Ubicaciones> consListUbicPorDisEven()
+    {
+        return FCDEUbic.findByDispEven();
+    }
 }

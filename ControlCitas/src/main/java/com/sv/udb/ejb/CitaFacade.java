@@ -50,8 +50,15 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
         return resu.isEmpty() ? null : resu;
     }
     @Override
-    public List<Cita> findByCodiUsua(int codi) {
-        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c WHERE c.codiUsua = :codiUsua and c.estaCita != 0");      
+    public List<Cita> findCitaByCodiUsua(int codi) {
+        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c WHERE c.codiUsua = :codiUsua and c.estaCita != 0 and c.tipoCita = 1");      
+        q.setParameter("codiUsua", codi);
+        List resu = q.getResultList();
+        return resu.isEmpty() ? null : resu;
+    }
+    @Override
+    public List<Cita> findVisiByCodiUsua(int codi) {
+        TypedQuery<Cita> q = (TypedQuery<Cita>) getEntityManager().createQuery("SELECT c FROM Cita c WHERE c.codiUsua = :codiUsua and c.estaCita != 0 and c.tipoCita = 2");      
         q.setParameter("codiUsua", codi);
         List resu = q.getResultList();
         return resu.isEmpty() ? null : resu;
