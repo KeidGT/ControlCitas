@@ -35,15 +35,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Visitantecita.findAll", query = "SELECT v FROM Visitantecita v"),
     @NamedQuery(name = "Visitantecita.findByCodiVisiCita", query = "SELECT v FROM Visitantecita v WHERE v.codiVisiCita = :codiVisiCita"),
+    @NamedQuery(name = "Visitantecita.findByCarnAlum", query = "SELECT v FROM Visitantecita v WHERE v.carnAlum = :carnAlum"),
     @NamedQuery(name = "Visitantecita.findByFechLlegCita", query = "SELECT v FROM Visitantecita v WHERE v.fechLlegCita = :fechLlegCita"),
     @NamedQuery(name = "Visitantecita.findByHoraLlegCita", query = "SELECT v FROM Visitantecita v WHERE v.horaLlegCita = :horaLlegCita"),
     @NamedQuery(name = "Visitantecita.findByFechSaliCita", query = "SELECT v FROM Visitantecita v WHERE v.fechSaliCita = :fechSaliCita"),
     @NamedQuery(name = "Visitantecita.findByHoraSaliCita", query = "SELECT v FROM Visitantecita v WHERE v.horaSaliCita = :horaSaliCita"),
-    @NamedQuery(name = "Visitantecita.findByEstaVisi", query = "SELECT v FROM Visitantecita v WHERE v.estaVisi = :estaVisi"),
-    //CUSTOM QUERYS
-    @NamedQuery(name = "Visitantecita.findByCodiCita", query = "SELECT v FROM Visitantecita v WHERE v.codiCita = :codiCita"),
-    @NamedQuery(name = "Visitantecita.findByCarnAlum", query = "SELECT v FROM Visitantecita v WHERE v.carnAlum = :carnAlum"),
-    @NamedQuery(name = "Visitantecita.findByCodiUsua", query = "SELECT v FROM Visitantecita v WHERE v.codiCita.codiUsua = :codiUsua")})
+    @NamedQuery(name = "Visitantecita.findByEstaVisi", query = "SELECT v FROM Visitantecita v WHERE v.estaVisi = :estaVisi")})
 public class Visitantecita implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,9 +49,7 @@ public class Visitantecita implements Serializable {
     @Basic(optional = false)
     @Column(name = "codi_visi_cita")
     private Integer codiVisiCita;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
+    @Size(max = 10)
     @Column(name = "carn_alum")
     private String carnAlum;
     @Column(name = "fech_lleg_cita")
@@ -87,9 +82,8 @@ public class Visitantecita implements Serializable {
         this.codiVisiCita = codiVisiCita;
     }
 
-    public Visitantecita(Integer codiVisiCita, String carnAlum, int estaVisi) {
+    public Visitantecita(Integer codiVisiCita, int estaVisi) {
         this.codiVisiCita = codiVisiCita;
-        this.carnAlum = carnAlum;
         this.estaVisi = estaVisi;
     }
 

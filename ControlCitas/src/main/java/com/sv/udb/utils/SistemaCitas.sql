@@ -79,7 +79,7 @@ CREATE TABLE Visitante_cita(
 codi_visi_cita INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- Identificador, codigo de registro
 codi_visi INT NOT NULL, -- Llave foránea para de visitante
 codi_cita INT NOT NULL, -- Llave foránea de cita
-carn_alum VARCHAR(10) NOT NULL,
+carn_alum VARCHAR(10),
 fech_lleg_cita DATE,
 hora_lleg_cita VARCHAR(8),
 fech_sali_cita DATE,

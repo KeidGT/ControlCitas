@@ -1224,7 +1224,6 @@ public class CitasBean implements Serializable{
                     objeVisiCita.setCodiCita(objeCita);
                     objeVisiCita.setCodiVisi(visi);
                     objeVisiCita.setEstaVisi(1);
-                    objeVisiCita.setCarnAlum("CANÉNULL");
                     FCDEVisiCita.create(objeVisiCita);
                     
                 }

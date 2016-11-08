@@ -160,7 +160,7 @@ and open the template in the editor.
                                             <h:panelGroup rendered="#{citasBean.programar || citasBean.reprogramar}">
                                                 <div class="modal-body">
                                                     <div class="input-group col-xs-12">
-                                                        <h:outputLabel  for="tipoVisiGrup" value="¿A quién(es) desea programar la cita? "/>
+                                                        <h:outputLabel  for="tipoVisiGrup" value="¿A quién(es) desea programar la visita? "/>
                                                         <h:message for="tipoVisiGrup" errorClass="field-error" />
                                                         <h:selectOneMenu id="tipoVisiGrup" value="#{citasBean.isGrouVisi}" class="form-control select" pt:data-live-search="true">
                                                             <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
@@ -177,7 +177,7 @@ and open the template in the editor.
                                                 <h4 style="">Encargado de Grupo:</h4>
                                             </h:panelGroup>
                                             <h:panelGroup rendered="#{!citasBean.isGrouVisi}">
-                                                <h4 style="">Visitantes Involucrados en la Cita:</h4>
+                                                <h4 style="">Visitantes Involucrados en la Visita:</h4>
                                             </h:panelGroup>
                                             <h:dataTable pt:data-id="TablInvo" value="#{citasBean.listVisiVisiTemp}"
                                                     var="fila" class="boottable" pt:data-toolbar="#toolTablInvo"
@@ -381,7 +381,7 @@ and open the template in the editor.
                                                 <h4 style="">Encargado de Grupo:</h4>
                                             </h:panelGroup>
                                             <h:panelGroup rendered="#{!citasBean.isGrouVisi}">
-                                                <h4 style="">Visitantes Involucrados en la Cita:</h4>
+                                                <h4 style="">Visitantes Involucrados en la Visita:</h4>
                                             </h:panelGroup>
                                             <h:dataTable pt:data-id="TablVisiCita" value="#{citasBean.listVisiVisiTemp}"
                                                     var="fila" class="boottable" pt:data-toolbar="#toolTablVisiCita"
