@@ -85,8 +85,7 @@ and open the template in the editor.
                                         <h:outputText value="#{fila.codiCita.cantGrupCita}"/> <br/>
                                    </h:panelGroup>
                                    <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() ne '1' and fila.codiCita.cantGrupCita eq null}">
-                                        <span class="label label-primary">
-                                         <i class="fa fa-users"/>Grupo de Visitantes, Consultar</span> 
+                                        <h:outputText value="#{citasBean.consFirtObjeVisiCitaDepe().codiVisi.nombVisi} #{citasBean.consFirtObjeVisiCitaDepe().codiVisi.apelVisi}"/>
                                     </h:panelGroup> 
                                    <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() eq '1' and fila.codiCita.cantGrupCita eq null }">
                                         <h:outputText value="#{citasBean.consFirtObjeVisiCitaDepe().codiVisi.nombVisi} #{citasBean.consFirtObjeVisiCitaDepe().codiVisi.apelVisi}"/>
