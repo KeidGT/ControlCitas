@@ -987,9 +987,10 @@ public class CitasBean implements Serializable{
         if((horaSeleCita != null || ignoHoraDisp) && fechSoliCita!= null && objeCita.getCodiUbic() != null){
             int diaHoraDisp = (horaSeleCita == null)? 0 : getDay(this.horaSeleCita.getDiaHoraDisp());
             int diaExceHoraDisp = this.fechSoliCita.getDay();
+            DateFormat formatter = new SimpleDateFormat("hh:mm a");
             if(diaHoraDisp == diaExceHoraDisp || ignoHoraDisp){
                 if(listVisiTemp.size() > 0){
-                    if(fechSoliCita.after(new Date())){
+                    if(this.fechSoliCita.after(new Date())){
 
                         vali = true;
                     }else{
