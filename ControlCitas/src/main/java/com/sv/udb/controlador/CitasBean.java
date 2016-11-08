@@ -1047,7 +1047,7 @@ public class CitasBean implements Serializable{
                     objeVisiCita.setCodiCita(objeCita);
                     objeVisiCita.setCarnAlum(visi.getCarnAlum());
                     objeVisiCita.setCodiVisi(visi.getCodiVisi());
-                    objeVisiCita.setEstaVisi(1);
+                    objeVisiCita.setEstaVisi(0);
                     FCDEVisiCita.create(objeVisiCita);
                     
                 }
@@ -1223,7 +1223,7 @@ public class CitasBean implements Serializable{
                 for(Visitante visi : listVisiVisiTemp){
                     objeVisiCita.setCodiCita(objeCita);
                     objeVisiCita.setCodiVisi(visi);
-                    objeVisiCita.setEstaVisi(1);
+                    objeVisiCita.setEstaVisi(0);
                     FCDEVisiCita.create(objeVisiCita);
                     
                 }
