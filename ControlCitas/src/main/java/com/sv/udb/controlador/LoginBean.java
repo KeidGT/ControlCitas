@@ -5,6 +5,7 @@
  */
 package com.sv.udb.controlador;
 
+import com.sv.udb.utils.ConsultarCodiEmpleadoLogin;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -98,7 +99,8 @@ public class LoginBean implements Serializable {
     
     public void creaSess()
     {
-        new WebServicesBean().consDocePorAlum("20130670");
+        new ConsultarCodiEmpleadoLogin().consultarCodigo("jirafales@ricaldone.edu.sv", "A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3");
+        
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         FacesContext facsCtxt = FacesContext.getCurrentInstance();
         try
