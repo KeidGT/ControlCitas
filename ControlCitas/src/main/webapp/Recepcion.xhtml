@@ -75,17 +75,22 @@ and open the template in the editor.
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="visi">
                                    <f:facet name="header">Personas</f:facet>
-                                   <h:panelGroup  rendered="#{fila.codiCita.cantGrupCita eq '1' or fila.codiCita.tipoCita eq '1'}">
-                                        <h:outputText value="#{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}"/>
-                                   </h:panelGroup>
-                                   <h:panelGroup  rendered="#{fila.codiCita.tipoCita ne '1' and fila.codiCita.cantGrupCita ne '1'}">
+                                   
+                                   <h:panelGroup rendered="#{citasBean.listVisiCitaDepe.size() eq '1' and fila.codiCita.cantGrupCita ne null}">
                                         <span style="font-weight: bold;">Grupo: </span>
                                         <h:outputText value="#{fila.codiCita.nombGrupCita}"/> <br/>
                                         <span style="font-weight: bold;">Representante: </span>
-                                        <h:outputText value="#{fila.codiVisi.nombVisi} #{fila.codiVisi.apelVisi}"/> <br/>
+                                        <h:outputText value="#{citasBean.consFirtObjeVisiCitaDepe().codiVisi.nombVisi} #{citasBean.consFirtObjeVisiCitaDepe().codiVisi.apelVisi}"/> <br/>
                                         <span style="font-weight: bold;">Personas: </span>
                                         <h:outputText value="#{fila.codiCita.cantGrupCita}"/> <br/>
                                    </h:panelGroup>
+                                   <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() ne '1' and fila.codiCita.cantGrupCita eq null}">
+                                        <span class="label label-primary">
+                                         <i class="fa fa-users"/>Grupo de Visitantes, Consultar</span> 
+                                    </h:panelGroup> 
+                                   <h:panelGroup  rendered="#{citasBean.listVisiCitaDepe.size() eq '1' and fila.codiCita.cantGrupCita eq null }">
+                                        <h:outputText value="#{citasBean.consFirtObjeVisiCitaDepe().codiVisi.nombVisi} #{citasBean.consFirtObjeVisiCitaDepe().codiVisi.apelVisi}"/>
+                                    </h:panelGroup>\
                                </h:column>
                                <h:column pt:data-sortable="true" pt:data-field="tipo">
                                    <f:facet name="header">Tipo</f:facet>
